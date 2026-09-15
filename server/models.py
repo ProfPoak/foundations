@@ -1,6 +1,7 @@
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
 from marshmallow import Schema, fields
+import datetime
 
 from config import db, bcrypt
 
@@ -55,10 +56,10 @@ class Customer(db.Model):
 class Event(db.Model):
     __tablename__ = 'events'
     
-    id = db.Column()
-    datetime = db.Column()
-    interaction = db.Column()
-    notes = db.Column()
+    id = db.Column(db.Integer, primary_key=True)
+    datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    interaction = db.Column(db.String, nullable=False)
+    notes = db.Column(db.String)
 
     employee_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable=False)
@@ -70,11 +71,11 @@ class Event(db.Model):
 class Task(db.Model):
     __tablename__ = 'tasks'
 
-    id = db.Column()
-    title = db.Column()
-    status = db.Column()
-    due_date = db.Column()
-    notes = db.Column()
+    id = db.Column(db.Integer, primar_key=True)
+    title = db.Column(db.String, nullable=False)
+    status = db.Column(db.String, default="open")
+    due_date = db.Column(db.Date)
+    notes = db.Column(db.String)
 
     employee_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable=False)
@@ -86,9 +87,9 @@ class Task(db.Model):
 class Note(db.Model):
     __tablename__ = 'notes'
 
-    id = db.Column()
-    datetime = db.Column()
-    content = db.Column()
+    id = db.Column(db.Integer, primar_key=True)
+    datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    content = db.Column(db.String, nullable=False)
 
     employee_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable=False)
