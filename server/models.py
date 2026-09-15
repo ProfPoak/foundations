@@ -28,6 +28,7 @@ class User(db.Model):
 
 class Customer(db.Model):
     __tablename__ = 'customers'
+
     id = db.column(db.integer, primary_key=True)
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)
@@ -37,13 +38,19 @@ class Customer(db.Model):
     email = db.Column(db.String, unique=True)
     status = db.Column(db.String, default="potential")
 
+
+
 class Event(db.Model):
+    __tablename__ = 'events'
+    
     id = db.Column()
     datetime = db.Column()
     interaction = db.Column()
     notes = db.Column()
 
 class Task(db.Model):
+    __tablename__ = 'tasks'
+
     id = db.Column()
     title = db.Column()
     status = db.Column()
@@ -51,6 +58,8 @@ class Task(db.Model):
     notes = db.Column()
 
 class Note(db.Model):
+    __tablename__ = 'notes'
+
     id = db.Column()
     datetime = db.Column()
     content = db.Column()
