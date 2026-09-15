@@ -59,6 +59,13 @@ class Event(db.Model):
     interaction = db.Column()
     notes = db.Column()
 
+    employee_id = db.Column(db.Intger, db.ForeignKey('users.id'))
+    customer_id = db.Column(db.Intger, db.ForeignKey('customers.id'))
+
+    #Relationships
+    employee = db.relationship('User', back_populates="events")
+    customer = db.relationship('Customer', back_populates="events")
+
 class Task(db.Model):
     __tablename__ = 'tasks'
 
@@ -68,9 +75,23 @@ class Task(db.Model):
     due_date = db.Column()
     notes = db.Column()
 
+    employee_id = db.Column(db.Intger, db.ForeignKey('users.id'))
+    customer_id = db.Column(db.Intger, db.ForeignKey('customers.id'))
+
+    #Relationships
+    employee = db.relationship('User', back_populates="tasks")
+    customer = db.relationship('Customer', back_populates="tasks")
+
 class Note(db.Model):
     __tablename__ = 'notes'
 
     id = db.Column()
     datetime = db.Column()
     content = db.Column()
+
+    employee_id = db.Column(db.Intger, db.ForeignKey('users.id'))
+    customer_id = db.Column(db.Intger, db.ForeignKey('customers.id'))
+
+    #Relationships
+    employee = db.relationship('User', back_populates="notes")
+    customer = db.relationship('Customer', back_populates="notes")
