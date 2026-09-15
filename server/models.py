@@ -1,7 +1,7 @@
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
 from marshmallow import Schema, fields
-import datetime
+from datetime import datetime
 
 from config import db, bcrypt
 
@@ -71,7 +71,7 @@ class Event(db.Model):
 class Task(db.Model):
     __tablename__ = 'tasks'
 
-    id = db.Column(db.Integer, primar_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     status = db.Column(db.String, default="open")
     due_date = db.Column(db.Date)
@@ -87,7 +87,7 @@ class Task(db.Model):
 class Note(db.Model):
     __tablename__ = 'notes'
 
-    id = db.Column(db.Integer, primar_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content = db.Column(db.String, nullable=False)
 
