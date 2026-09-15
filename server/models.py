@@ -11,6 +11,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False, unique=True)
     _password_hash = db.Column(db.String, nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
 
     #Password handling
     @hybrid_property
@@ -35,7 +36,7 @@ class User(db.Model):
 class Customer(db.Model):
     __tablename__ = 'customers'
 
-    id = db.column(db.integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)
     birthday = db.Column(db.Date)
@@ -59,8 +60,8 @@ class Event(db.Model):
     interaction = db.Column()
     notes = db.Column()
 
-    employee_id = db.Column(db.Intger, db.ForeignKey('users.id'))
-    customer_id = db.Column(db.Intger, db.ForeignKey('customers.id'))
+    employee_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable=False)
 
     #Relationships
     employee = db.relationship('User', back_populates="events")
@@ -75,8 +76,8 @@ class Task(db.Model):
     due_date = db.Column()
     notes = db.Column()
 
-    employee_id = db.Column(db.Intger, db.ForeignKey('users.id'))
-    customer_id = db.Column(db.Intger, db.ForeignKey('customers.id'))
+    employee_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable=False)
 
     #Relationships
     employee = db.relationship('User', back_populates="tasks")
@@ -89,8 +90,8 @@ class Note(db.Model):
     datetime = db.Column()
     content = db.Column()
 
-    employee_id = db.Column(db.Intger, db.ForeignKey('users.id'))
-    customer_id = db.Column(db.Intger, db.ForeignKey('customers.id'))
+    employee_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable=False)
 
     #Relationships
     employee = db.relationship('User', back_populates="notes")
