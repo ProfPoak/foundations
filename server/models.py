@@ -12,6 +12,7 @@ class User(db.Model):
     username = db.Column(db.String, nullable=False, unique=True)
     _password_hash = db.Column(db.String, nullable=False)
 
+    #Password handling
     @hybrid_property
     def password_hash(self):
         raise AttributeError('Password cannot be viewed')
@@ -26,6 +27,11 @@ class User(db.Model):
             self._password_hash, password.encode('utf-8')
         )
 
+    #relationships
+    events = db.relationship('Event', back_populates="employee")
+    tasks = db.relationship('Task', back_populates="employee")
+    notes = db.relationship('Note', back_populates="employee")
+
 class Customer(db.Model):
     __tablename__ = 'customers'
 
@@ -37,6 +43,11 @@ class Customer(db.Model):
     phone = db.Column(db.String)
     email = db.Column(db.String, unique=True)
     status = db.Column(db.String, default="potential")
+
+    #Relationships
+    events = db.relationship('Event', back_populates="customer")
+    tasks = db.relationship('Task', back_populates="customer")
+    notes = db.relationship('Note', back_populates="customer")
 
 
 
