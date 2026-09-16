@@ -63,7 +63,7 @@ class Customer(db.Model):
     #Validations
     @validates("email")
     def email_validation(self, value):
-        if value is none:
+        if value is None:
             return value
         #Email must have one "@" symbol. If there are more or less than 2 parts from the split it is invalid.
         parts = value.split("@")
