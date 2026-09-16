@@ -1,6 +1,5 @@
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
-from marshmallow import Schema, fields
 from datetime import datetime
 
 from config import db, bcrypt
@@ -115,6 +114,7 @@ class Task(db.Model):
         statuses = ("open", "in_progress", "complete")
         if value not in statuses:
             raise ValueError(f"Status must be one of the following: {statuses}")
+        return value
 
 class Note(db.Model):
     __tablename__ = 'notes'
