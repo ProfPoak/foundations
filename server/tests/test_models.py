@@ -94,12 +94,12 @@ class TestCustomer:
         with pytest.raises(ValueError):
             Customer(first_name="Josh", last_name="")
 
-    def test_status_defaults_to_active(self, session):
+    def test_status_defaults_to_potential(self, session):
         customer = Customer(first_name="Josh", last_name="Smith")
         session.add(customer)
         session.commit()
 
-        assert customer.status == "active"
+        assert customer.status == "potential"
 
     def test_status_must_be_valid(self, session):
         with pytest.raises(ValueError):
