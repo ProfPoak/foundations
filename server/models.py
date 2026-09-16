@@ -109,6 +109,13 @@ class Task(db.Model):
     employee = db.relationship('User', back_populates="tasks")
     customer = db.relationship('Customer', back_populates="tasks")
 
+    #Validations
+    @validates("status")
+    def status_validation(self, value):
+        statuses = ("open", "in_progress", "complete")
+        if value not in statuses:
+            raise ValueError(f"Status must be one of the following: {statuses}")
+
 class Note(db.Model):
     __tablename__ = 'notes'
 
