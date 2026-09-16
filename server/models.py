@@ -34,6 +34,15 @@ class User(db.Model):
     tasks = db.relationship('Task', back_populates="employee")
     notes = db.relationship('Note', back_populates="employee")
 
+    #Validations
+    @validates("username")
+    def username_validation(self, value):
+        if not value:
+            raise ValueError("Username cannot be left empty")
+        if len(value) > 20:
+            raise ValueError("Username can be a maximum of 20 characters")
+        return value
+
 class Customer(db.Model):
     __tablename__ = 'customers'
 
@@ -51,7 +60,23 @@ class Customer(db.Model):
     tasks = db.relationship('Task', back_populates="customer")
     notes = db.relationship('Note', back_populates="customer")
 
+    #Validations
+    @validates("email")
+    def email_validation(self, value):
+        if value is none:
+            return value
+        #Email must have one "@" symbol. If there are more or less than 2 parts from the split it is invalid.
+        parts = value.split("@")
+        if len(parts) !=2 or "." not in parts[-1]:
+            raise ValueError("Must be a valid email")
+        return value
 
+    @validates("status")
+    def status_validation(self, value):
+        statuses = ("potential", "client", "inactive")
+        if value not in statuses:
+            raise ValueError(f"Status must be one of the following: {statuses}")
+        return value
 
 class Event(db.Model):
     __tablename__ = 'events'
