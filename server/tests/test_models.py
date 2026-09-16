@@ -13,7 +13,7 @@ from models import User, Customer, Event, Task, Note
 class TestUser:
     def test_can_create_user(self, session):
         user = User(username="jdoe", is_admin=False)
-        user.password = "supersecret"
+        user.password_hash = "supersecret"
         session.add(user)
         session.commit()
 
@@ -23,20 +23,20 @@ class TestUser:
 
     def test_password_is_write_only(self, session):
         user = User(username="jdoe")
-        user.password = "supersecret"
+        user.password_hash = "supersecret"
 
         with pytest.raises(AttributeError):
-            user.password
+            user.password_hash
 
     def test_authenticate_correct_password(self, session):
         user = User(username="jdoe")
-        user.password = "supersecret"
+        user.password_hash = "supersecret"
 
         assert user.authenticate("supersecret") is True
 
     def test_authenticate_incorrect_password(self, session):
         user = User(username="jdoe")
-        user.password = "supersecret"
+        user.password_hash = "supersecret"
 
         assert user.authenticate("wrongpassword") is False
 
@@ -46,12 +46,12 @@ class TestUser:
 
     def test_username_must_be_unique(self, session):
         user1 = User(username="jdoe")
-        user1.password = "pw1"
+        user1.password_hash = "pw1"          # was: user1.password = "pw1"
         session.add(user1)
         session.commit()
 
         user2 = User(username="jdoe")
-        user2.password = "pw2"
+        user2.password_hash = "pw2"          # was: user2.password = "pw2"
         session.add(user2)
 
         with pytest.raises(IntegrityError):
@@ -60,7 +60,7 @@ class TestUser:
 
     def test_is_admin_defaults_false(self, session):
         user = User(username="jdoe")
-        user.password = "supersecret"
+        user.password_hash = "supersecret"   # was: user.password = "supersecret"
         session.add(user)
         session.commit()
 
@@ -133,7 +133,7 @@ class TestCustomer:
 class TestEvent:
     def _make_user_and_customer(self, session):
         user = User(username="jdoe")
-        user.password = "pw"
+        user.password_hash = "pw"
         customer = Customer(first_name="Josh", last_name="Smith")
         session.add_all([user, customer])
         session.commit()
@@ -196,7 +196,7 @@ class TestEvent:
 class TestTask:
     def _make_user_and_customer(self, session):
         user = User(username="jdoe")
-        user.password = "pw"
+        user.password_hash = "pw"
         customer = Customer(first_name="Josh", last_name="Smith")
         session.add_all([user, customer])
         session.commit()
@@ -250,7 +250,7 @@ class TestTask:
 class TestNote:
     def _make_user_and_customer(self, session):
         user = User(username="jdoe")
-        user.password = "pw"
+        user.password_hash = "pw"
         customer = Customer(first_name="Josh", last_name="Smith")
         session.add_all([user, customer])
         session.commit()

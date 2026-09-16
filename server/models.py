@@ -35,7 +35,7 @@ class User(db.Model):
 
     #Validations
     @validates("username")
-    def username_validation(self, value):
+    def username_validation(self, key, value):
         if not value:
             raise ValueError("Username cannot be left empty")
         if len(value) > 20:
@@ -61,7 +61,7 @@ class Customer(db.Model):
 
     #Validations
     @validates("email")
-    def email_validation(self, value):
+    def email_validation(self, key, value):
         if value is None:
             return value
         #Email must have one "@" symbol. If there are more or less than 2 parts from the split it is invalid.
@@ -71,7 +71,7 @@ class Customer(db.Model):
         return value
 
     @validates("status")
-    def status_validation(self, value):
+    def status_validation(self, key, value):
         statuses = ("potential", "client", "inactive")
         if value not in statuses:
             raise ValueError(f"Status must be one of the following: {statuses}")
@@ -110,7 +110,7 @@ class Task(db.Model):
 
     #Validations
     @validates("status")
-    def status_validation(self, value):
+    def status_validation(self, key, value):
         statuses = ("open", "in_progress", "complete")
         if value not in statuses:
             raise ValueError(f"Status must be one of the following: {statuses}")
