@@ -139,3 +139,10 @@ class Note(db.Model):
     #Relationships
     employee = db.relationship('User', back_populates="notes")
     customer = db.relationship('Customer', back_populates="notes")
+
+    #Validations
+    @validates("content")
+    def content_validation(self, key, value):
+        if not value:
+            raise ValueError("Content cannot be left empty")
+        return value
