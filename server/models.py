@@ -77,6 +77,16 @@ class Customer(db.Model):
             raise ValueError(f"Status must be one of the following: {statuses}")
         return value
 
+    @validates("first_name", "last_name")
+    def name_validation(self, key, value):
+        if not value:
+            raise ValueError(f"{key.replace('_', ' ').title()} cannot be left empty")
+        return value
+
+    @hybrid_property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
 class Event(db.Model):
     __tablename__ = 'events'
     
