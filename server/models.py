@@ -42,6 +42,9 @@ class User(db.Model):
             raise ValueError("Username can be a maximum of 20 characters")
         return value
 
+    def __repr__(self):
+        return f"<User {self.id}: {self.username!r} admin={self.is_admin}>"
+
 class Customer(db.Model):
     __tablename__ = 'customers'
 
@@ -87,6 +90,9 @@ class Customer(db.Model):
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
 
+    def __repr__(self):
+        return f"<Customer {self.id}: {self.full_name!r} status={self.status!r}>"
+
 class Event(db.Model):
     __tablename__ = 'events'
     
@@ -101,6 +107,12 @@ class Event(db.Model):
     #Relationships
     employee = db.relationship('User', back_populates="events")
     customer = db.relationship('Customer', back_populates="events")
+
+    def __repr__(self):
+        return (
+            f"<Event {self.id}: {self.interaction!r} at {self.datetime} "
+            f"employee_id={self.employee_id} customer_id={self.customer_id}>"
+        )
 
 class Task(db.Model):
     __tablename__ = 'tasks'
@@ -126,6 +138,12 @@ class Task(db.Model):
             raise ValueError(f"Status must be one of the following: {statuses}")
         return value
 
+    def __repr__(self):
+        return (
+            f"<Task {self.id}: {self.title!r} status={self.status!r} due={self.due_date} "
+            f"employee_id={self.employee_id} customer_id={self.customer_id}>"
+        )
+
 class Note(db.Model):
     __tablename__ = 'notes'
 
@@ -146,3 +164,11 @@ class Note(db.Model):
         if not value:
             raise ValueError("Content cannot be left empty")
         return value
+
+    def __repr__(self):
+        # Truncate so long notes don't flood the shell output
+        preview = self.content if len(self.content) <= 30 else self.content[:27] + "..."
+        return (
+            f"<Note {self.id}: {preview!r} "
+            f"employee_id={self.employee_id} customer_id={self.customer_id}>"
+        )
