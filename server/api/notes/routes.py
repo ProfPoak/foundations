@@ -15,29 +15,33 @@ class CustomerNotes(ProtectedResource):
     def post(self, customer_id):
         get_or_404(Customer, customer_id)
         user = current_user()
-        request = request.get_json()
-        data = NoteSchema().load({**request,
+        r = request.get_json()
+        data = NoteSchema().load({**r,
                                   "employee_id": user.id,
                                   "customer_id": customer_id})
         note = Note(**data)
         db.session.add(note)
         db.session.commit()
-        return NoteSchema.dump(note), 201
+        return NoteSchema().dump(note), 201
 
 class NoteDetail(ProtectedResource):
     def patch(self, id):
         note = get_or_404(Note, id)
         if not can_modify(current_user(), note.employee_id):
-            return 403
-        r = request.get_json()
+            return {"error": "unauthorized access"}, 403
+        r = request.get_json(silent=True) or {}
         err = reject_unknown(r, ["content"])
+        if err:
+            return err
+        data = NoteSchema().load(r, partial=True)
+        note.content = data["content"]
         db.session.commit()
         return NoteSchema().dump(note), 200
 
     def delete(self, id):
         note = get_or_404(Note, id)
         if not can_modify(current_user(), note.employee_id):
-            return 403
+            return {"error": "unauthorized access"}, 403
         db.session.delete(note)
         db.session.commit()
         return "", 204
