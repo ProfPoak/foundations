@@ -1,6 +1,5 @@
-from flask import abort
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from flask_restful import Resource
+from flask_restful import Resource, abort
 from models import db, User  # Assumes db and User live in root models.py
 
 # 1. Base class for uniform JWT protection across resources
@@ -16,7 +15,6 @@ def current_user():
 def get_or_404(Model, id):
     obj = db.session.get(Model, id)
     if obj is None:
-        # Flask-RESTful abort handles dict responses beautifully
         abort(404, error=f"{Model.__name__} not found")
     return obj
 
