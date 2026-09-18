@@ -63,17 +63,12 @@ class NoteSchema(Schema):
     customer = fields.Nested(CustomerSchema, dump_only=True)
 
 
-user_schema = UserSchema()
 users_schema = UserSchema(many=True)
 
-customer_schema = CustomerSchema()
 customers_schema = CustomerSchema(many=True)
 
-event_schema = EventSchema()
 events_schema = EventSchema(many=True)
 
-task_schema = TaskSchema()
 tasks_schema = TaskSchema(many=True)
 
-note_schema = NoteSchema()
 notes_schema = NoteSchema(many=True)
