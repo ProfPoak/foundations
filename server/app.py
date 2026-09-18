@@ -6,7 +6,8 @@ from datetime import datetime
 
 from config import app, db, api, jwt
 from models import User, Customer, Event, Task, Note
-from schema import  UserSchema, users_schema, CustomerSchema, customers_schema, EventSchema, events_schema, TaskSchema, tasks_schema, NoteSchema, notes_schema
+from schema import  UserSchema
+from api.customers import customers_bp
 
 @app.shell_context_processor
 def make_shell_context():
@@ -70,6 +71,8 @@ class Login(Resource):
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')
+
+app.register_blueprint(customers_bp)
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True) 

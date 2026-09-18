@@ -10,6 +10,8 @@ from schema import CustomerSchema, customers_schema
 class CustomerList(ProtectedResource):
     def get(self):
         status = request.args.get("status")
+        if status and status not in ("potential", "client", "inactive"):
+            return {"error": "Invalid status"}, 400
         query = Customer.query
         if status:
             query = query.filter_by(status=status)
