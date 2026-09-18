@@ -1,9 +1,8 @@
 from flask import request
-from marshmallow import ValidationError
 from sqlalchemy.exc import IntegrityError
 
 from api.customers import customers_api
-from api.helpers import ProtectedResource, get_or_404, validation_error
+from api.helpers import ProtectedResource, get_or_404
 from config import db
 from models import Customer
 from schema import CustomerSchema, customers_schema
@@ -18,11 +17,14 @@ class CustomerList(ProtectedResource):
         return customers_schema.dump(customers), 200
 
     def post(self):
+        data = CustomerSchema().load(request.get_json())
+        customer = Customer(**data)
+        db.session.add(customer)
         try:
-            data = CustomerSchema().load(request.get_json())
-            customer = Customer(**data)
-
-            db.session.add(customer)
             db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            return {"error": "Email already in use"}, 409
+        return CustomerSchema().dump(customer), 201
 
 customers_api.add_resource(CustomerList, "/customers")
