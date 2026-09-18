@@ -27,4 +27,21 @@ class CustomerList(ProtectedResource):
             return {"error": "Email already in use"}, 409
         return CustomerSchema().dump(customer), 201
 
+class CustomerDetail(ProtectedResource):
+    def get(self, id):
+        return CustomerSchema().dump(get_or_404(Customer, id)), 200
+
+    def patch(self, id):
+        customer = get_or_404(Customer, id)
+        data = CustomerSchema().load(request.get_json(), partial=True)
+        for key, value in data.items():
+            setattr(customer, key, value)
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            return {"error": "Email already in use"}, 409
+        return CustomerSchema().dump(customer), 200
+
 customers_api.add_resource(CustomerList, "/customers")
+customers_api.add_resource(CustomerDetail, "/customers/<int:id>")
