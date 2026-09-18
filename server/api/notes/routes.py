@@ -15,7 +15,7 @@ class CustomerNotes(ProtectedResource):
     def post(self, customer_id):
         get_or_404(Customer, customer_id)
         user = current_user()
-        r = request.get_json()
+        r = request.get_json(silent=True) or {}
         data = NoteSchema().load({**r,
                                   "employee_id": user.id,
                                   "customer_id": customer_id})
@@ -33,7 +33,7 @@ class NoteDetail(ProtectedResource):
         err = reject_unknown(r, ["content"])
         if err:
             return err
-        data = NoteSchema().load(r, partial=True)
+        data = NoteSchema(only=("content",)).load(r)
         note.content = data["content"]
         db.session.commit()
         return NoteSchema().dump(note), 200
