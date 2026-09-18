@@ -2,12 +2,12 @@ from flask import request, make_response, jsonify
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
-from datetime import datetime
 
 from config import app, db, api, jwt
 from models import User, Customer, Event, Task, Note
 from schema import  UserSchema
 from api.customers import customers_bp
+from api.events import events_bp
 
 @app.shell_context_processor
 def make_shell_context():
@@ -73,6 +73,7 @@ api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')
 
 app.register_blueprint(customers_bp)
+app.register_blueprint(events_bp)
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True) 
