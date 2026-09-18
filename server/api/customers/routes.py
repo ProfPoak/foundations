@@ -18,6 +18,11 @@ class CustomerList(ProtectedResource):
         return customers_schema.dump(customers), 200
 
     def post(self):
-        pass
+        try:
+            data = CustomerSchema().load(request.get_json())
+            customer = Customer(**data)
 
-    customers_api.add_resource(CustomerList, "/customers")
+            db.session.add(customer)
+            db.session.commit()
+
+customers_api.add_resource(CustomerList, "/customers")
