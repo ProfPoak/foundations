@@ -15,7 +15,7 @@ class CustomerTasks(ProtectedResource):
     def post(self, customer_id):
         get_or_404(Customer, customer_id)
         r = request.get_json(silent=True) or {}
-        data = TaskSchema.load({**r, "customer_id": customer_id,})
+        data = TaskSchema().load({**r, "customer_id": customer_id,})
         get_or_404(User, data["employee_id"])
         task = Task(**data)
         db.session.add(task)
@@ -49,11 +49,12 @@ class TaskDetail(ProtectedResource):
         if not can_modify(current_user(), task.employee_id):
             return {"error": "unauthorized access"}, 403
         r = request.get_json(silent=True) or {}
-        err = reject_unknown(r, {"title", "staus", "due_date", "notes", "employye_id"})
+        err = reject_unknown(r, {"title", "status", "due_date", "notes", "employee_id"})
         if err:
             return err
         data = TaskSchema().load(r, partial=True)
-        if "employee_data" in data: get_or_404(User, data["employee_id"])
+        if "employee_id" in data: 
+            get_or_404(User, data["employee_id"])
         for key, value in data.items():
             setattr(task, key, value)
         db.session.commit()
