@@ -15,13 +15,13 @@ class CustomerEvents(ProtectedResource):
     def post(self, customer_id):
         get_or_404(Customer, customer_id)
         user = current_user()
-        request = request.get_json(silent=True) or {}
-        data = EventSchema().load({**request,
+        r = request.get_json(silent=True) or {}
+        data = EventSchema().load({**r,
                                    "employee_id": user.id,
                                    "customer_id": customer_id})
         event = Event(**data)
         db.session.add(event)
-        db.session. commit()
+        db.session.commit()
         return EventSchema().dump(event), 201
 
 events_api.add_resource(CustomerEvents, "/customers/<int:customer_id>/events")

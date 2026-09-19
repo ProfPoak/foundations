@@ -21,9 +21,6 @@ class Signup(Resource):
                 username=json['username'],
             )
 
-            if 'is_admin' in json:
-                user.is_admin=json['is_admin']
-
             user.password_hash = json['password']
 
             db.session.add(user)
