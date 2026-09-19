@@ -68,6 +68,6 @@ class TaskDetail(ProtectedResource):
         db.session.commit()
         return "", 204
 
-tasks_api.add_resource(CustomerTasks, "/customers/<int:customer_id/tasks>")
+tasks_api.add_resource(CustomerTasks, "/customers/<int:customer_id>/tasks")
 tasks_api.add_resource(TaskList, "/tasks")
 tasks_api.add_resource(TaskDetail, "/tasks/<int:id>")
