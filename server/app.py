@@ -6,8 +6,7 @@ from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_requir
 from config import app, db, api, jwt
 from models import User, Customer, Event, Task, Note
 from schema import  UserSchema
-from api.customers import customers_bp
-from api.events import events_bp
+from api import register_blueprints
 
 @app.shell_context_processor
 def make_shell_context():
@@ -72,8 +71,7 @@ api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')
 
-app.register_blueprint(customers_bp)
-app.register_blueprint(events_bp)
+register_blueprints(app)
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True) 
