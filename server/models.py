@@ -20,6 +20,8 @@ class User(db.Model):
     _password_hash = db.Column(db.String, nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
 
+    MIN_PASSWORD_LENGTH = 8
+
     #Password handling
     @hybrid_property
     def password_hash(self):
@@ -27,6 +29,9 @@ class User(db.Model):
 
     @password_hash.setter
     def password_hash(self, password):
+        #Not stripped: leading/trailing spaces are a legitimate part of a password
+        if not isinstance(password, str) or len(password) < self.MIN_PASSWORD_LENGTH:
+            raise ValueError(f"Password must be at least {self.MIN_PASSWORD_LENGTH} characters")
         password_hash = bcrypt.generate_password_hash(password.encode('utf-8'))
         self._password_hash = password_hash.decode('utf-8')
 
