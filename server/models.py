@@ -54,7 +54,8 @@ class User(db.Model):
     #Validations
     @validates("username")
     def username_validation(self, key, value):
-        value = require_text(key, value)
+        #Lowercase so the unique constraint treats JDoe and jdoe as the same username
+        value = require_text(key, value).lower()
         if len(value) > 20:
             raise ValueError("Username can be a maximum of 20 characters")
         return value

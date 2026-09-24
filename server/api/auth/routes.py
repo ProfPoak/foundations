@@ -20,7 +20,11 @@ class Signup(Resource):
 
             db.session.add(user)
             db.session.commit()
-        except (KeyError, ValueError, IntegrityError) as e:
+        except IntegrityError:
+            #Raw IntegrityError text includes the SQL statement, so don't echo it back
+            db.session.rollback()
+            return {'errors': ['Username already taken']}, 409
+        except (KeyError, ValueError) as e:
             db.session.rollback()
             return {'errors': [str(e)]}, 422
 
@@ -50,7 +54,8 @@ class Login(Resource):
         if not isinstance(username, str) or not isinstance(password, str):
             return {'error': 'Username and password are required'}, 400
 
-        user = User.query.filter(User.username == username).first()
+        #Match how the User model stores usernames (trimmed, lowercase)
+        user = User.query.filter(User.username == username.strip().lower()).first()
 
         if user and user.authenticate(password):
             access_token = create_access_token(identity=str(user.id))

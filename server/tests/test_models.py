@@ -62,6 +62,24 @@ class TestUser:
         user = User(username="  jdoe  ")
         assert user.username == "jdoe"
 
+    def test_username_is_lowercased(self, session):
+        user = User(username="JDoe")
+        assert user.username == "jdoe"
+
+    def test_username_uniqueness_ignores_case(self, session):
+        user1 = User(username="jdoe")
+        user1.password_hash = "password1"
+        session.add(user1)
+        session.commit()
+
+        user2 = User(username="JDOE")
+        user2.password_hash = "password2"
+        session.add(user2)
+
+        with pytest.raises(IntegrityError):
+            session.commit()
+        session.rollback()
+
     def test_username_must_be_unique(self, session):
         user1 = User(username="jdoe")
         user1.password_hash = "password1"
