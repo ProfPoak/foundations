@@ -1,4 +1,4 @@
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 
 import pytest
 from sqlalchemy.exc import IntegrityError
@@ -291,6 +291,30 @@ class TestEvent:
         session.commit()
 
         assert isinstance(event.datetime, datetime)
+
+    def test_datetime_reads_back_as_utc(self, session):
+        user, customer = self._make_user_and_customer(session)
+        event = Event(interaction="call", employee=user, customer=customer)
+        session.add(event)
+        session.commit()
+        session.expire_all()
+
+        assert session.get(Event, event.id).datetime.tzinfo == timezone.utc
+
+    def test_non_utc_datetime_is_converted_to_utc(self, session):
+        user, customer = self._make_user_and_customer(session)
+        central = timezone(timedelta(hours=-5))
+        event = Event(
+            interaction="call",
+            datetime=datetime(2026, 9, 23, 20, 5, tzinfo=central),
+            employee=user,
+            customer=customer,
+        )
+        session.add(event)
+        session.commit()
+        session.expire_all()
+
+        assert session.get(Event, event.id).datetime == datetime(2026, 9, 24, 1, 5, tzinfo=timezone.utc)
 
     def test_interaction_must_be_valid(self, session):
         user, customer = self._make_user_and_customer(session)

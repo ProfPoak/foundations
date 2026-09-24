@@ -1,8 +1,32 @@
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
-from datetime import date, datetime
+from sqlalchemy.types import TypeDecorator
+from datetime import date, datetime, timezone
 
 from config import db, bcrypt
+
+
+#SQLite can't store timezones, so save as naive UTC and re-attach UTC on read.
+#This makes the API send "+00:00" so the frontend doesn't mistake UTC for local time.
+class UTCDateTime(TypeDecorator):
+    impl = db.DateTime
+    cache_ok = True
+
+    def process_bind_param(self, value, dialect):
+        if value is None:
+            return value
+        #Naive values are assumed to already be UTC
+        if value.tzinfo is not None:
+            value = value.astimezone(timezone.utc).replace(tzinfo=None)
+        return value
+
+    def process_result_value(self, value, dialect):
+        if value is None:
+            return value
+        return value.replace(tzinfo=timezone.utc)
+
+def utc_now():
+    return datetime.now(timezone.utc)
 
 
 #Shared check for required text fields: rejects blank/whitespace-only values and trims the rest
@@ -166,7 +190,7 @@ class Event(db.Model):
     INTERACTIONS = ("call", "email", "text", "meeting", "service", "follow-up", "other")
 
     id = db.Column(db.Integer, primary_key=True)
-    datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    datetime = db.Column(UTCDateTime, nullable=False, default=utc_now)
     interaction = db.Column(db.String, nullable=False)
     notes = db.Column(db.String)
 
@@ -229,7 +253,7 @@ class Note(db.Model):
     __tablename__ = 'notes'
 
     id = db.Column(db.Integer, primary_key=True)
-    datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    datetime = db.Column(UTCDateTime, nullable=False, default=utc_now)
     content = db.Column(db.String, nullable=False)
 
     employee_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
