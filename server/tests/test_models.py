@@ -44,6 +44,14 @@ class TestUser:
         with pytest.raises(ValueError):
             User(username="")
 
+    def test_username_cannot_be_whitespace(self, session):
+        with pytest.raises(ValueError):
+            User(username="   ")
+
+    def test_username_is_stripped(self, session):
+        user = User(username="  jdoe  ")
+        assert user.username == "jdoe"
+
     def test_username_must_be_unique(self, session):
         user1 = User(username="jdoe")
         user1.password_hash = "pw1"          # was: user1.password = "pw1"
@@ -93,6 +101,16 @@ class TestCustomer:
     def test_requires_last_name(self, session):
         with pytest.raises(ValueError):
             Customer(first_name="Josh", last_name="")
+
+    def test_names_cannot_be_whitespace(self, session):
+        with pytest.raises(ValueError):
+            Customer(first_name="   ", last_name="Smith")
+        with pytest.raises(ValueError):
+            Customer(first_name="Josh", last_name="   ")
+
+    def test_names_are_stripped(self, session):
+        customer = Customer(first_name="  Josh ", last_name=" Smith  ")
+        assert customer.full_name == "Josh Smith"
 
     def test_status_defaults_to_potential(self, session):
         customer = Customer(first_name="Josh", last_name="Smith")
@@ -294,6 +312,11 @@ class TestNote:
         user, customer = self._make_user_and_customer(session)
         with pytest.raises(ValueError):
             Note(content="", employee=user, customer=customer)
+
+    def test_content_cannot_be_whitespace(self, session):
+        user, customer = self._make_user_and_customer(session)
+        with pytest.raises(ValueError):
+            Note(content="   ", employee=user, customer=customer)
 
     def test_relationship_back_populates(self, session):
         user, customer = self._make_user_and_customer(session)

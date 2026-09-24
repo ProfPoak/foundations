@@ -5,6 +5,13 @@ from datetime import datetime
 from config import db, bcrypt
 
 
+#Shared check for required text fields: rejects blank/whitespace-only values and trims the rest
+def require_text(key, value):
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"{key.replace('_', ' ').title()} cannot be left empty")
+    return value.strip()
+
+
 class User(db.Model):
     __tablename__ = 'users'
 
@@ -36,8 +43,7 @@ class User(db.Model):
     #Validations
     @validates("username")
     def username_validation(self, key, value):
-        if not value:
-            raise ValueError("Username cannot be left empty")
+        value = require_text(key, value)
         if len(value) > 20:
             raise ValueError("Username can be a maximum of 20 characters")
         return value
@@ -82,9 +88,7 @@ class Customer(db.Model):
 
     @validates("first_name", "last_name")
     def name_validation(self, key, value):
-        if not value:
-            raise ValueError(f"{key.replace('_', ' ').title()} cannot be left empty")
-        return value
+        return require_text(key, value)
 
     @hybrid_property
     def full_name(self):
@@ -143,9 +147,7 @@ class Task(db.Model):
     #Validations
     @validates("title")
     def title_validation(self, key, value):
-        if not value or not value.strip():
-            raise ValueError("Title cannot be left empty")
-        return value.strip()
+        return require_text(key, value)
 
     @validates("status")
     def status_validation(self, key, value):
@@ -177,9 +179,7 @@ class Note(db.Model):
     #Validations
     @validates("content")
     def content_validation(self, key, value):
-        if not value:
-            raise ValueError("Content cannot be left empty")
-        return value
+        return require_text(key, value)
 
     def __repr__(self):
         # Truncate so long notes don't flood the shell output
