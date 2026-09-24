@@ -42,8 +42,13 @@ class CheckSession(Resource):
 
 class Login(Resource):
    def post(self):
-        username = request.get_json()['username']
-        password = request.get_json()['password']
+        json = request.get_json(silent=True) or {}
+        username = json.get('username')
+        password = json.get('password')
+
+        #Non-string values would crash authenticate() with a 500
+        if not isinstance(username, str) or not isinstance(password, str):
+            return {'error': 'Username and password are required'}, 400
 
         user = User.query.filter(User.username == username).first()
 
