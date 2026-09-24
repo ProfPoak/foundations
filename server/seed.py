@@ -51,14 +51,13 @@ with app.app_context():
     db.session.commit()
 
     print("Seeding events...")
-    interactions = ["call", "email", "in-person meeting", "showing", "follow-up"]
     events = []
 
     for customer in customers:
         for _ in range(randint(1, 4)):
             event = Event(
                 datetime=fake.date_time_between(start_date="-1y", end_date="now"),
-                interaction=rc(interactions),
+                interaction=rc(Event.INTERACTIONS),
                 notes=fake.sentence() if rc([True, False]) else None,
                 employee=rc(users),
                 customer=customer,

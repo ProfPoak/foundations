@@ -1,5 +1,7 @@
 from marshmallow import Schema, fields, validate
 
+from models import Event
+
 
 class UserSchema(Schema):
     id = fields.Integer(dump_only=True)
@@ -25,7 +27,9 @@ class CustomerSchema(Schema):
 class EventSchema(Schema):
     id = fields.Integer(dump_only=True)
     datetime = fields.DateTime(dump_only=True)
-    interaction = fields.String(required=True)
+    interaction = fields.String(
+        required=True, validate=validate.OneOf(Event.INTERACTIONS)
+    )
     notes = fields.String(allow_none=True)
 
     employee_id = fields.Integer(required=True)

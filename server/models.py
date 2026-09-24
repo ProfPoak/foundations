@@ -95,7 +95,10 @@ class Customer(db.Model):
 
 class Event(db.Model):
     __tablename__ = 'events'
-    
+
+    #Kept industry-agnostic so any small business can use the timeline
+    INTERACTIONS = ("call", "email", "text", "meeting", "service", "follow-up", "other")
+
     id = db.Column(db.Integer, primary_key=True)
     datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     interaction = db.Column(db.String, nullable=False)
@@ -107,6 +110,13 @@ class Event(db.Model):
     #Relationships
     employee = db.relationship('User', back_populates="events")
     customer = db.relationship('Customer', back_populates="events")
+
+    #Validations
+    @validates("interaction")
+    def interaction_validation(self, key, value):
+        if value not in self.INTERACTIONS:
+            raise ValueError(f"Interaction must be one of the following: {self.INTERACTIONS}")
+        return value
 
     def __repr__(self):
         return (
@@ -131,6 +141,12 @@ class Task(db.Model):
     customer = db.relationship('Customer', back_populates="tasks")
 
     #Validations
+    @validates("title")
+    def title_validation(self, key, value):
+        if not value or not value.strip():
+            raise ValueError("Title cannot be left empty")
+        return value.strip()
+
     @validates("status")
     def status_validation(self, key, value):
         statuses = ("open", "in_progress", "complete")

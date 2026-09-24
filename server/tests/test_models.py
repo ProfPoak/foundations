@@ -162,6 +162,16 @@ class TestEvent:
 
         assert isinstance(event.datetime, datetime)
 
+    def test_interaction_must_be_valid(self, session):
+        user, customer = self._make_user_and_customer(session)
+        with pytest.raises(ValueError):
+            Event(interaction="carrier pigeon", employee=user, customer=customer)
+
+    def test_requires_interaction(self, session):
+        user, customer = self._make_user_and_customer(session)
+        with pytest.raises(ValueError):
+            Event(interaction="", employee=user, customer=customer)
+
     def test_requires_employee(self, session):
         _, customer = self._make_user_and_customer(session)
         event = Event(interaction="call", customer=customer)
@@ -223,6 +233,21 @@ class TestTask:
         session.commit()
 
         assert task.status == "open"
+
+    def test_requires_title(self, session):
+        user, customer = self._make_user_and_customer(session)
+        with pytest.raises(ValueError):
+            Task(title="", employee=user, customer=customer)
+
+    def test_title_cannot_be_whitespace(self, session):
+        user, customer = self._make_user_and_customer(session)
+        with pytest.raises(ValueError):
+            Task(title="   ", employee=user, customer=customer)
+
+    def test_title_is_stripped(self, session):
+        user, customer = self._make_user_and_customer(session)
+        task = Task(title="  Follow up call  ", employee=user, customer=customer)
+        assert task.title == "Follow up call"
 
     def test_status_must_be_valid(self, session):
         user, customer = self._make_user_and_customer(session)
