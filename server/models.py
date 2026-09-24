@@ -24,7 +24,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False, unique=True)
     _password_hash = db.Column(db.String, nullable=False)
-    is_admin = db.Column(db.Boolean, default=False)
+    is_admin = db.Column(db.Boolean, nullable=False, default=False)
 
     MIN_PASSWORD_LENGTH = 8
 
@@ -76,7 +76,7 @@ class Customer(db.Model):
     address =db.Column(db.String)
     phone = db.Column(db.String)
     email = db.Column(db.String, unique=True)
-    status = db.Column(db.String, default="potential")
+    status = db.Column(db.String, nullable=False, default="potential")
 
     #Relationships
     events = db.relationship('Event', back_populates="customer")
@@ -197,7 +197,7 @@ class Task(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
-    status = db.Column(db.String, default="open")
+    status = db.Column(db.String, nullable=False, default="open")
     due_date = db.Column(db.Date)
     notes = db.Column(db.String)
 

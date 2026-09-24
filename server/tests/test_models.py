@@ -102,6 +102,26 @@ class TestUser:
 
         assert user.is_admin is False
 
+    def test_is_admin_none_on_create_uses_default(self, session):
+        #SQLAlchemy applies the column default when None is passed on insert
+        user = User(username="jdoe", is_admin=None)
+        user.password_hash = "supersecret"
+        session.add(user)
+        session.commit()
+
+        assert user.is_admin is False
+
+    def test_is_admin_cannot_be_updated_to_null(self, session):
+        user = User(username="jdoe")
+        user.password_hash = "supersecret"
+        session.add(user)
+        session.commit()
+
+        user.is_admin = None
+        with pytest.raises(IntegrityError):
+            session.commit()
+        session.rollback()
+
 
 # ============================================
 # CUSTOMER

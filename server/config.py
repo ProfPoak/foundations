@@ -22,7 +22,8 @@ metadata = MetaData(naming_convention={
 db = SQLAlchemy(metadata=metadata)
 
 db.init_app(app)
-migrate = Migrate(app, db)
+#Batch mode lets Alembic alter SQLite columns by rebuilding the table
+migrate = Migrate(app, db, render_as_batch=True)
 
 bcrypt = Bcrypt(app)
 
