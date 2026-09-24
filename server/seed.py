@@ -41,7 +41,7 @@ with app.app_context():
             last_name=fake.last_name(),
             birthday=fake.date_of_birth(minimum_age=18, maximum_age=85),
             address=fake.address(),
-            phone=fake.phone_number(),
+            phone=fake.numerify("##########"),
             email=fake.unique.email(),
             status=rc(statuses),
         )

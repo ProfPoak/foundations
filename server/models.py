@@ -111,8 +111,34 @@ class Customer(db.Model):
             raise ValueError(f"Birthday cannot be before {self.MIN_BIRTHDAY.isoformat()}")
         return value
 
-    @validates("phone", "address")
-    def optional_text_validation(self, key, value):
+    @validates("phone")
+    def phone_validation(self, key, value):
+        value = optional_text(value)
+        if value is None:
+            return value
+        #Only allow common phone punctuation so letters/extensions aren't silently dropped
+        if not set(value) <= set("0123456789 ()-.+"):
+            raise ValueError("Phone number can only contain digits, spaces, and ( ) - . +")
+        if "+" in value[1:]:
+            raise ValueError("'+' is only allowed at the start of a phone number")
+        digits = "".join(char for char in value if char.isdigit())
+        #A country code (1-3 digits) must be marked with a leading "+", except the common US "1-555-..." habit
+        if value.startswith("+"):
+            if not 11 <= len(digits) <= 13:
+                raise ValueError("Phone number must have a 1-3 digit country code followed by 10 digits")
+            country_code, digits = digits[:-10], digits[-10:]
+        elif len(digits) == 11 and digits.startswith("1"):
+            country_code, digits = "1", digits[1:]
+        elif len(digits) == 10:
+            country_code = "1"
+        else:
+            raise ValueError("Phone number must have 10 digits")
+        #Store one consistent format so the frontend can display it as-is; US numbers omit the +1
+        number = f"({digits[:3]}) {digits[3:6]}-{digits[6:]}"
+        return number if country_code == "1" else f"+{country_code} {number}"
+
+    @validates("address")
+    def address_validation(self, key, value):
         return optional_text(value)
 
     @validates("status")

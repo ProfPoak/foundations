@@ -113,7 +113,7 @@ class TestCustomer:
             last_name="Smith",
             birthday=date(1990, 1, 1),
             address="123 Main St",
-            phone="555-1234",
+            phone="555-123-4567",
             email="josh@example.com",
         )
         session.add(customer)
@@ -200,6 +200,30 @@ class TestCustomer:
     def test_birthday_can_be_today(self, session):
         customer = Customer(first_name="Josh", last_name="Smith", birthday=date.today())
         assert customer.birthday == date.today()
+
+    @pytest.mark.parametrize("phone", [
+        "5551234567", "555-123-4567", "555.123.4567", "(555) 123-4567", "+1 555 123 4567", "1-555-123-4567",
+    ])
+    def test_phone_is_formatted(self, session, phone):
+        customer = Customer(first_name="Josh", last_name="Smith", phone=phone)
+        assert customer.phone == "(555) 123-4567"
+
+    @pytest.mark.parametrize("phone, expected", [
+        ("+44 207 946 0958", "+44 (207) 946-0958"),
+        ("+52 (555) 123-4567", "+52 (555) 123-4567"),
+        ("+353 555 123 4567", "+353 (555) 123-4567"),
+    ])
+    def test_phone_keeps_country_code(self, session, phone, expected):
+        customer = Customer(first_name="Josh", last_name="Smith", phone=phone)
+        assert customer.phone == expected
+
+    @pytest.mark.parametrize("phone", [
+        "555-1234", "555-123-45678", "555-123-4567 x22", "555-CALL-NOW",
+        "+5551234567", "+1234 555 123 4567", "555+123-4567",
+    ])
+    def test_invalid_phone_rejected(self, session, phone):
+        with pytest.raises(ValueError):
+            Customer(first_name="Josh", last_name="Smith", phone=phone)
 
     def test_blank_optional_fields_stored_as_none(self, session):
         customer = Customer(first_name="Josh", last_name="Smith", email="", phone="  ", address="")
