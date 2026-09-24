@@ -1,3 +1,4 @@
+from datetime import timezone
 from random import randint, choice as rc
 from faker import Faker
 from app import app
@@ -33,7 +34,6 @@ with app.app_context():
 
     print("Seeding customers...")
     customers = []
-    statuses = ["potential", "client", "inactive"]
 
     for _ in range(20):
         customer = Customer(
@@ -41,9 +41,9 @@ with app.app_context():
             last_name=fake.last_name(),
             birthday=fake.date_of_birth(minimum_age=18, maximum_age=85),
             address=fake.address(),
-            phone=fake.phone_number(),
+            phone=fake.numerify("##########"),
             email=fake.unique.email(),
-            status=rc(statuses),
+            status=rc(Customer.STATUSES),
         )
         customers.append(customer)
 
@@ -51,14 +51,13 @@ with app.app_context():
     db.session.commit()
 
     print("Seeding events...")
-    interactions = ["call", "email", "in-person meeting", "showing", "follow-up"]
     events = []
 
     for customer in customers:
         for _ in range(randint(1, 4)):
             event = Event(
-                datetime=fake.date_time_between(start_date="-1y", end_date="now"),
-                interaction=rc(interactions),
+                datetime=fake.date_time_between(start_date="-1y", end_date="now", tzinfo=timezone.utc),
+                interaction=rc(Event.INTERACTIONS),
                 notes=fake.sentence() if rc([True, False]) else None,
                 employee=rc(users),
                 customer=customer,
@@ -73,14 +72,13 @@ with app.app_context():
         "Follow up call", "Send listing docs", "Schedule showing",
         "Prepare offer paperwork", "Check in on financing",
     ]
-    task_statuses = ["open", "in_progress", "complete"]
     tasks = []
 
     for customer in customers:
         for _ in range(randint(0, 3)):
             task = Task(
                 title=rc(task_titles),
-                status=rc(task_statuses),
+                status=rc(Task.STATUSES),
                 due_date=fake.date_between(start_date="today", end_date="+60d"),
                 notes=fake.sentence() if rc([True, False]) else None,
                 employee=rc(users),
@@ -97,7 +95,7 @@ with app.app_context():
     for customer in customers:
         for _ in range(randint(0, 3)):
             note = Note(
-                datetime=fake.date_time_between(start_date="-1y", end_date="now"),
+                datetime=fake.date_time_between(start_date="-1y", end_date="now", tzinfo=timezone.utc),
                 content=fake.sentence(nb_words=12),
                 employee=rc(users),
                 customer=customer,

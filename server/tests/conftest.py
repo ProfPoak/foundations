@@ -1,3 +1,8 @@
+import os
+
+#Must be set before config is imported, or tests will drop the dev database's tables
+os.environ["DATABASE_URL"] = "sqlite:///:memory:"
+
 import pytest
 from config import app, db
 
