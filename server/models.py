@@ -1,6 +1,6 @@
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
-from datetime import datetime
+from datetime import date, datetime
 
 from config import db, bcrypt
 
@@ -66,6 +66,8 @@ class User(db.Model):
 class Customer(db.Model):
     __tablename__ = 'customers'
 
+    MIN_BIRTHDAY = date(1900, 1, 1)
+
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)
@@ -96,6 +98,17 @@ class Customer(db.Model):
         #Domain needs a "." that isn't at either end (rejects "a@b." and "a@.com")
         if not local or "." not in domain or domain.startswith(".") or domain.endswith("."):
             raise ValueError("Must be a valid email")
+        return value
+
+    @validates("birthday")
+    def birthday_validation(self, key, value):
+        if value is None:
+            return value
+        if value > date.today():
+            raise ValueError("Birthday cannot be in the future")
+        #Anything earlier is almost certainly a typo (e.g. 1090 for 1990)
+        if value < self.MIN_BIRTHDAY:
+            raise ValueError(f"Birthday cannot be before {self.MIN_BIRTHDAY.isoformat()}")
         return value
 
     @validates("phone", "address")

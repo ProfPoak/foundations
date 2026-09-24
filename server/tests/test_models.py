@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 import pytest
 from sqlalchemy.exc import IntegrityError
@@ -184,6 +184,22 @@ class TestCustomer:
         with pytest.raises(IntegrityError):
             session.commit()
         session.rollback()
+
+    def test_birthday_cannot_be_in_future(self, session):
+        with pytest.raises(ValueError):
+            Customer(first_name="Josh", last_name="Smith", birthday=date.today() + timedelta(days=1))
+
+    def test_birthday_cannot_be_before_minimum(self, session):
+        with pytest.raises(ValueError):
+            Customer(first_name="Josh", last_name="Smith", birthday=date(1899, 12, 31))
+
+    def test_birthday_can_be_minimum(self, session):
+        customer = Customer(first_name="Josh", last_name="Smith", birthday=Customer.MIN_BIRTHDAY)
+        assert customer.birthday == Customer.MIN_BIRTHDAY
+
+    def test_birthday_can_be_today(self, session):
+        customer = Customer(first_name="Josh", last_name="Smith", birthday=date.today())
+        assert customer.birthday == date.today()
 
     def test_blank_optional_fields_stored_as_none(self, session):
         customer = Customer(first_name="Josh", last_name="Smith", email="", phone="  ", address="")
