@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields, validate
+from marshmallow import Schema, fields, validate, pre_load
 
 from models import Event
 
@@ -22,6 +22,17 @@ class CustomerSchema(Schema):
     status = fields.String(
         validate=validate.OneOf(["potential", "client", "inactive"])
     )
+
+    #Forms submit empty inputs as "", which Email/Date fields would reject as invalid
+    @pre_load
+    def blank_optional_fields_to_none(self, data, **kwargs):
+        if not isinstance(data, dict):
+            return data
+        optional = ("birthday", "address", "phone", "email")
+        return {
+            key: None if key in optional and isinstance(value, str) and not value.strip() else value
+            for key, value in data.items()
+        }
 
 
 class EventSchema(Schema):

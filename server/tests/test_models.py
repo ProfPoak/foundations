@@ -149,6 +149,30 @@ class TestCustomer:
         with pytest.raises(ValueError):
             Customer(first_name="Josh", last_name="Smith", email="not-an-email")
 
+    @pytest.mark.parametrize("email", ["@example.com", "josh@example.", "josh@.com", "josh @example.com"])
+    def test_malformed_emails_rejected(self, session, email):
+        with pytest.raises(ValueError):
+            Customer(first_name="Josh", last_name="Smith", email=email)
+
+    def test_email_is_lowercased_and_stripped(self, session):
+        customer = Customer(first_name="Josh", last_name="Smith", email="  Josh@Example.com ")
+        assert customer.email == "josh@example.com"
+
+    def test_email_uniqueness_ignores_case(self, session):
+        session.add(Customer(first_name="Josh", last_name="Smith", email="josh@example.com"))
+        session.commit()
+
+        session.add(Customer(first_name="Jane", last_name="Doe", email="JOSH@example.com"))
+        with pytest.raises(IntegrityError):
+            session.commit()
+        session.rollback()
+
+    def test_blank_optional_fields_stored_as_none(self, session):
+        customer = Customer(first_name="Josh", last_name="Smith", email="", phone="  ", address="")
+        assert customer.email is None
+        assert customer.phone is None
+        assert customer.address is None
+
     def test_full_name_hybrid_property(self, session):
         # Only relevant if you implement the optional full_name hybrid_property
         customer = Customer(first_name="Josh", last_name="Smith")

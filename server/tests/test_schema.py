@@ -140,6 +140,12 @@ class TestCustomerSchema:
             CustomerSchema().load(payload)
         assert "birthday" in exc.value.messages
 
+    def test_blank_optional_fields_load_as_none(self):
+        payload = self._valid_payload(birthday="", address="", phone="  ", email="")
+        result = CustomerSchema().load(payload)
+        for key in ("birthday", "address", "phone", "email"):
+            assert result[key] is None
+
     def test_id_and_full_name_rejected_as_unknown_fields_on_load(self):
         payload = self._valid_payload()
         payload["id"] = 5

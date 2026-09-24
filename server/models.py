@@ -11,6 +11,12 @@ def require_text(key, value):
         raise ValueError(f"{key.replace('_', ' ').title()} cannot be left empty")
     return value.strip()
 
+#Shared cleanup for optional text fields: blank form input ("") is stored as None
+def optional_text(value):
+    if value is None or not value.strip():
+        return None
+    return value.strip()
+
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -76,13 +82,24 @@ class Customer(db.Model):
     #Validations
     @validates("email")
     def email_validation(self, key, value):
+        value = optional_text(value)
         if value is None:
             return value
+        #Lowercase so the unique constraint treats Josh@x.com and josh@x.com as the same email
+        value = value.lower()
         #Email must have one "@" symbol. If there are more or less than 2 parts from the split it is invalid.
         parts = value.split("@")
-        if len(parts) !=2 or "." not in parts[-1]:
+        if len(parts) != 2 or " " in value:
+            raise ValueError("Must be a valid email")
+        local, domain = parts
+        #Domain needs a "." that isn't at either end (rejects "a@b." and "a@.com")
+        if not local or "." not in domain or domain.startswith(".") or domain.endswith("."):
             raise ValueError("Must be a valid email")
         return value
+
+    @validates("phone", "address")
+    def optional_text_validation(self, key, value):
+        return optional_text(value)
 
     @validates("status")
     def status_validation(self, key, value):
