@@ -33,7 +33,6 @@ with app.app_context():
 
     print("Seeding customers...")
     customers = []
-    statuses = ["potential", "client", "inactive"]
 
     for _ in range(20):
         customer = Customer(
@@ -43,7 +42,7 @@ with app.app_context():
             address=fake.address(),
             phone=fake.numerify("##########"),
             email=fake.unique.email(),
-            status=rc(statuses),
+            status=rc(Customer.STATUSES),
         )
         customers.append(customer)
 
@@ -72,14 +71,13 @@ with app.app_context():
         "Follow up call", "Send listing docs", "Schedule showing",
         "Prepare offer paperwork", "Check in on financing",
     ]
-    task_statuses = ["open", "in_progress", "complete"]
     tasks = []
 
     for customer in customers:
         for _ in range(randint(0, 3)):
             task = Task(
                 title=rc(task_titles),
-                status=rc(task_statuses),
+                status=rc(Task.STATUSES),
                 due_date=fake.date_between(start_date="today", end_date="+60d"),
                 notes=fake.sentence() if rc([True, False]) else None,
                 employee=rc(users),

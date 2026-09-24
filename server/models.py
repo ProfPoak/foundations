@@ -66,6 +66,7 @@ class User(db.Model):
 class Customer(db.Model):
     __tablename__ = 'customers'
 
+    STATUSES = ("potential", "client", "inactive")
     MIN_BIRTHDAY = date(1900, 1, 1)
 
     id = db.Column(db.Integer, primary_key=True)
@@ -143,9 +144,8 @@ class Customer(db.Model):
 
     @validates("status")
     def status_validation(self, key, value):
-        statuses = ("potential", "client", "inactive")
-        if value not in statuses:
-            raise ValueError(f"Status must be one of the following: {statuses}")
+        if value not in self.STATUSES:
+            raise ValueError(f"Status must be one of the following: {self.STATUSES}")
         return value
 
     @validates("first_name", "last_name")
@@ -193,6 +193,8 @@ class Event(db.Model):
 class Task(db.Model):
     __tablename__ = 'tasks'
 
+    STATUSES = ("open", "in_progress", "complete")
+
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     status = db.Column(db.String, default="open")
@@ -213,9 +215,8 @@ class Task(db.Model):
 
     @validates("status")
     def status_validation(self, key, value):
-        statuses = ("open", "in_progress", "complete")
-        if value not in statuses:
-            raise ValueError(f"Status must be one of the following: {statuses}")
+        if value not in self.STATUSES:
+            raise ValueError(f"Status must be one of the following: {self.STATUSES}")
         return value
 
     def __repr__(self):

@@ -1,6 +1,6 @@
 from marshmallow import Schema, fields, validate, pre_load
 
-from models import Event
+from models import Customer, Event, Task
 
 
 class UserSchema(Schema):
@@ -20,7 +20,7 @@ class CustomerSchema(Schema):
     phone = fields.String(allow_none=True)
     email = fields.Email(allow_none=True)
     status = fields.String(
-        validate=validate.OneOf(["potential", "client", "inactive"])
+        validate=validate.OneOf(Customer.STATUSES)
     )
 
     #Forms submit empty inputs as "", which Email/Date fields would reject as invalid
@@ -54,7 +54,7 @@ class TaskSchema(Schema):
     id = fields.Integer(dump_only=True)
     title = fields.String(required=True)
     status = fields.String(
-        validate=validate.OneOf(["open", "in_progress", "complete"])
+        validate=validate.OneOf(Task.STATUSES)
     )
     due_date = fields.Date(allow_none=True)
     notes = fields.String(allow_none=True)
