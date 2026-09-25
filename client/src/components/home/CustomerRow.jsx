@@ -1,9 +1,12 @@
-// Props: customer
-function CustomerRow() {
+import { Link } from 'react-router'
+
+function CustomerRow({ customer }) {
   return (
-    <section>
-      <h2>CustomerRow</h2>
-    </section>
+<li>
+  <Link to={`/customers/${customer.id}`}>{customer.full_name}</Link>
+  <span>Status: {customer.status} </span>
+  <span>{customer.phone ?? '—'}</span>
+</li>
   )
 }
 
