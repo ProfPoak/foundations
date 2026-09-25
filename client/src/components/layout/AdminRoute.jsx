@@ -1,7 +1,17 @@
-import { Outlet } from 'react-router'
+import { Navigate, Outlet } from 'react-router'
+import { useAuth } from '../../context/AuthContext'
 
 function AdminRoute() {
-  //TODO: redirect to / when the user is not an admin
+  const { user, checkingSession } = useAuth()
+
+  if (checkingSession) {
+    return <p>Loading...</p>
+  }
+
+  if (!user?.is_admin) {
+    return <Navigate to="/" replace />
+  }
+
   return <Outlet />
 }
 

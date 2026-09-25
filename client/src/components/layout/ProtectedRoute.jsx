@@ -1,7 +1,17 @@
-import { Outlet } from 'react-router'
+import { Navigate, Outlet } from 'react-router'
+import { useAuth } from '../../context/AuthContext'
 
 function ProtectedRoute() {
-  //TODO: redirect to /login when there is no user
+  const { user, checkingSession } = useAuth()
+
+  if (checkingSession) {
+    return <p>Loading...</p>
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />
+  }
+
   return <Outlet />
 }
 
