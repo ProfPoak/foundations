@@ -5,7 +5,7 @@ function CustomerRow({ customer }) {
 <li>
   <Link to={`/customers/${customer.id}`}>{customer.full_name}</Link>
   <span>Status: {customer.status} </span>
-  <span>{customer.phone ?? '—'}</span>
+  <span>Phone: {customer.phone ?? '—'}</span>
 </li>
   )
 }
