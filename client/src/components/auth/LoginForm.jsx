@@ -25,7 +25,6 @@ function LoginForm() {
   
   return (
     <section>
-      <h2>LoginForm</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="username">Username</label>
         <input 
