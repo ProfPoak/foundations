@@ -1,8 +1,13 @@
 // Props: search, onSearchChange
-function CustomerSearch() {
+function CustomerSearch({ search, onSearchChange }) {
   return (
     <section>
-      <h2>CustomerSearch</h2>
+      <label htmlFor="search">Search customers</label>
+      <input 
+        id="search" 
+        value={search}
+        onChange={e => onSearchChange(e.target.value)}
+        />
     </section>
   )
 }
