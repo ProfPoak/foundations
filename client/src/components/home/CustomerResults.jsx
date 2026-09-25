@@ -1,9 +1,19 @@
-// Props: customers
-function CustomerResults() {
+import CustomerRow from "./CustomerRow"
+
+function CustomerResults({ customers }) {
+  if(customers.length === 0) {
+    return <p>No customers found</p>
+  }
+  
   return (
-    <section>
-      <h2>CustomerResults</h2>
-    </section>
+    <ul>
+      {customers.map(customer => (
+        <CustomerRow 
+        key={customer.id}
+        customer={customer}
+        />
+      ))}
+    </ul>
   )
 }
 
