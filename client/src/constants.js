@@ -1,4 +1,3 @@
-//Copied from server/models.py; keep in sync with the backend
-export const CUSTOMER_STATUSES = []
-export const TASK_STATUSES = []
-export const INTERACTIONS = []
+export const CUSTOMER_STATUSES = ["potential", "client", "inactive"]
+export const TASK_STATUSES = ["open", "in_progress", "complete"]
+export const INTERACTIONS = ["call", "email", "text", "meeting", "service", "follow-up", "other"]
