@@ -1,4 +1,4 @@
-import { useState, useSyncExternalStore } from "react"
+import { useState } from "react"
 import { CUSTOMER_STATUSES } from '../../constants'
 import { apiFetch } from "../../api"
 import ErrorMessage from "../shared/ErrorMessage"
@@ -62,8 +62,7 @@ function CustomerDetails({ customer, onUpdate }) {
 
   function handleChange(e) {
       const {name, value} = e.target
-      const key = name
-      const updated = { ...formData, [key]:value}
+      const updated = { ...formData, [name]:value}
       setFormData(updated)
   }
 
@@ -113,7 +112,7 @@ function CustomerDetails({ customer, onUpdate }) {
     return(
       <section>
         <h1>{customer.full_name}</h1>
-        <form onSubmit={(e) => handleSave(e)} noValidate>
+        <form onSubmit={handleSave} noValidate>
           <dl>
             {fields.map(field => (
               <div key={field.name}>
