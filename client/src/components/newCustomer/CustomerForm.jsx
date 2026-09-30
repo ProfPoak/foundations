@@ -16,9 +16,8 @@ function CustomerForm({ onSubmit }) {
 
   function handleChange(event) {
     const {name, value} = event.target
-    const customer = formData
     const key = name
-    const updated = { ...customer, [key]:value}
+    const updated = { ...formData, [key]:value}
     setFormData(updated)
   }
 
