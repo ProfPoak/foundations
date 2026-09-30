@@ -1,5 +1,6 @@
 import { useState, useSyncExternalStore } from "react"
 import { CUSTOMER_STATUSES } from '../../constants'
+import { apiFetch } from "../../api"
 import ErrorMessage from "../shared/ErrorMessage"
 
 const fields = [
@@ -88,8 +89,19 @@ function CustomerDetails({ customer, onUpdate }) {
     }
   }
 
-  function handleSave(e) {
+  async function handleSave(e) {
     e.preventDefault()
+    setErrors(null)
+
+    const result = await apiFetch(`/customers/${customer.id}`, {method: "PATCH", body:JSON.stringify(formData)})
+
+    if(result.ok) {
+      onUpdate(result.data)
+      setIsEditing(false)
+    }
+    else{
+      setErrors(result.data ?? {})
+    }
   }
 
   function handleCancel() {
@@ -117,6 +129,7 @@ function CustomerDetails({ customer, onUpdate }) {
           <button type="submit">Save</button>
           <button type="button" onClick={handleCancel}>Cancel</button>
         </form>
+        <ErrorMessage errors={errors} />
       </section>
     )
   }
