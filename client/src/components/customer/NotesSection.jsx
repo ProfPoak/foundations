@@ -4,7 +4,7 @@ import NoteItem from './NoteItem'
 import NoteForm from './NoteForm'
 
 function NotesSection({ customerId }) {
-  const { items: notes, loading, errors, addItem } = useCustomerList(customerId, 'notes')
+  const { items: notes, loading, errors, addItem, updateItem, removeItem } = useCustomerList(customerId, 'notes')
 
   return (
     <section>
@@ -13,7 +13,7 @@ function NotesSection({ customerId }) {
       <ListStatus loading={loading} errors={errors} isEmpty={notes.length === 0} emptyMessage="No notes yet">
         <ul>
           {notes.map(note => (
-            <NoteItem key={note.id} note={note}/>
+            <NoteItem key={note.id} note={note} onUpdateNote={updateItem} onDeleteNote={removeItem}/>
           ))}
         </ul>
       </ListStatus>
