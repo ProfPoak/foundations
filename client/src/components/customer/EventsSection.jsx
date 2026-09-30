@@ -4,7 +4,6 @@ import ErrorMessage from '../shared/ErrorMessage'
 import EventItem from './EventItem'
 import EventForm from './EventForm'
 
-// Props: customerId
 function EventsSection({ customerId }) {
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
@@ -41,10 +40,14 @@ function EventsSection({ customerId }) {
     </ul>
   }
 
+  function handleAddEvent(created) {
+    setEvents([created, ...events])
+  }
+
   return (
     <section>
       <h2>Events</h2>
-      <EventForm />
+      <EventForm customerId={customerId} onAddEvent={handleAddEvent}/>
       {renderList(events)}
     </section>
   )
