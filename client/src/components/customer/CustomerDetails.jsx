@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { CUSTOMER_STATUSES } from '../../constants'
-import { apiFetch } from "../../api"
+import { useApiForm } from '../../hooks/useApiForm'
 import ErrorMessage from "../shared/ErrorMessage"
 
 const fields = [
@@ -51,19 +51,21 @@ function toFormData(customer) {
 
 function CustomerDetails({ customer, onUpdate }) {
   const [isEditing, setIsEditing] = useState(false)
-  const [formData, setFormData] = useState(null)
-  const [errors, setErrors] = useState(null)
+  //formData starts null and is built from the current customer each time editing starts
+  const { formData, setFormData, errors, setErrors, handleChange, handleSubmit: handleSave } = useApiForm({
+    initial: null,
+    path: `/customers/${customer.id}`,
+    method: 'PATCH',
+    onSuccess: updated => {
+      onUpdate(updated)
+      setIsEditing(false)
+    },
+  })
 
   function startEditing() {
     setFormData(toFormData(customer))
     setErrors(null)
     setIsEditing(true)
-  }
-
-  function handleChange(e) {
-      const {name, value} = e.target
-      const updated = { ...formData, [name]:value}
-      setFormData(updated)
   }
 
   function inputFor(field){
@@ -85,21 +87,6 @@ function CustomerDetails({ customer, onUpdate }) {
         value={formData[field.name]} 
         onChange={handleChange} 
         />
-    }
-  }
-
-  async function handleSave(e) {
-    e.preventDefault()
-    setErrors(null)
-
-    const result = await apiFetch(`/customers/${customer.id}`, {method: "PATCH", body:JSON.stringify(formData)})
-
-    if(result.ok) {
-      onUpdate(result.data)
-      setIsEditing(false)
-    }
-    else{
-      setErrors(result.data ?? {})
     }
   }
 

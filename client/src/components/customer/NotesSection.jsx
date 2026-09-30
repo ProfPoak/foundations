@@ -1,12 +1,22 @@
+import { useCustomerList } from '../../hooks/useCustomerList'
+import ListStatus from '../shared/ListStatus'
+import NoteItem from './NoteItem'
 import NoteForm from './NoteForm'
 
-// Props: customerId
-function NotesSection() {
+function NotesSection({ customerId }) {
+  const { items: notes, loading, errors, addItem, updateItem, removeItem } = useCustomerList(customerId, 'notes')
+
   return (
     <section>
       <h2>Notes</h2>
-      <NoteForm />
-      <ul></ul>
+      <NoteForm customerId={customerId} onAddNote={addItem}/>
+      <ListStatus loading={loading} errors={errors} isEmpty={notes.length === 0} emptyMessage="No notes yet">
+        <ul>
+          {notes.map(note => (
+            <NoteItem key={note.id} note={note} onUpdateNote={updateItem} onDeleteNote={removeItem}/>
+          ))}
+        </ul>
+      </ListStatus>
     </section>
   )
 }
