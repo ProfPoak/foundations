@@ -1,9 +1,12 @@
-// Props: note, onUpdateNote, onDeleteNote
-function NoteItem() {
+
+
+function NoteItem({ note }) {
   return (
-    <section>
-      <h2>NoteItem</h2>
-    </section>
+    <li>
+      <p style={{ whiteSpace: 'pre-line' }}>{note.content}</p>
+      <p>{note.employee.username}</p>
+      <p>{new Date(note.datetime).toLocaleString()}</p>
+    </li>
   )
 }
 
