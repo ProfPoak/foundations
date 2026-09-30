@@ -1,9 +1,12 @@
-// Props: event
-function EventItem() {
+
+function EventItem({ event }) {
   return (
-    <section>
-      <h2>EventItem</h2>
-    </section>
+    <li>
+      <p>{event.interaction}</p>
+      <p>{new Date(event.datetime).toLocaleString()}</p>
+      <p>{event.employee.username}</p>
+      {event.notes && <p>{event.notes}</p>}
+    </li>
   )
 }
 
