@@ -9,11 +9,12 @@ from sqlalchemy import MetaData
 from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
-app.secret_key = b'5a8fa62544c4912f1ad02547b49d1d5c7b0a9d4b353cf1253f74294c1b777b52'
+#Production sets these as env vars; the fallbacks are for local dev only
+app.secret_key = os.environ.get('SECRET_KEY', '5a8fa62544c4912f1ad02547b49d1d5c7b0a9d4b353cf1253f74294c1b777b52')
 #Tests override this so they never touch the dev database
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///app.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config["JWT_SECRET_KEY"] = b"771f1762607943b00d7111a488c20e2f15002f5fc054b071d6c2d6474d706205"
+app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY", "771f1762607943b00d7111a488c20e2f15002f5fc054b071d6c2d6474d706205")
 app.json.compact = False
 
 metadata = MetaData(naming_convention={
