@@ -27,8 +27,8 @@ function TaskForm({ customerId, users, onAddTask }) {
 
       <label htmlFor="task-assignee">Assign to</label>
       <select name="employee_id" id="task-assignee" value={formData.employee_id} onChange={handleChange} >
-        {users.map(user => (
-          <option value={user.id}>{user.username}</option>
+        {users.map(u => (
+          <option key={u.id} value={u.id}>{u.username}</option>
         ))}
       </select>
 
