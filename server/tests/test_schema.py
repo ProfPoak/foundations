@@ -320,17 +320,55 @@ class TestTaskSchema:
             payload = {
                 "title": "Follow up call",
                 "status": status,
+                "due_date": "2026-10-01",
                 "employee_id": 1,
                 "customer_id": 1,
             }
             result = TaskSchema().load(payload)
             assert result["status"] == status
 
-    def test_optional_fields_can_be_omitted(self):
+    def test_due_date_is_required(self):
         payload = {"title": "Follow up call", "employee_id": 1, "customer_id": 1}
-        result = TaskSchema().load(payload)
+        with pytest.raises(ValidationError) as exc:
+            TaskSchema().load(payload)
+        assert "due_date" in exc.value.messages
+
+    def test_due_date_not_required_on_partial_load(self):
+        # PATCH loads with partial=True, so changing only the status must still work
+        result = TaskSchema().load({"status": "complete"}, partial=True)
         assert "due_date" not in result
+
+    def test_notes_can_be_omitted(self):
+        payload = {"title": "Follow up call", "due_date": "2026-10-01", "employee_id": 1, "customer_id": 1}
+        result = TaskSchema().load(payload)
         assert "notes" not in result
+
+    def test_blank_due_date_and_notes_load_as_none(self):
+        # Forms send "" for an untouched input. None lets the model give its readable
+        # "Due date cannot be left empty" instead of marshmallow's "Not a valid date."
+        payload = {"title": "Follow up call", "employee_id": 1, "customer_id": 1,
+                   "due_date": "", "notes": "  "}
+        result = TaskSchema().load(payload)
+        assert result["due_date"] is None
+        assert result["notes"] is None
+
+    def test_blank_due_date_loads_as_none_on_partial_load(self):
+        result = TaskSchema().load({"due_date": ""}, partial=True)
+        assert result["due_date"] is None
+
+    def test_blank_title_is_not_turned_into_none(self):
+        # The model's validator gives "Title cannot be left empty";
+        # None would fail earlier with marshmallow's "Field may not be null."
+        payload = {"title": "", "due_date": "2026-10-01", "employee_id": 1, "customer_id": 1}
+        result = TaskSchema().load(payload)
+        assert result["title"] == ""
+
+    def test_filled_due_date_and_notes_are_kept(self):
+        payload = {"title": "Follow up call", "employee_id": 1, "customer_id": 1,
+                   "due_date": "2026-10-05", "notes": "Ask about financing"}
+        result = TaskSchema().load(payload)
+        assert result["due_date"] == date(2026, 10, 5)
+        assert result["notes"] == "Ask about financing"
 
     def test_nested_employee_and_customer_on_dump(self):
         class FakeTask:
