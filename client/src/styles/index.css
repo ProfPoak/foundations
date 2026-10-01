@@ -3,15 +3,21 @@
    Define a token here once, then use it anywhere: color: var(--color-text); */
 
 :root {
-  /* Colours */
-  /* --color-text: ; */
-  /* --color-muted: ;        meta lines, labels */
-  /* --color-background: ;   page */
-  /* --color-surface: ;      cards, sections */
-  /* --color-border: ; */
-  /* --color-primary: ;      main buttons, links */
-  /* --color-primary-text: ; text on primary buttons */
-  /* --color-danger: ;       Delete, errors */
+  /* Colours: neutral greys, green for buttons, red for errors */
+  --color-text: #1a1a1a;              /* near-black body text */
+  --color-muted: #6b6b6b;             /* meta lines, labels, placeholders */
+  --color-background: #f4f4f4;        /* page behind the cards */
+  --color-surface: #ffffff;           /* cards, sections, inputs */
+  --color-surface-alt: #ebebeb;       /* nav bar, hover rows, secondary buttons */
+  --color-border: #d0d0d0;            /* card, input and row borders */
+
+  --color-primary: #2e7d32;           /* buttons */
+  --color-primary-hover: #1b5e20;     /* buttons on hover */
+  --color-primary-text: #ffffff;      /* text on green buttons */
+
+  --color-danger: #c62828;            /* error text, Delete */
+  --color-danger-hover: #8e1c1c;      /* Delete on hover */
+  --color-danger-background: #fdecea; /* behind error messages */
 
   /* Spacing */
   /* --space-xs: ; */
@@ -42,8 +48,8 @@ body {
   /* font-family: ; */
   /* font-size: ; */
   /* line-height: ; */
-  /* color: ; */
-  /* background: ; */
+  color: var(--color-text);
+  background: var(--color-background);
 }
 
 /* Form controls don't inherit the page font by default */
@@ -70,6 +76,22 @@ h3 {
   /* margin: ; */
 }
 
+/* Links: white text on green, like the buttons.
+   A module class can override any of this for one kind of link */
 a {
-  /* color: ; */
+  display: inline-block;
+  padding: 0.25em 0.6em;
+  border-radius: 4px;
+  background: var(--color-primary);
+  color: var(--color-primary-text);
+  text-decoration: none;
+}
+
+a:hover {
+  background: var(--color-primary-hover);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
 }
