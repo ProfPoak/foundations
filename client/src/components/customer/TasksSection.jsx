@@ -34,7 +34,7 @@ function TasksSection({ customerId }) {
       <ListStatus loading={loading} errors={errors} isEmpty={tasks.length === 0} emptyMessage="No tasks yet">
         <ul>
           {tasks.map(task => (
-            <TaskItem key={task.id} task={task} onUpdateTask={updateItem} onDeleteTask={removeItem}/>
+            <TaskItem key={task.id} task={task} onUpdateTask={updateItem} onDeleteTask={removeItem} users={users} />
           ))}
         </ul>
       </ListStatus>
