@@ -5,15 +5,12 @@
 [build.environment]
   NODE_VERSION = "24"
 
-# Mirrors the Vite dev proxy: /api/customers -> <backend>/customers
-# Update the host if Render gives the service a different URL
 [[redirects]]
   from = "/api/*"
-  to = "https://crm-api.onrender.com/:splat"
+  to = "https://crm-api-g7cp.onrender.com"
   status = 200
   force = true
 
-# SPA fallback so react-router routes survive a refresh or direct link
 [[redirects]]
   from = "/*"
   to = "/index.html"
