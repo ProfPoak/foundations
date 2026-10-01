@@ -1,4 +1,4 @@
-import { isValidElement, useState, useSyncExternalStore } from 'react'
+import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { apiFetch } from '../../api.js'
 import ErrorMessage from '../shared/ErrorMessage.jsx'
