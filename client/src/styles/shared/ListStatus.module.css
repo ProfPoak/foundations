@@ -1,10 +1,9 @@
 /* Loading / empty states for lists */
 
-/* "Loading..." and the empty message */
+/* "Loading..." and the empty message ("No notes yet"): quiet grey text */
 .status {
-  /* font-size: ; */
-  /* font-weight: ; */
-  /* color: ; */
-  /* line-height: ; */
-  /* margin: ; */
+  margin: 0;
+  padding: var(--space-sm) 0;
+  color: var(--color-muted);
+  font-style: italic;
 }
