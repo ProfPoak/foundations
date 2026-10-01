@@ -1,9 +1,13 @@
 // Props: task, users, onUpdateTask, onDeleteTask
-function TaskItem() {
+function TaskItem({ task }) {
   return (
-    <section>
-      <h2>TaskItem</h2>
-    </section>
+    <li>
+      <h3>{task.title}</h3>
+      <p>{task.employee.username}</p>
+      {task.due_date && <p>Due {task.due_date}</p>}
+      <p>{task.status}</p>
+      {task.notes && <p>{task.notes}</p>}
+    </li>
   )
 }
 
