@@ -325,13 +325,45 @@ class TestCustomerTasks:
 
     def test_create_unknown_employee(self, client, employee, customer):
         resp = client.post(f"/customers/{customer.id}/tasks", headers=auth(employee),
-                           json={"title": "x", "employee_id": 999})
+                           json={"title": "x", "employee_id": 999, "due_date": "2030-02-01"})
         assert resp.status_code == 404
         assert Task.query.count() == 0
 
     def test_create_missing_fields(self, client, employee, customer):
         resp = client.post(f"/customers/{customer.id}/tasks", headers=auth(employee), json={})
         assert resp.status_code == 400
+
+    # Due date is required (STRETCH S11); notes stay optional
+    def test_create_blank_due_date(self, client, employee, customer):
+        # What TaskForm sends when the date input is left empty
+        resp = client.post(f"/customers/{customer.id}/tasks", headers=auth(employee),
+                           json={"title": "Call back", "employee_id": employee.id, "due_date": "", "notes": ""})
+        assert resp.status_code == 400
+        assert resp.get_json() == {"error": "Due date cannot be left empty"}
+        assert Task.query.count() == 0
+
+    def test_create_missing_due_date(self, client, employee, customer):
+        resp = client.post(f"/customers/{customer.id}/tasks", headers=auth(employee),
+                           json={"title": "Call back", "employee_id": employee.id})
+        assert resp.status_code == 400
+        assert "due_date" in resp.get_json()["errors"]
+        assert Task.query.count() == 0
+
+    def test_create_with_blank_notes(self, client, employee, customer):
+        resp = client.post(f"/customers/{customer.id}/tasks", headers=auth(employee),
+                           json={"title": "Call back", "employee_id": str(employee.id),
+                                 "due_date": "2030-02-01", "notes": ""})
+        assert resp.status_code == 201
+        body = resp.get_json()
+        assert body["due_date"] == "2030-02-01"
+        assert body["notes"] is None
+
+    def test_create_blank_title_message(self, client, employee, customer):
+        resp = client.post(f"/customers/{customer.id}/tasks", headers=auth(employee),
+                           json={"title": "  ", "employee_id": employee.id, "due_date": "2030-02-01", "notes": ""})
+        assert resp.status_code == 400
+        assert resp.get_json() == {"error": "Title cannot be left empty"}
+        assert Task.query.count() == 0
 
     def test_list_sorted_by_due_date(self, client, employee, customer):
         for title, due in (("Later", date(2030, 6, 1)), ("Sooner", date(2030, 1, 1))):
@@ -346,9 +378,10 @@ class TestTaskList:
     @pytest.fixture
     def tasks(self, employee, other_employee, customer):
         db.session.add_all([
-            Task(title="Mine open", employee_id=employee.id, customer_id=customer.id),
-            Task(title="Mine done", status="complete", employee_id=employee.id, customer_id=customer.id),
-            Task(title="Theirs", employee_id=other_employee.id, customer_id=customer.id),
+            Task(title="Mine open", due_date=date(2030, 1, 1), employee_id=employee.id, customer_id=customer.id),
+            Task(title="Mine done", status="complete", due_date=date(2030, 1, 2),
+                 employee_id=employee.id, customer_id=customer.id),
+            Task(title="Theirs", due_date=date(2030, 1, 3), employee_id=other_employee.id, customer_id=customer.id),
         ])
         db.session.commit()
 
@@ -403,6 +436,24 @@ class TestTaskDetail:
     def test_cannot_edit_restricted_fields(self, client, employee, task):
         resp = client.patch(f"/tasks/{task.id}", headers=auth(employee), json={"customer_id": 2})
         assert resp.status_code == 400
+
+    def test_cannot_clear_due_date(self, client, employee, task):
+        resp = client.patch(f"/tasks/{task.id}", headers=auth(employee), json={"due_date": ""})
+        assert resp.status_code == 400
+        assert resp.get_json() == {"error": "Due date cannot be left empty"}
+        db.session.expire_all()
+        assert db.session.get(Task, task.id).due_date == date(2030, 1, 1)
+
+    def test_cannot_null_due_date(self, client, employee, task):
+        resp = client.patch(f"/tasks/{task.id}", headers=auth(employee), json={"due_date": None})
+        assert resp.status_code == 400
+        db.session.expire_all()
+        assert db.session.get(Task, task.id).due_date == date(2030, 1, 1)
+
+    def test_can_change_due_date(self, client, employee, task):
+        resp = client.patch(f"/tasks/{task.id}", headers=auth(employee), json={"due_date": "2030-03-15"})
+        assert resp.status_code == 200
+        assert resp.get_json()["due_date"] == "2030-03-15"
 
     def test_owner_can_delete(self, client, employee, task):
         assert client.delete(f"/tasks/{task.id}", headers=auth(employee)).status_code == 204

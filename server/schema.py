@@ -30,7 +30,7 @@ class CustomerSchema(Schema):
             return data
         optional = ("birthday", "address", "phone", "email")
         return {
-            key: None if key in optional and isinstance(value, str) and not value.strip() else value
+            key: None if key in optional and isinstance(value, str) and not value.strip() else value 
             for key, value in data.items()
         }
 
@@ -56,7 +56,7 @@ class TaskSchema(Schema):
     status = fields.String(
         validate=validate.OneOf(Task.STATUSES)
     )
-    due_date = fields.Date(allow_none=True)
+    due_date = fields.Date(required=True, allow_none=True)
     notes = fields.String(allow_none=True)
 
     employee_id = fields.Integer(required=True)
@@ -64,6 +64,16 @@ class TaskSchema(Schema):
 
     employee = fields.Nested(UserSchema, dump_only=True)
     customer = fields.Nested(CustomerSchema, dump_only=True)
+
+    @pre_load
+    def blank_fields_to_none(self, data, **kwargs):
+        if not isinstance(data, dict):
+            return data
+        blank = ("due_date", "notes")
+        return {
+            key: None if key in blank and isinstance(value, str) and not value.strip() else value 
+            for key, value in data.items()
+        }
 
 
 class NoteSchema(Schema):

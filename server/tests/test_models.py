@@ -382,7 +382,7 @@ class TestTask:
 
     def test_status_defaults_to_open(self, session):
         user, customer = self._make_user_and_customer(session)
-        task = Task(title="Follow up call", employee=user, customer=customer)
+        task = Task(title="Follow up call", due_date=date(2026, 10, 1), employee=user, customer=customer)
         session.add(task)
         session.commit()
 
@@ -397,6 +397,24 @@ class TestTask:
         user, customer = self._make_user_and_customer(session)
         with pytest.raises(ValueError):
             Task(title="   ", employee=user, customer=customer)
+
+    def test_due_date_cannot_be_none(self, session):
+        user, customer = self._make_user_and_customer(session)
+        with pytest.raises(ValueError, match="Due date cannot be left empty"):
+            Task(title="Follow up call", due_date=None, employee=user, customer=customer)
+
+    def test_due_date_cannot_be_cleared(self, session):
+        user, customer = self._make_user_and_customer(session)
+        task = Task(title="Follow up call", due_date=date(2026, 10, 1), employee=user, customer=customer)
+        with pytest.raises(ValueError, match="Due date cannot be left empty"):
+            task.due_date = None
+
+    def test_missing_due_date_is_rejected_by_the_database(self, session):
+        # The validator only runs when due_date is set, so the column itself must be NOT NULL
+        user, customer = self._make_user_and_customer(session)
+        session.add(Task(title="Follow up call", employee=user, customer=customer))
+        with pytest.raises(IntegrityError):
+            session.commit()
 
     def test_title_is_stripped(self, session):
         user, customer = self._make_user_and_customer(session)
@@ -415,7 +433,7 @@ class TestTask:
 
     def test_relationship_back_populates(self, session):
         user, customer = self._make_user_and_customer(session)
-        task = Task(title="Follow up call", employee=user, customer=customer)
+        task = Task(title="Follow up call", due_date=date(2026, 10, 1), employee=user, customer=customer)
         session.add(task)
         session.commit()
 
