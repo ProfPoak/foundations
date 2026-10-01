@@ -1,44 +1,63 @@
 /* One customer in the Home list */
 
-/* <li> */
+/* <li>: three columns (name | status | phone), lined up from row to row */
 .row {
-  /* display: flex; */
-  /* flex-wrap: wrap; */
-  /* align-items: ; */
-  /* gap: ; */
-  /* padding: ; */
-  /* border-bottom: ; */
-  /* background: ; */
-  /* border-radius: ; */
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--color-border);
 }
 
-/* name link */
+.row:last-child {
+  border-bottom: none;
+}
+
+.row:hover {
+  background: var(--color-surface-alt);
+}
+
+/* name link: a green button from the global `a` rule, kept to its own width */
 .name {
-  /* color: ; */
-  /* text-decoration: ; */
-  /* font-weight: ; */
-}
-
-.name:hover {
-  /* background: ; */
-  /* color: ; */
-  /* text-decoration: ; */
+  justify-self: start;
+  font-weight: 600;
 }
 
 /* "Status: …" */
 .status {
-  /* font-size: ; */
-  /* font-weight: ; */
-  /* color: ; */
-  /* line-height: ; */
-  /* margin: ; */
+  font-size: var(--font-size-sm);
+  color: var(--color-muted);
 }
 
 /* "Phone: …" */
 .phone {
-  /* font-size: ; */
-  /* font-weight: ; */
-  /* color: ; */
-  /* line-height: ; */
-  /* margin: ; */
+  font-size: var(--font-size-sm);
+  color: var(--color-muted);
+}
+
+/* Small screens: each customer becomes its own centred card,
+   with name, status and phone stacked in the middle */
+@media (max-width: 600px) {
+  .row {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: var(--space-xs);
+    margin: 0 var(--space-lg);
+    padding: var(--space-md);
+    text-align: center;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  /* every card keeps its border (overrides the desktop "no line under the last row") */
+  .row:last-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .name {
+    justify-self: center;
+  }
 }
