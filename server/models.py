@@ -222,7 +222,7 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     status = db.Column(db.String, nullable=False, default="open")
-    due_date = db.Column(db.Date)
+    due_date = db.Column(db.Date, nullable=False)
     notes = db.Column(db.String)
 
     employee_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
@@ -242,7 +242,12 @@ class Task(db.Model):
         if value not in self.STATUSES:
             raise ValueError(f"Status must be one of the following: {self.STATUSES}")
         return value
-
+    @validates("due_date")
+    def due_date_validation(self, key, value):
+        if value is None:
+            raise ValueError("Due date cannot be left empty")
+        return value
+    
     def __repr__(self):
         return (
             f"<Task {self.id}: {self.title!r} status={self.status!r} due={self.due_date} "
