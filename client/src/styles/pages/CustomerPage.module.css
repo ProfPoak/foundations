@@ -10,6 +10,7 @@
 
 /* "Back" link on the not-found screen */
 .back {
+  align-self: flex-start;   /* keep the link its own size inside the page column */
   /* color: ; */
   /* text-decoration: ; */
   /* font-weight: ; */
