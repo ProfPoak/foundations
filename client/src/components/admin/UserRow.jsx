@@ -10,7 +10,7 @@ function UserRow({ user, onDeleteUser }) {
 
   async function handleDelete() {
     setErrors(null)
-    const result = await apiFetch(`/users/${user.id}`)
+    const result = await apiFetch(`/users/${user.id}`, { method: 'DELETE' })
     if(result.ok) {
       onDeleteUser(user.id)
     }
@@ -23,7 +23,7 @@ function UserRow({ user, onDeleteUser }) {
   <li>
     <span>Username: {user.username}</span>
     <span>Id: {user.id}</span>
-    {user.id_admin && <p>Admin</p>}
+    {user.is_admin && <span>Admin</span>}
     {!isSelf && <button type='button' onClick={handleDelete}>Delete</button>}
     <ErrorMessage errors={errors} />
   </li>

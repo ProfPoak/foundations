@@ -70,9 +70,14 @@ describe('UserRow: display', () => {
     expect(row().textContent).not.toMatch(/Admin/)
   })
 
-  it('never shows "true", "false" or the id', () => {
+  it('shows the id', () => {
     renderRow()
-    expect(row().textContent).not.toMatch(/true|false|7/)
+    expect(row()).toHaveTextContent('7')
+  })
+
+  it('never shows "true" or "false"', () => {
+    renderRow()
+    expect(row().textContent).not.toMatch(/true|false/)
   })
 
   it('makes no request just by rendering', () => {
