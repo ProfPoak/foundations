@@ -5,9 +5,9 @@ import { apiFetch } from '../src/api.js'
 import { useAuth } from '../src/context/AuthContext.jsx'
 import TaskItem from '../src/components/customer/TaskItem.jsx'
 
-//Day 5, Steps 8–11: TaskItem shows the Status and Assignee dropdowns and Delete only to the
-//assignee or an admin. Each dropdown PATCHes /tasks/:id with one key as soon as it changes,
-//and Delete sends DELETE /tasks/:id
+//Day 5, Steps 8–10: TaskItem shows Edit/Delete only to the assignee or an admin, edits the
+//task in place (PATCH /tasks/:id with exactly title, employee_id, due_date, status and notes),
+//and deletes (DELETE /tasks/:id). The same flow as NoteItem
 vi.mock('../src/api.js', () => ({ apiFetch: vi.fn() }))
 vi.mock('../src/context/AuthContext.jsx', () => ({ useAuth: vi.fn() }))
 
@@ -50,10 +50,7 @@ function renderItem(task = TASK) {
   const view = render(
     <ul><TaskItem task={task} users={USERS} onUpdateTask={onUpdateTask} onDeleteTask={onDeleteTask} /></ul>,
   )
-  const rerender = next => view.rerender(
-    <ul><TaskItem task={next} users={USERS} onUpdateTask={onUpdateTask} onDeleteTask={onDeleteTask} /></ul>,
-  )
-  return { ...view, rerender, onUpdateTask, onDeleteTask }
+  return { ...view, onUpdateTask, onDeleteTask }
 }
 
 //Holds the task in state like TasksSection does, so onUpdateTask(data) re-renders the item
@@ -70,14 +67,32 @@ function respond(ok, status, data) {
   apiFetch.mockResolvedValue({ ok, status, data })
 }
 
-const statusSelect = () => screen.getByLabelText('Status')
-const assigneeSelect = () => screen.getByLabelText('Assignee')
-const queryStatus = () => screen.queryByLabelText('Status')
-const queryAssignee = () => screen.queryByLabelText('Assignee')
-const queryDelete = () => screen.queryByRole('button', { name: 'Delete' })
+function button(name) {
+  return screen.getByRole('button', { name })
+}
 
-function change(select, value) {
-  fireEvent.change(select, { target: { value } })
+function queryButton(name) {
+  return screen.queryByRole('button', { name })
+}
+
+function click(name) {
+  fireEvent.click(button(name))
+}
+
+const field = {
+  title: () => screen.getByLabelText('Title'),
+  assignee: () => screen.getByLabelText('Assignee'),
+  dueDate: () => screen.getByLabelText('Due date'),
+  status: () => screen.getByLabelText('Status'),
+  notes: () => screen.getByLabelText('Task notes'),
+}
+
+function change(input, value) {
+  fireEvent.change(input, { target: { value } })
+}
+
+function form() {
+  return button('Save').closest('form')
 }
 
 async function flush() {
@@ -94,43 +109,49 @@ function sentBody(call = 0) {
   return JSON.parse(apiFetch.mock.calls[call][1].body)
 }
 
-describe('TaskItem: who sees the controls (Step 8)', () => {
-  it('shows both dropdowns and Delete to the assignee', () => {
+describe('TaskItem: who sees Edit and Delete (Step 8)', () => {
+  it('shows them to the assignee', () => {
     renderItem()
-    expect(queryStatus()).toBeInTheDocument()
-    expect(queryAssignee()).toBeInTheDocument()
-    expect(queryDelete()).toBeInTheDocument()
+    expect(queryButton('Edit')).toBeInTheDocument()
+    expect(queryButton('Delete')).toBeInTheDocument()
   })
 
   it('shows them to an admin on someone else\'s task', () => {
     loginAs(ADMIN)
     renderItem()
-    expect(queryStatus()).toBeInTheDocument()
-    expect(queryAssignee()).toBeInTheDocument()
-    expect(queryDelete()).toBeInTheDocument()
+    expect(queryButton('Edit')).toBeInTheDocument()
+    expect(queryButton('Delete')).toBeInTheDocument()
   })
 
   it('hides them from a non-admin who isn\'t the assignee', () => {
     loginAs(OTHER)
     renderItem()
-    expect(queryStatus()).not.toBeInTheDocument()
-    expect(queryAssignee()).not.toBeInTheDocument()
-    expect(queryDelete()).not.toBeInTheDocument()
-  })
-
-  it('shows the status and assignee as text to someone who can\'t change them', () => {
-    loginAs(OTHER)
-    renderItem()
-    const li = screen.getByRole('listitem')
-    expect(li).toHaveTextContent('in_progress')
-    expect(li).toHaveTextContent('tasha44')
+    expect(queryButton('Edit')).not.toBeInTheDocument()
+    expect(queryButton('Delete')).not.toBeInTheDocument()
   })
 
   it('compares ids, not usernames', () => {
     //Same username as the assignee, different id: still not the assignee
     loginAs({ id: 99, username: 'tasha44', is_admin: false })
     renderItem()
-    expect(queryStatus()).not.toBeInTheDocument()
+    expect(queryButton('Edit')).not.toBeInTheDocument()
+  })
+
+  it('shows the task as text, with no form, until Edit is clicked', () => {
+    renderItem()
+    const li = screen.getByRole('listitem')
+    expect(li).toHaveTextContent('Follow up call')
+    expect(li).toHaveTextContent('tasha44')
+    expect(li).toHaveTextContent('in_progress')
+    expect(li).toHaveTextContent('2026-10-05')
+    expect(screen.queryByRole('combobox')).not.toBeInTheDocument()
+    expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
+  })
+
+  it('uses plain buttons, not form submits', () => {
+    renderItem()
+    expect(button('Edit')).toHaveAttribute('type', 'button')
+    expect(button('Delete')).toHaveAttribute('type', 'button')
   })
 
   it('makes no request just by rendering', () => {
@@ -141,28 +162,106 @@ describe('TaskItem: who sees the controls (Step 8)', () => {
   })
 })
 
-describe('TaskItem: the Status dropdown (Step 9)', () => {
-  it('is a <select> with the id task-status-<task id>', () => {
-    renderItem()
-    expect(statusSelect().tagName).toBe('SELECT')
-    expect(statusSelect()).toHaveAttribute('id', 'task-status-4')
+describe('TaskItem: starting an edit (Step 9)', () => {
+  it('fills every field with the task\'s current values', () => {
+    renderItem({ ...TASK, notes: 'Ask about financing' })
+    click('Edit')
+    expect(field.title()).toHaveValue('Follow up call')
+    expect(field.assignee()).toHaveValue('6')
+    expect(field.dueDate()).toHaveValue('2026-10-05')
+    expect(field.status()).toHaveValue('in_progress')
+    expect(field.notes()).toHaveValue('Ask about financing')
   })
 
-  it('has one option per task status, in order', () => {
+  it('fills notes with "" when the task has none (no uncontrolled warning)', () => {
     renderItem()
-    const options = within(statusSelect()).getAllByRole('option')
+    click('Edit')
+    expect(field.notes()).toHaveValue('')
+  })
+
+  it('uses the right kind of input for each field', () => {
+    renderItem()
+    click('Edit')
+    expect(field.title().tagName).toBe('INPUT')
+    expect(field.assignee().tagName).toBe('SELECT')
+    expect(field.dueDate()).toHaveAttribute('type', 'date')
+    expect(field.status().tagName).toBe('SELECT')
+    expect(field.notes().tagName).toBe('TEXTAREA')
+  })
+
+  it('names each field after the key it sends', () => {
+    renderItem()
+    click('Edit')
+    expect(field.title()).toHaveAttribute('name', 'title')
+    expect(field.assignee()).toHaveAttribute('name', 'employee_id')
+    expect(field.dueDate()).toHaveAttribute('name', 'due_date')
+    expect(field.status()).toHaveAttribute('name', 'status')
+    expect(field.notes()).toHaveAttribute('name', 'notes')
+  })
+
+  it('gives every field an id that includes the task id', () => {
+    renderItem()
+    click('Edit')
+    expect(field.title()).toHaveAttribute('id', 'edit-task-title-4')
+    expect(field.assignee()).toHaveAttribute('id', 'edit-task-assignee-4')
+    expect(field.dueDate()).toHaveAttribute('id', 'edit-task-due-date-4')
+    expect(field.status()).toHaveAttribute('id', 'edit-task-status-4')
+    expect(field.notes()).toHaveAttribute('id', 'edit-task-notes-4')
+  })
+
+  it('lists every user in the Assignee dropdown, by username, with the id as the value', () => {
+    renderItem()
+    click('Edit')
+    const options = within(field.assignee()).getAllByRole('option')
+    expect(options.map(o => o.textContent)).toEqual(['admin', 'douglasmoore', 'tasha44'])
+    expect(options.map(o => o.value)).toEqual(['1', '3', '6'])
+  })
+
+  it('lists every task status in the Status dropdown, in order', () => {
+    renderItem()
+    click('Edit')
+    const options = within(field.status()).getAllByRole('option')
     expect(options.map(o => o.value)).toEqual(['open', 'in_progress', 'complete'])
   })
 
-  it('starts on the task\'s status', () => {
+  it('has Save (submit) and Cancel (plain button) inside a noValidate form', () => {
     renderItem()
-    expect(statusSelect()).toHaveValue('in_progress')
+    click('Edit')
+    expect(button('Save')).toHaveAttribute('type', 'submit')
+    expect(button('Cancel')).toHaveAttribute('type', 'button')
+    expect(form()).not.toBeNull()
+    expect(form().noValidate).toBe(true)
   })
 
-  it('PATCHes /tasks/:id as soon as it changes', async () => {
-    respond(true, 200, { ...TASK, status: 'complete' })
+  it('hides Edit and Delete while editing', () => {
     renderItem()
-    change(statusSelect(), 'complete')
+    click('Edit')
+    expect(queryButton('Edit')).not.toBeInTheDocument()
+    expect(queryButton('Delete')).not.toBeInTheDocument()
+  })
+
+  it('updates the fields as you type', () => {
+    renderItem()
+    click('Edit')
+    change(field.title(), 'Call back')
+    change(field.status(), 'complete')
+    expect(field.title()).toHaveValue('Call back')
+    expect(field.status()).toHaveValue('complete')
+  })
+
+  it('makes no request just by opening the form', () => {
+    renderItem()
+    click('Edit')
+    expect(apiFetch).not.toHaveBeenCalled()
+  })
+})
+
+describe('TaskItem: saving (Step 9)', () => {
+  it('PATCHes /tasks/:id', async () => {
+    respond(true, 200, TASK)
+    renderItem()
+    click('Edit')
+    click('Save')
     await flush()
     expect(apiFetch).toHaveBeenCalledTimes(1)
     const [path, options] = apiFetch.mock.calls[0]
@@ -170,19 +269,71 @@ describe('TaskItem: the Status dropdown (Step 9)', () => {
     expect(options.method).toBe('PATCH')
   })
 
-  it('sends exactly { status }, never the whole task', async () => {
-    respond(true, 200, { ...TASK, status: 'complete' })
+  it('sends exactly the five editable keys, never id, employee or customer', async () => {
+    respond(true, 200, TASK)
     renderItem()
-    change(statusSelect(), 'complete')
+    click('Edit')
+    click('Save')
     await flush()
-    expect(sentBody()).toEqual({ status: 'complete' })
+    expect(Object.keys(sentBody()).sort()).toEqual(['due_date', 'employee_id', 'notes', 'status', 'title'])
+  })
+
+  it('sends what you changed', async () => {
+    respond(true, 200, TASK)
+    renderItem()
+    click('Edit')
+    change(field.title(), 'Call back')
+    change(field.assignee(), '3')
+    change(field.dueDate(), '2026-11-20')
+    change(field.status(), 'complete')
+    change(field.notes(), 'Left a voicemail')
+    click('Save')
+    await flush()
+    const body = sentBody()
+    expect(body.title).toBe('Call back')
+    expect(Number(body.employee_id)).toBe(3)
+    expect(body.due_date).toBe('2026-11-20')
+    expect(body.status).toBe('complete')
+    expect(body.notes).toBe('Left a voicemail')
+  })
+
+  it('sends the unchanged values when you only change one thing', async () => {
+    respond(true, 200, TASK)
+    renderItem()
+    click('Edit')
+    change(field.status(), 'complete')
+    click('Save')
+    await flush()
+    const body = sentBody()
+    expect(body.title).toBe('Follow up call')
+    expect(Number(body.employee_id)).toBe(6)
+    expect(body.due_date).toBe('2026-10-05')
+    expect(body.notes ?? '').toBe('')
+  })
+
+  it('submits when the form is submitted, not only on click', async () => {
+    respond(true, 200, TASK)
+    renderItem()
+    click('Edit')
+    fireEvent.submit(form())
+    await flush()
+    expect(apiFetch).toHaveBeenCalledTimes(1)
+  })
+
+  it('prevents the browser from reloading the page', () => {
+    apiFetch.mockReturnValue(new Promise(() => {}))
+    renderItem()
+    click('Edit')
+    expect(fireEvent.submit(form())).toBe(false)
   })
 
   it('calls onUpdateTask once with the server\'s updated task', async () => {
     const updated = { ...TASK, status: 'complete' }
     respond(true, 200, updated)
     const { onUpdateTask, onDeleteTask } = renderItem()
-    change(statusSelect(), 'complete')
+    click('Edit')
+    change(field.status(), 'complete')
+    click('Save')
     await flush()
     expect(onUpdateTask).toHaveBeenCalledTimes(1)
     expect(onUpdateTask).toHaveBeenCalledWith(updated)
@@ -193,145 +344,158 @@ describe('TaskItem: the Status dropdown (Step 9)', () => {
     const request = deferred()
     apiFetch.mockReturnValue(request.promise)
     const { onUpdateTask } = renderItem()
-    change(statusSelect(), 'complete')
+    click('Edit')
+    click('Save')
     await flush()
     expect(onUpdateTask).not.toHaveBeenCalled()
-    await act(async () => request.resolve({ ok: true, status: 200, data: { ...TASK, status: 'complete' } }))
+    await act(async () => request.resolve({ ok: true, status: 200, data: TASK }))
     expect(onUpdateTask).toHaveBeenCalledTimes(1)
   })
 
-  it('shows the new status once the list hands back the updated task', async () => {
-    respond(true, 200, { ...TASK, status: 'complete' })
+  it('goes back to view mode, showing the saved values', async () => {
+    respond(true, 200, { ...TASK, title: 'Call back', status: 'complete' })
     render(<Harness initial={TASK} />)
-    change(statusSelect(), 'complete')
+    click('Edit')
+    change(field.title(), 'Call back')
+    change(field.status(), 'complete')
+    click('Save')
     await flush()
-    expect(statusSelect()).toHaveValue('complete')
+    expect(queryButton('Save')).not.toBeInTheDocument()
+    const li = screen.getByRole('listitem')
+    expect(li).toHaveTextContent('Call back')
+    expect(li).toHaveTextContent('complete')
+    expect(queryButton('Edit')).toBeInTheDocument()
   })
 
-  it('follows the task prop when it changes', () => {
-    //A copy of the status in useState would keep showing the old one
-    const { rerender } = renderItem()
-    rerender({ ...TASK, status: 'open' })
-    expect(statusSelect()).toHaveValue('open')
+  it('starts the next edit from the saved values', async () => {
+    respond(true, 200, { ...TASK, title: 'Call back' })
+    render(<Harness initial={TASK} />)
+    click('Edit')
+    change(field.title(), 'Call back')
+    click('Save')
+    await flush()
+    click('Edit')
+    expect(field.title()).toHaveValue('Call back')
   })
+})
 
-  it('snaps back and shows the error when the server refuses', async () => {
-    respond(false, 403, { error: 'unauthorized access' })
+describe('TaskItem: a failed save (Step 9)', () => {
+  it('shows "Title cannot be left empty", keeps the form open, and keeps what you typed', async () => {
+    respond(false, 400, { error: 'Title cannot be left empty' })
     const { onUpdateTask } = renderItem()
-    change(statusSelect(), 'complete')
-    expect(await screen.findByText('unauthorized access')).toBeInTheDocument()
-    expect(statusSelect()).toHaveValue('in_progress')
+    click('Edit')
+    change(field.title(), '')
+    change(field.notes(), 'Keep me')
+    click('Save')
+    expect(await screen.findByText('Title cannot be left empty')).toBeInTheDocument()
+    expect(field.title()).toHaveValue('')
+    expect(field.notes()).toHaveValue('Keep me')
     expect(onUpdateTask).not.toHaveBeenCalled()
+  })
+
+  it('shows "Due date cannot be left empty" and keeps the form open', async () => {
+    respond(false, 400, { error: 'Due date cannot be left empty' })
+    renderItem()
+    click('Edit')
+    change(field.dueDate(), '')
+    click('Save')
+    expect(await screen.findByText('Due date cannot be left empty')).toBeInTheDocument()
+    expect(button('Save')).toBeInTheDocument()
+    expect(sentBody().due_date ?? '').toBe('')
   })
 
   it('shows "Something went wrong" when the failure has no body', async () => {
     respond(false, 500, null)
     renderItem()
-    change(statusSelect(), 'complete')
+    click('Edit')
+    click('Save')
     expect(await screen.findByText('Something went wrong')).toBeInTheDocument()
   })
 
-  it('clears the old error as soon as you change it again', async () => {
-    respond(false, 403, { error: 'unauthorized access' })
+  it('clears the old error as soon as you save again', async () => {
+    respond(false, 400, { error: 'Title cannot be left empty' })
     renderItem()
-    change(statusSelect(), 'complete')
-    await screen.findByText('unauthorized access')
+    click('Edit')
+    change(field.title(), '')
+    click('Save')
+    await screen.findByText('Title cannot be left empty')
 
     const request = deferred()
     apiFetch.mockReturnValue(request.promise)
-    change(statusSelect(), 'open')
+    change(field.title(), 'Call back')
+    click('Save')
     await flush()
-    expect(screen.queryByText('unauthorized access')).not.toBeInTheDocument()
-    await act(async () => request.resolve({ ok: true, status: 200, data: { ...TASK, status: 'open' } }))
+    expect(screen.queryByText('Title cannot be left empty')).not.toBeInTheDocument()
+    await act(async () => request.resolve({ ok: true, status: 200, data: TASK }))
   })
 })
 
-describe('TaskItem: the Assignee dropdown (Step 10)', () => {
-  it('is a <select> with the id task-assignee-<task id>', () => {
-    renderItem()
-    expect(assigneeSelect().tagName).toBe('SELECT')
-    expect(assigneeSelect()).toHaveAttribute('id', 'task-assignee-4')
-  })
-
-  it('has one option per user, showing the username, with the id as the value', () => {
-    renderItem()
-    const options = within(assigneeSelect()).getAllByRole('option')
-    expect(options.map(o => o.textContent)).toEqual(['admin', 'douglasmoore', 'tasha44'])
-    expect(options.map(o => o.value)).toEqual(['1', '3', '6'])
-  })
-
-  it('starts on the current assignee', () => {
-    renderItem()
-    expect(assigneeSelect()).toHaveValue('6')
-  })
-
-  it('PATCHes /tasks/:id with exactly { employee_id }', async () => {
-    respond(true, 200, { ...TASK, employee_id: 3, employee: { ...OTHER } })
-    renderItem()
-    change(assigneeSelect(), '3')
-    await flush()
-    expect(apiFetch).toHaveBeenCalledTimes(1)
-    const [path, options] = apiFetch.mock.calls[0]
-    expect(path).toBe('/tasks/4')
-    expect(options.method).toBe('PATCH')
-    const body = sentBody()
-    expect(Object.keys(body)).toEqual(['employee_id'])
-    expect(Number(body.employee_id)).toBe(3)
-  })
-
-  it('calls onUpdateTask once with the server\'s updated task', async () => {
-    const updated = { ...TASK, employee_id: 3, employee: { ...OTHER } }
-    respond(true, 200, updated)
+describe('TaskItem: Cancel (Step 9)', () => {
+  it('goes back to view mode without a request', () => {
     const { onUpdateTask } = renderItem()
-    change(assigneeSelect(), '3')
-    await flush()
-    expect(onUpdateTask).toHaveBeenCalledTimes(1)
-    expect(onUpdateTask).toHaveBeenCalledWith(updated)
-  })
-
-  it('follows the task prop when it changes', () => {
-    loginAs(ADMIN)
-    const { rerender } = renderItem()
-    rerender({ ...TASK, employee_id: 3, employee: { ...OTHER } })
-    expect(assigneeSelect()).toHaveValue('3')
-  })
-
-  it('snaps back and shows the error when the server refuses', async () => {
-    respond(false, 404, { error: 'User not found' })
-    const { onUpdateTask } = renderItem()
-    change(assigneeSelect(), '3')
-    expect(await screen.findByText('User not found')).toBeInTheDocument()
-    expect(assigneeSelect()).toHaveValue('6')
+    click('Edit')
+    change(field.title(), 'Something else')
+    click('Cancel')
+    expect(queryButton('Save')).not.toBeInTheDocument()
+    expect(screen.getByRole('listitem')).toHaveTextContent('Follow up call')
+    expect(apiFetch).not.toHaveBeenCalled()
     expect(onUpdateTask).not.toHaveBeenCalled()
   })
 
-  it('hands the task away: a non-admin loses the controls after reassigning it', async () => {
-    respond(true, 200, { ...TASK, employee_id: 3, employee: { ...OTHER } })
-    render(<Harness initial={TASK} />)
-    change(assigneeSelect(), '3')
-    await flush()
-    expect(queryStatus()).not.toBeInTheDocument()
-    expect(queryAssignee()).not.toBeInTheDocument()
-    expect(queryDelete()).not.toBeInTheDocument()
-    expect(screen.getByRole('listitem')).toHaveTextContent('douglasmoore')
+  it('throws the changes away, so the next edit starts from the task again', () => {
+    renderItem()
+    click('Edit')
+    change(field.title(), 'Something else')
+    change(field.status(), 'complete')
+    click('Cancel')
+    click('Edit')
+    expect(field.title()).toHaveValue('Follow up call')
+    expect(field.status()).toHaveValue('in_progress')
   })
 
-  it('an admin keeps the controls after reassigning', async () => {
-    loginAs(ADMIN)
-    respond(true, 200, { ...TASK, employee_id: 3, employee: { ...OTHER } })
-    render(<Harness initial={TASK} />)
-    change(assigneeSelect(), '3')
-    await flush()
-    expect(assigneeSelect()).toHaveValue('3')
-    expect(queryDelete()).toBeInTheDocument()
+  it('clears an error from a failed save', async () => {
+    respond(false, 400, { error: 'Title cannot be left empty' })
+    renderItem()
+    click('Edit')
+    change(field.title(), '')
+    click('Save')
+    await screen.findByText('Title cannot be left empty')
+    click('Cancel')
+    expect(screen.queryByText('Title cannot be left empty')).not.toBeInTheDocument()
   })
 })
 
-describe('TaskItem: Delete (Step 11)', () => {
+describe('TaskItem: reassigning hands the task away', () => {
+  it('a non-admin loses Edit and Delete after saving someone else as the assignee', async () => {
+    respond(true, 200, { ...TASK, employee_id: 3, employee: { ...OTHER } })
+    render(<Harness initial={TASK} />)
+    click('Edit')
+    change(field.assignee(), '3')
+    click('Save')
+    await flush()
+    expect(queryButton('Edit')).not.toBeInTheDocument()
+    expect(queryButton('Delete')).not.toBeInTheDocument()
+    expect(screen.getByRole('listitem')).toHaveTextContent('douglasmoore')
+  })
+
+  it('an admin keeps Edit and Delete after reassigning', async () => {
+    loginAs(ADMIN)
+    respond(true, 200, { ...TASK, employee_id: 3, employee: { ...OTHER } })
+    render(<Harness initial={TASK} />)
+    click('Edit')
+    change(field.assignee(), '3')
+    click('Save')
+    await flush()
+    expect(queryButton('Edit')).toBeInTheDocument()
+    expect(queryButton('Delete')).toBeInTheDocument()
+  })
+})
+
+describe('TaskItem: Delete (Step 10)', () => {
   it('sends DELETE /tasks/:id', async () => {
     respond(true, 204, null)
     renderItem()
-    fireEvent.click(queryDelete())
+    click('Delete')
     await flush()
     expect(apiFetch).toHaveBeenCalledTimes(1)
     const [path, options] = apiFetch.mock.calls[0]
@@ -342,7 +506,7 @@ describe('TaskItem: Delete (Step 11)', () => {
   it('calls onDeleteTask with the task id when it works (204 has no body)', async () => {
     respond(true, 204, null)
     const { onDeleteTask, onUpdateTask } = renderItem()
-    fireEvent.click(queryDelete())
+    click('Delete')
     await flush()
     expect(onDeleteTask).toHaveBeenCalledTimes(1)
     expect(onDeleteTask).toHaveBeenCalledWith(4)
@@ -352,56 +516,63 @@ describe('TaskItem: Delete (Step 11)', () => {
   it('shows no "Something went wrong" after a successful delete', async () => {
     respond(true, 204, null)
     renderItem()
-    fireEvent.click(queryDelete())
+    click('Delete')
     await flush()
     expect(screen.queryByText('Something went wrong')).not.toBeInTheDocument()
   })
 
-  it('shows the error and keeps the task when the server refuses', async () => {
+  it('shows the error in view mode and keeps the task when the server refuses', async () => {
     respond(false, 403, { error: 'unauthorized access' })
     const { onDeleteTask } = renderItem()
-    fireEvent.click(queryDelete())
+    click('Delete')
     expect(await screen.findByText('unauthorized access')).toBeInTheDocument()
     expect(onDeleteTask).not.toHaveBeenCalled()
+    expect(queryButton('Edit')).toBeInTheDocument()
   })
 
   it('shows "Something went wrong" when a failed delete has no body', async () => {
     respond(false, 500, null)
     renderItem()
-    fireEvent.click(queryDelete())
+    click('Delete')
     expect(await screen.findByText('Something went wrong')).toBeInTheDocument()
   })
 
-  it('is a plain button, not a form submit', () => {
+  it('clears a delete error when you start editing', async () => {
+    respond(false, 403, { error: 'unauthorized access' })
     renderItem()
-    expect(queryDelete()).toHaveAttribute('type', 'button')
+    click('Delete')
+    await screen.findByText('unauthorized access')
+    click('Edit')
+    expect(screen.queryByText('unauthorized access')).not.toBeInTheDocument()
   })
 })
 
 describe('TaskItem: more than one task on the page', () => {
-  it('gives every task\'s dropdowns their own ids', () => {
+  function renderTwo() {
     loginAs(ADMIN)
     render(
       <ul>
         <TaskItem task={TASK} users={USERS} onUpdateTask={vi.fn()} onDeleteTask={vi.fn()} />
-        <TaskItem task={{ ...TASK, id: 9 }} users={USERS} onUpdateTask={vi.fn()} onDeleteTask={vi.fn()} />
+        <TaskItem task={{ ...TASK, id: 9, title: 'Second task' }} users={USERS} onUpdateTask={vi.fn()} onDeleteTask={vi.fn()} />
       </ul>,
     )
-    const ids = screen.getAllByRole('combobox').map(select => select.id)
-    expect(ids.sort()).toEqual(['task-assignee-4', 'task-assignee-9', 'task-status-4', 'task-status-9'])
+    return screen.getAllByRole('listitem')
+  }
+
+  it('gives every task\'s edit fields their own ids', () => {
+    const [first, second] = renderTwo()
+    fireEvent.click(within(first).getByRole('button', { name: 'Edit' }))
+    fireEvent.click(within(second).getByRole('button', { name: 'Edit' }))
+    const ids = [...document.querySelectorAll('input, select, textarea')].map(el => el.id)
+    expect(new Set(ids).size).toBe(ids.length)
+    expect(ids).toHaveLength(10)
   })
 
-  it('PATCHes the task whose dropdown changed', async () => {
-    loginAs(ADMIN)
-    respond(true, 200, { ...TASK, id: 9, status: 'complete' })
-    render(
-      <ul>
-        <TaskItem task={TASK} users={USERS} onUpdateTask={vi.fn()} onDeleteTask={vi.fn()} />
-        <TaskItem task={{ ...TASK, id: 9 }} users={USERS} onUpdateTask={vi.fn()} onDeleteTask={vi.fn()} />
-      </ul>,
-    )
-    const [, second] = screen.getAllByRole('listitem')
-    change(within(second).getByLabelText('Status'), 'complete')
+  it('PATCHes the task whose form was saved', async () => {
+    respond(true, 200, { ...TASK, id: 9 })
+    const [, second] = renderTwo()
+    fireEvent.click(within(second).getByRole('button', { name: 'Edit' }))
+    fireEvent.click(within(second).getByRole('button', { name: 'Save' }))
     await flush()
     expect(apiFetch.mock.calls[0][0]).toBe('/tasks/9')
   })
