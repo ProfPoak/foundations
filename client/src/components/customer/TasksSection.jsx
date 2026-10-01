@@ -30,7 +30,7 @@ function TasksSection({ customerId }) {
     <section>
       <h2>Tasks</h2>
       <ErrorMessage errors={usersErrors}/>
-      <TaskForm />
+      <TaskForm customerId={customerId} users={users} onAddTask={addItem} />
       <ListStatus loading={loading} errors={errors} isEmpty={tasks.length === 0} emptyMessage="No tasks yet">
         <ul>
           {tasks.map(task => (
