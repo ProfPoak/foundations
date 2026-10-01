@@ -5,7 +5,7 @@ import ErrorMessage from "../shared/ErrorMessage"
 function TaskForm({ customerId, users, onAddTask }) {
   const { user } = useAuth()
 
-  const INITIAL = {
+  const initial = {
     'title': '',
     'employee_id': user.id,
     'due_date': '',
@@ -13,7 +13,7 @@ function TaskForm({ customerId, users, onAddTask }) {
   }
 
   const { formData, errors, handleChange, handleSubmit } = useApiForm({
-    initial: INITIAL,
+    initial: initial,
     path: `/customers/${customerId}/tasks`,
     method: 'POST',
     onSuccess: onAddTask,
