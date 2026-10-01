@@ -1,5 +1,5 @@
 import CustomerRow from "./CustomerRow"
-import styles from "./CustomerResults.module.css"
+import styles from "../../styles/home/CustomerResults.module.css"
 
 function CustomerResults({ customers }) {
   if(customers.length === 0) {

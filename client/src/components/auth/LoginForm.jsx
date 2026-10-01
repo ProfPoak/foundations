@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router"
 import { useAuth } from "../../context/AuthContext"
 import ErrorMessage from "../shared/ErrorMessage"
-import styles from "./AuthForm.module.css"
+import styles from "../../styles/auth/AuthForm.module.css"
 
 function LoginForm() {
   const { login } = useAuth()

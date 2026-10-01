@@ -1,5 +1,5 @@
 import ErrorMessage from './ErrorMessage'
-import styles from './ListStatus.module.css'
+import styles from '../../styles/shared/ListStatus.module.css'
 
 // Props: loading, errors, isEmpty, emptyMessage, children (the list itself)
 //Shows exactly one of: Loading, the errors, the empty message, or the list

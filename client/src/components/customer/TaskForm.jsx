@@ -1,7 +1,7 @@
 import { useAuth } from "../../context/AuthContext"
 import { useApiForm } from "../../hooks/useApiForm"
 import ErrorMessage from "../shared/ErrorMessage"
-import styles from "./ItemForm.module.css"
+import styles from "../../styles/customer/ItemForm.module.css"
 
 function TaskForm({ customerId, users, onAddTask }) {
   const { user } = useAuth()

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router'
 import { apiFetch } from '../api.js'
 import CustomerForm from '../components/newCustomer/CustomerForm'
 import ErrorMessage from '../components/shared/ErrorMessage.jsx'
-import pageStyles from './Page.module.css'
+import pageStyles from '../styles/pages/Page.module.css'
 
 function NewCustomerPage() {
   const navigate = useNavigate()

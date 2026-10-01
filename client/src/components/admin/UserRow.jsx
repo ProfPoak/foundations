@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { apiFetch } from '../../api.js'
 import ErrorMessage from '../shared/ErrorMessage.jsx'
-import styles from './UserRow.module.css'
+import styles from '../../styles/admin/UserRow.module.css'
 
 function UserRow({ user, onDeleteUser }) {
   const { user: currentUser } = useAuth()

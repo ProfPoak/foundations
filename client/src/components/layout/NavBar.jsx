@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from 'react-router'
 import { useAuth } from '../../context/AuthContext'
-import styles from './NavBar.module.css'
+import styles from '../../styles/layout/NavBar.module.css'
 
 //NavLink passes isActive, so the current page's link also gets styles.active
 function linkClass({ isActive }) {

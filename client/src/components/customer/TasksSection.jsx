@@ -3,7 +3,7 @@ import { useCustomerList } from '../../hooks/useCustomerList'
 import { apiFetch } from '../../api'
 import ErrorMessage from '../shared/ErrorMessage'
 import ListStatus from '../shared/ListStatus'
-import styles from './Section.module.css'
+import styles from '../../styles/customer/Section.module.css'
 import TaskItem from './TaskItem'
 import TaskForm from './TaskForm'
 

@@ -1,6 +1,6 @@
 import { useApiForm } from "../../hooks/useApiForm"
 import ErrorMessage from "../shared/ErrorMessage"
-import styles from "./ItemForm.module.css"
+import styles from "../../styles/customer/ItemForm.module.css"
 
 const INITIAL = {
   'content': ''

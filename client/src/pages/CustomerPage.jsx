@@ -6,8 +6,8 @@ import CustomerDetails from '../components/customer/CustomerDetails'
 import EventsSection from '../components/customer/EventsSection'
 import NotesSection from '../components/customer/NotesSection'
 import TasksSection from '../components/customer/TasksSection'
-import pageStyles from './Page.module.css'
-import styles from './CustomerPage.module.css'
+import pageStyles from '../styles/pages/Page.module.css'
+import styles from '../styles/pages/CustomerPage.module.css'
 
 function CustomerPage() {
   const { id } = useParams()

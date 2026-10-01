@@ -1,4 +1,4 @@
-import styles from './ErrorMessage.module.css'
+import styles from '../../styles/shared/ErrorMessage.module.css'
 
 // Props: errors (API error body: {error}, {errors: [...]}, or {errors: {field: [...]}})
 function toMessages(errors) {

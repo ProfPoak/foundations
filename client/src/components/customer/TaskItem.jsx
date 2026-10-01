@@ -4,8 +4,8 @@ import { useApiForm } from '../../hooks/useApiForm'
 import { apiFetch } from "../../api"
 import ErrorMessage from "../shared/ErrorMessage"
 import { TASK_STATUSES } from "../../constants"
-import styles from "./Item.module.css"
-import formStyles from "./ItemForm.module.css"
+import styles from "../../styles/customer/Item.module.css"
+import formStyles from "../../styles/customer/ItemForm.module.css"
 
 function TaskItem({ task, users, onUpdateTask, onDeleteTask }) {
   const { user } = useAuth()

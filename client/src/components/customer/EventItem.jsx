@@ -1,4 +1,4 @@
-import styles from './Item.module.css'
+import styles from '../../styles/customer/Item.module.css'
 
 function EventItem({ event }) {
   return (

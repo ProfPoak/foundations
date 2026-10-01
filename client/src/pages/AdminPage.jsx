@@ -2,8 +2,8 @@ import { useState, useEffect } from "react"
 import { apiFetch } from "../api"
 import ListStatus from '../components/shared/ListStatus'
 import UserRow from "../components/admin/UserRow"
-import pageStyles from './Page.module.css'
-import styles from './AdminPage.module.css'
+import pageStyles from '../styles/pages/Page.module.css'
+import styles from '../styles/pages/AdminPage.module.css'
 
 function AdminPage() {
   const [users, setUsers] = useState([])

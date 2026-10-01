@@ -1,5 +1,5 @@
 import { Link } from 'react-router'
-import styles from './CustomerRow.module.css'
+import styles from '../../styles/home/CustomerRow.module.css'
 
 function CustomerRow({ customer }) {
   return (

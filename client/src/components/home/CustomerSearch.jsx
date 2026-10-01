@@ -1,4 +1,4 @@
-import styles from './CustomerSearch.module.css'
+import styles from '../../styles/home/CustomerSearch.module.css'
 
 // Props: search, onSearchChange
 function CustomerSearch({ search, onSearchChange }) {

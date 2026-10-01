@@ -4,8 +4,8 @@ import ErrorMessage from '../components/shared/ErrorMessage'
 import CustomerSearch from '../components/home/CustomerSearch'
 import NewCustomerButton from '../components/home/NewCustomerButton'
 import CustomerResults from '../components/home/CustomerResults'
-import pageStyles from './Page.module.css'
-import styles from './HomePage.module.css'
+import pageStyles from '../styles/pages/Page.module.css'
+import styles from '../styles/pages/HomePage.module.css'
 
 function HomePage() {
   const [customers, setCustomers] = useState([])

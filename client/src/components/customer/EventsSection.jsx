@@ -1,6 +1,6 @@
 import { useCustomerList } from '../../hooks/useCustomerList'
 import ListStatus from '../shared/ListStatus'
-import styles from './Section.module.css'
+import styles from '../../styles/customer/Section.module.css'
 import EventItem from './EventItem'
 import EventForm from './EventForm'
 

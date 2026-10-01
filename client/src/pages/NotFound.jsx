@@ -1,4 +1,4 @@
-import pageStyles from './Page.module.css'
+import pageStyles from '../styles/pages/Page.module.css'
 
 function NotFound() {
   return (

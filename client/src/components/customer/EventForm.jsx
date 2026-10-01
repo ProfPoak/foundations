@@ -1,7 +1,7 @@
 import { useApiForm } from '../../hooks/useApiForm'
 import { INTERACTIONS } from '../../constants'
 import ErrorMessage from '../shared/ErrorMessage'
-import styles from './ItemForm.module.css'
+import styles from '../../styles/customer/ItemForm.module.css'
 
 const INITIAL = {
   'interaction': INTERACTIONS[0],

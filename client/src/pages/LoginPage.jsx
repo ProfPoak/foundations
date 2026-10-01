@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router'
 import { useAuth } from '../context/AuthContext'
 import LoginForm from '../components/auth/LoginForm'
-import pageStyles from './Page.module.css'
+import pageStyles from '../styles/pages/Page.module.css'
 
 function LoginPage() {
   const { user } = useAuth()

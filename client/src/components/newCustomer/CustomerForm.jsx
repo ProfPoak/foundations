@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { CUSTOMER_STATUSES } from "../../constants"
-import styles from "./CustomerForm.module.css"
+import styles from "../../styles/newCustomer/CustomerForm.module.css"
 
 const INITIAL = {
   'first_name': '',

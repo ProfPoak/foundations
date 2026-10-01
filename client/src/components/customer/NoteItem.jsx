@@ -3,8 +3,8 @@ import { apiFetch } from "../../api"
 import { useAuth } from '../../context/AuthContext'
 import { useApiForm } from "../../hooks/useApiForm"
 import ErrorMessage from "../shared/ErrorMessage"
-import styles from "./Item.module.css"
-import formStyles from "./ItemForm.module.css"
+import styles from "../../styles/customer/Item.module.css"
+import formStyles from "../../styles/customer/ItemForm.module.css"
 
 function NoteItem({ note, onUpdateNote, onDeleteNote }) {
   const { user } = useAuth()
