@@ -66,8 +66,7 @@ function NoteItem({ note, onUpdateNote, onDeleteNote }) {
       )}
       <ErrorMessage errors={errors} />
     </li>
-)
-
+  )
 }
 
 export default NoteItem
