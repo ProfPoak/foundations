@@ -16,24 +16,20 @@ function NavBar() {
     navigate('/login')
   }
 
+  //Logged out, there's nowhere to go but Login and Signup, and their cards link to each other
+  if (!user) {
+    return null
+  }
+
   return (
     <nav className={styles.nav}>
       <div className={styles.links}>
         <NavLink to="/" className={linkClass}>Home</NavLink>
-        {user?.is_admin && <NavLink to="/admin" className={linkClass}>Admin Portal</NavLink>}
+        {user.is_admin && <NavLink to="/admin" className={linkClass}>Admin Portal</NavLink>}
       </div>
       <div className={styles.account}>
-        { user ? (
-          <>
-            <span className={styles.user}>Logged in as {user.username}</span>
-            <button className={styles.logout} onClick={handleLogout}>Logout</button>
-          </>
-        ) : (
-          <>
-            <NavLink to="/login" className={linkClass}>Login</NavLink>
-            <NavLink to="/signup" className={linkClass}>Signup</NavLink>
-          </>
-        )}
+        <span className={styles.user}>Logged in as {user.username}</span>
+        <button className={styles.logout} onClick={handleLogout}>Logout</button>
       </div>
     </nav>
   )

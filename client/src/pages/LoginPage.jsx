@@ -11,7 +11,7 @@ function LoginPage() {
   }
 
   return (
-    <div className={pageStyles.page}>
+    <div className={`${pageStyles.page} ${pageStyles.centered}`}>
       <h1 className={pageStyles.title}>Login</h1>
       <LoginForm />
     </div>

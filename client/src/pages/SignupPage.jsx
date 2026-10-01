@@ -11,7 +11,7 @@ function SignupPage() {
   }
 
   return (
-    <div className={pageStyles.page}>
+    <div className={`${pageStyles.page} ${pageStyles.centered}`}>
       <h1 className={pageStyles.title}>Signup</h1>
       <SignupForm />
     </div>

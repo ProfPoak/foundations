@@ -1,4 +1,4 @@
-/* Top navigation bar */
+/* Top navigation bar. Only shown when someone is logged in */
 
 /* <nav>: the whole bar. Full width, white, stays at the top while you scroll.
    The side padding lines its contents up with the 960px content column below */
@@ -24,7 +24,7 @@
   gap: var(--space-sm);
 }
 
-/* right group: "Logged in as", Logout / Login, Signup */
+/* right group: "Logged in as" and Logout */
 .account {
   display: flex;
   flex-direction: row;

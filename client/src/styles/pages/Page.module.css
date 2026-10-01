@@ -17,3 +17,9 @@
   margin: 0;
   color: var(--color-muted);
 }
+
+/* add with .page to centre everything on the page (Login, Signup) */
+.centered {
+  align-items: center;
+  padding-top: var(--space-lg);
+}
