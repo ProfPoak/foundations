@@ -2,20 +2,63 @@
 
 /* <li> */
 .row {
+  /* display: flex; */
+  /* flex-wrap: wrap; */
+  /* align-items: ; */
+  /* gap: ; */
+  /* padding: ; */
+  /* border-bottom: ; */
+  /* background: ; */
+  /* border-radius: ; */
 }
 
 /* "Username: …" */
 .username {
+  /* font-size: ; */
+  /* font-weight: ; */
+  /* color: ; */
+  /* line-height: ; */
+  /* margin: ; */
 }
 
 /* "Id: …" */
 .id {
+  /* font-size: ; */
+  /* font-weight: ; */
+  /* color: ; */
+  /* line-height: ; */
+  /* margin: ; */
 }
 
 /* "Admin" badge */
 .badge {
+  /* display: inline-block; */
+  /* padding: ; */
+  /* border-radius: ; */
+  /* background: ; */
+  /* color: ; */
+  /* font-size: ; */
+  /* font-weight: ; */
 }
 
 /* Delete button */
 .delete {
+  /* padding: ; */
+  /* border: ; */
+  /* border-radius: ; */
+  /* background: ; */
+  /* color: ; */
+  /* font-weight: ; */
+  /* cursor: pointer; */
+}
+
+.delete:hover {
+  /* background: ; */
+  /* color: ; */
+  /* text-decoration: ; */
+}
+
+.delete:focus-visible {
+  /* outline: ; */
+  /* border-color: ; */
 }

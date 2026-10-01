@@ -2,28 +2,95 @@
 
 /* <li> */
 .item {
+  /* display: flex; */
+  /* flex-wrap: wrap; */
+  /* align-items: ; */
+  /* gap: ; */
+  /* padding: ; */
+  /* border-bottom: ; */
+  /* background: ; */
+  /* border-radius: ; */
 }
 
 /* main line: interaction / task title */
 .title {
+  /* font-size: ; */
+  /* font-weight: ; */
+  /* color: ; */
+  /* line-height: ; */
+  /* margin: ; */
 }
 
 /* small grey line: who, when, due date, status */
 .meta {
+  /* font-size: ; */
+  /* font-weight: ; */
+  /* color: ; */
+  /* line-height: ; */
+  /* margin: ; */
 }
 
 /* free text: event notes, note content, task notes */
 .body {
+  /* font-size: ; */
+  /* font-weight: ; */
+  /* color: ; */
+  /* line-height: ; */
+  /* margin: ; */
+  /* white-space: pre-line; */
 }
 
 /* Edit / Delete row */
 .actions {
+  /* display: flex; */
+  /* flex-direction: row; */
+  /* align-items: ; */
+  /* justify-content: ; */
+  /* gap: ; */
+  /* padding: ; */
+  /* margin: ; */
 }
 
 /* Edit button */
 .edit {
+  /* padding: ; */
+  /* border: ; */
+  /* border-radius: ; */
+  /* background: ; */
+  /* color: ; */
+  /* font-weight: ; */
+  /* cursor: pointer; */
+}
+
+.edit:hover {
+  /* background: ; */
+  /* color: ; */
+  /* text-decoration: ; */
+}
+
+.edit:focus-visible {
+  /* outline: ; */
+  /* border-color: ; */
 }
 
 /* Delete button */
 .delete {
+  /* padding: ; */
+  /* border: ; */
+  /* border-radius: ; */
+  /* background: ; */
+  /* color: ; */
+  /* font-weight: ; */
+  /* cursor: pointer; */
+}
+
+.delete:hover {
+  /* background: ; */
+  /* color: ; */
+  /* text-decoration: ; */
+}
+
+.delete:focus-visible {
+  /* outline: ; */
+  /* border-color: ; */
 }

@@ -1,10 +1,34 @@
 /* Global styles: theme tokens and the few rules every page shares.
-   Component styles live in each component's .module.css */
+   Component styles live in each component's .module.css.
+   Define a token here once, then use it anywhere: color: var(--color-text); */
 
 :root {
   /* Colours */
+  /* --color-text: ; */
+  /* --color-muted: ;        meta lines, labels */
+  /* --color-background: ;   page */
+  /* --color-surface: ;      cards, sections */
+  /* --color-border: ; */
+  /* --color-primary: ;      main buttons, links */
+  /* --color-primary-text: ; text on primary buttons */
+  /* --color-danger: ;       Delete, errors */
+
   /* Spacing */
+  /* --space-xs: ; */
+  /* --space-sm: ; */
+  /* --space-md: ; */
+  /* --space-lg: ; */
+
+  /* Shape */
+  /* --radius: ; */
+  /* --shadow: ; */
+
   /* Type */
+  /* --font-body: ; */
+  /* --font-size-sm: ; */
+  /* --font-size-base: ; */
+  /* --font-size-lg: ; */
+  /* --font-size-xl: ; */
 }
 
 *,
@@ -15,6 +39,11 @@
 
 body {
   margin: 0;
+  /* font-family: ; */
+  /* font-size: ; */
+  /* line-height: ; */
+  /* color: ; */
+  /* background: ; */
 }
 
 /* Form controls don't inherit the page font by default */
@@ -23,4 +52,24 @@ input,
 select,
 textarea {
   font: inherit;
+}
+
+/* Headings: default sizes for every page */
+h1 {
+  /* font-size: ; */
+  /* margin: ; */
+}
+
+h2 {
+  /* font-size: ; */
+  /* margin: ; */
+}
+
+h3 {
+  /* font-size: ; */
+  /* margin: ; */
+}
+
+a {
+  /* color: ; */
 }

@@ -2,16 +2,43 @@
 
 /* <li> */
 .row {
+  /* display: flex; */
+  /* flex-wrap: wrap; */
+  /* align-items: ; */
+  /* gap: ; */
+  /* padding: ; */
+  /* border-bottom: ; */
+  /* background: ; */
+  /* border-radius: ; */
 }
 
 /* name link */
 .name {
+  /* color: ; */
+  /* text-decoration: ; */
+  /* font-weight: ; */
+}
+
+.name:hover {
+  /* background: ; */
+  /* color: ; */
+  /* text-decoration: ; */
 }
 
 /* "Status: …" */
 .status {
+  /* font-size: ; */
+  /* font-weight: ; */
+  /* color: ; */
+  /* line-height: ; */
+  /* margin: ; */
 }
 
 /* "Phone: …" */
 .phone {
+  /* font-size: ; */
+  /* font-weight: ; */
+  /* color: ; */
+  /* line-height: ; */
+  /* margin: ; */
 }

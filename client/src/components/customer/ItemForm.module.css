@@ -2,28 +2,107 @@
 
 /* <form> */
 .form {
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: ; */
+  /* justify-content: ; */
+  /* gap: ; */
+  /* padding: ; */
+  /* margin: ; */
+  /* background: ; */
+  /* border: ; */
+  /* border-radius: ; */
+  /* box-shadow: ; */
+  /* max-width: ; */
+  /* width: ; */
 }
 
 /* one label + input pair */
 .field {
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: ; */
+  /* justify-content: ; */
+  /* gap: ; */
+  /* padding: ; */
+  /* margin: ; */
 }
 
 /* <label> */
 .label {
+  /* font-size: ; */
+  /* font-weight: ; */
+  /* color: ; */
+  /* line-height: ; */
+  /* margin: ; */
 }
 
 /* <input> / <select> / <textarea> */
 .input {
+  /* width: 100%; */
+  /* padding: ; */
+  /* border: ; */
+  /* border-radius: ; */
+  /* background: ; */
+  /* color: ; */
+}
+
+.input:focus {
+  /* outline: ; */
+  /* border-color: ; */
 }
 
 /* button row */
 .actions {
+  /* display: flex; */
+  /* flex-direction: row; */
+  /* align-items: ; */
+  /* justify-content: ; */
+  /* gap: ; */
+  /* padding: ; */
+  /* margin: ; */
 }
 
 /* Log Event / Add Note / Add Task / Save */
 .submit {
+  /* padding: ; */
+  /* border: ; */
+  /* border-radius: ; */
+  /* background: ; */
+  /* color: ; */
+  /* font-weight: ; */
+  /* cursor: pointer; */
+}
+
+.submit:hover {
+  /* background: ; */
+  /* color: ; */
+  /* text-decoration: ; */
+}
+
+.submit:focus-visible {
+  /* outline: ; */
+  /* border-color: ; */
 }
 
 /* Cancel */
 .cancel {
+  /* padding: ; */
+  /* border: ; */
+  /* border-radius: ; */
+  /* background: ; */
+  /* color: ; */
+  /* font-weight: ; */
+  /* cursor: pointer; */
+}
+
+.cancel:hover {
+  /* background: ; */
+  /* color: ; */
+  /* text-decoration: ; */
+}
+
+.cancel:focus-visible {
+  /* outline: ; */
+  /* border-color: ; */
 }

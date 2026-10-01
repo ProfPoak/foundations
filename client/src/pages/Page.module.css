@@ -2,12 +2,31 @@
 
 /* outer wrapper of each page */
 .page {
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: ; */
+  /* justify-content: ; */
+  /* gap: ; */
+  /* padding: ; */
+  /* margin: ; */
+  /* max-width: ; */
+  /* width: ; */
 }
 
 /* the page <h1> */
 .title {
+  /* font-size: ; */
+  /* font-weight: ; */
+  /* color: ; */
+  /* line-height: ; */
+  /* margin: ; */
 }
 
 /* single-line states: Loading, "Customer not found", etc. */
 .message {
+  /* font-size: ; */
+  /* font-weight: ; */
+  /* color: ; */
+  /* line-height: ; */
+  /* margin: ; */
 }

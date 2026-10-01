@@ -2,8 +2,21 @@
 
 /* wrapper around the Events, Notes and Tasks sections */
 .sections {
+  /* display: grid; */
+  /* grid-template-columns: ; */
+  /* gap: ; */
+  /* margin: ; */
 }
 
 /* "Back" link on the not-found screen */
 .back {
+  /* color: ; */
+  /* text-decoration: ; */
+  /* font-weight: ; */
+}
+
+.back:hover {
+  /* background: ; */
+  /* color: ; */
+  /* text-decoration: ; */
 }

@@ -2,12 +2,36 @@
 
 /* <section> card */
 .section {
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: ; */
+  /* justify-content: ; */
+  /* gap: ; */
+  /* padding: ; */
+  /* margin: ; */
+  /* background: ; */
+  /* border: ; */
+  /* border-radius: ; */
+  /* box-shadow: ; */
+  /* max-width: ; */
+  /* width: ; */
 }
 
 /* <h2> */
 .heading {
+  /* font-size: ; */
+  /* font-weight: ; */
+  /* color: ; */
+  /* line-height: ; */
+  /* margin: ; */
 }
 
 /* <ul> of items */
 .list {
+  /* list-style: none; */
+  /* padding: 0; */
+  /* margin: 0; */
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* gap: ; */
 }

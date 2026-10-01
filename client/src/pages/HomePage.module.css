@@ -2,8 +2,22 @@
 
 /* row holding the <h1> and the New Customer button */
 .header {
+  /* display: flex; */
+  /* flex-direction: row; */
+  /* align-items: ; */
+  /* justify-content: ; */
+  /* gap: ; */
+  /* padding: ; */
+  /* margin: ; */
 }
 
 /* row holding the search box */
 .toolbar {
+  /* display: flex; */
+  /* flex-direction: row; */
+  /* align-items: ; */
+  /* justify-content: ; */
+  /* gap: ; */
+  /* padding: ; */
+  /* margin: ; */
 }

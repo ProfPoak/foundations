@@ -2,28 +2,89 @@
 
 /* <nav>: the whole bar */
 .nav {
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: ; */
+  /* justify-content: ; */
+  /* gap: ; */
+  /* padding: ; */
+  /* flex-direction: row; */
+  /* background: ; */
+  /* border: ; */
+  /* position: sticky; */
+  /* top: 0; */
 }
 
 /* left group: Home, Admin Portal */
 .links {
+  /* display: flex; */
+  /* flex-direction: row; */
+  /* align-items: ; */
+  /* justify-content: ; */
+  /* gap: ; */
+  /* padding: ; */
+  /* margin: ; */
 }
 
 /* right group: "Logged in as", Logout / Login, Signup */
 .account {
+  /* display: flex; */
+  /* flex-direction: row; */
+  /* align-items: ; */
+  /* justify-content: ; */
+  /* gap: ; */
+  /* padding: ; */
+  /* margin: ; */
 }
 
 /* every NavLink */
 .link {
+  /* color: ; */
+  /* text-decoration: ; */
+  /* font-weight: ; */
+}
+
+.link:hover {
+  /* background: ; */
+  /* color: ; */
+  /* text-decoration: ; */
 }
 
 /* added to the NavLink for the current page */
 .active {
+  /* color: ; */
+  /* text-decoration: ; */
+  /* font-weight: ; */
+  /* border-bottom: ; */
 }
 
 /* "Logged in as <username>" */
 .user {
+  /* font-size: ; */
+  /* font-weight: ; */
+  /* color: ; */
+  /* line-height: ; */
+  /* margin: ; */
 }
 
 /* Logout button */
 .logout {
+  /* padding: ; */
+  /* border: ; */
+  /* border-radius: ; */
+  /* background: ; */
+  /* color: ; */
+  /* font-weight: ; */
+  /* cursor: pointer; */
+}
+
+.logout:hover {
+  /* background: ; */
+  /* color: ; */
+  /* text-decoration: ; */
+}
+
+.logout:focus-visible {
+  /* outline: ; */
+  /* border-color: ; */
 }

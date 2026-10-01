@@ -2,4 +2,24 @@
 
 /* the <Link> */
 .button {
+  /* display: inline-block; */
+  /* padding: ; */
+  /* border: ; */
+  /* border-radius: ; */
+  /* background: ; */
+  /* color: ; */
+  /* font-weight: ; */
+  /* cursor: pointer; */
+  /* text-decoration: none; */
+}
+
+.button:hover {
+  /* background: ; */
+  /* color: ; */
+  /* text-decoration: ; */
+}
+
+.button:focus-visible {
+  /* outline: ; */
+  /* border-color: ; */
 }

@@ -2,28 +2,104 @@
 
 /* <section> around the form */
 .card {
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: ; */
+  /* justify-content: ; */
+  /* gap: ; */
+  /* padding: ; */
+  /* margin: ; */
+  /* background: ; */
+  /* border: ; */
+  /* border-radius: ; */
+  /* box-shadow: ; */
+  /* max-width: ; */
+  /* width: ; */
 }
 
 /* <form> */
 .form {
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: ; */
+  /* justify-content: ; */
+  /* gap: ; */
+  /* padding: ; */
+  /* margin: ; */
+  /* background: ; */
+  /* border: ; */
+  /* border-radius: ; */
+  /* box-shadow: ; */
+  /* max-width: ; */
+  /* width: ; */
 }
 
 /* one label + input pair */
 .field {
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: ; */
+  /* justify-content: ; */
+  /* gap: ; */
+  /* padding: ; */
+  /* margin: ; */
 }
 
 /* <label> */
 .label {
+  /* font-size: ; */
+  /* font-weight: ; */
+  /* color: ; */
+  /* line-height: ; */
+  /* margin: ; */
 }
 
 /* <input> */
 .input {
+  /* width: 100%; */
+  /* padding: ; */
+  /* border: ; */
+  /* border-radius: ; */
+  /* background: ; */
+  /* color: ; */
+}
+
+.input:focus {
+  /* outline: ; */
+  /* border-color: ; */
 }
 
 /* Log in / Signup button */
 .submit {
+  /* padding: ; */
+  /* border: ; */
+  /* border-radius: ; */
+  /* background: ; */
+  /* color: ; */
+  /* font-weight: ; */
+  /* cursor: pointer; */
+}
+
+.submit:hover {
+  /* background: ; */
+  /* color: ; */
+  /* text-decoration: ; */
+}
+
+.submit:focus-visible {
+  /* outline: ; */
+  /* border-color: ; */
 }
 
 /* link to the other form (Sign Up / Login) */
 .switch {
+  /* color: ; */
+  /* text-decoration: ; */
+  /* font-weight: ; */
+}
+
+.switch:hover {
+  /* background: ; */
+  /* color: ; */
+  /* text-decoration: ; */
 }
