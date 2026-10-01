@@ -6,6 +6,8 @@ import CustomerDetails from '../components/customer/CustomerDetails'
 import EventsSection from '../components/customer/EventsSection'
 import NotesSection from '../components/customer/NotesSection'
 import TasksSection from '../components/customer/TasksSection'
+import pageStyles from './Page.module.css'
+import styles from './CustomerPage.module.css'
 
 function CustomerPage() {
   const { id } = useParams()
@@ -39,24 +41,26 @@ function CustomerPage() {
     getCustomer(id)
   }, [id])
   
-  if(loading) {return <p>Loading...</p>}
+  if(loading) {return <p className={pageStyles.message}>Loading...</p>}
 
   if(notFound) { 
     return (
-      <>
-        <p>Customer not found</p>
-        <Link to='/'>Back</Link>
-      </>
+      <div className={pageStyles.page}>
+        <p className={pageStyles.message}>Customer not found</p>
+        <Link to='/' className={styles.back}>Back</Link>
+      </div>
   )}
 
   if(errors) {return <ErrorMessage errors={errors} />}
   return (
-    <>
+    <div className={pageStyles.page}>
       <CustomerDetails customer={customer} onUpdate={setCustomer}/>
-      <EventsSection customerId={id} />
-      <NotesSection customerId={id} />
-      <TasksSection customerId={id} />
-    </>
+      <div className={styles.sections}>
+        <EventsSection customerId={id} />
+        <NotesSection customerId={id} />
+        <TasksSection customerId={id} />
+      </div>
+    </div>
   )
 }
 

@@ -3,6 +3,7 @@ import { useCustomerList } from '../../hooks/useCustomerList'
 import { apiFetch } from '../../api'
 import ErrorMessage from '../shared/ErrorMessage'
 import ListStatus from '../shared/ListStatus'
+import styles from './Section.module.css'
 import TaskItem from './TaskItem'
 import TaskForm from './TaskForm'
 
@@ -27,12 +28,12 @@ function TasksSection({ customerId }) {
   }, [])
 
   return (
-    <section>
-      <h2>Tasks</h2>
+    <section className={styles.section}>
+      <h2 className={styles.heading}>Tasks</h2>
       <ErrorMessage errors={usersErrors}/>
       <TaskForm customerId={customerId} users={users} onAddTask={addItem} />
       <ListStatus loading={loading} errors={errors} isEmpty={tasks.length === 0} emptyMessage="No tasks yet">
-        <ul>
+        <ul className={styles.list}>
           {tasks.map(task => (
             <TaskItem key={task.id} task={task} onUpdateTask={updateItem} onDeleteTask={removeItem} users={users} />
           ))}

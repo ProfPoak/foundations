@@ -1,0 +1,49 @@
+/* Customer details card (view and edit mode) */
+
+/* <section> wrapper */
+.card {
+}
+
+/* row holding the name and the edit button */
+.header {
+}
+
+/* customer name <h1> */
+.title {
+}
+
+/* pencil "Edit customer" button */
+.editButton {
+}
+
+/* <dl> of fields */
+.details {
+}
+
+/* <div> holding one <dt> + <dd> */
+.row {
+}
+
+/* <dt>: field name */
+.term {
+}
+
+/* <dd>: field value */
+.value {
+}
+
+/* edit-mode <form> */
+.form {
+}
+
+/* edit-mode inputs, select, textarea */
+.input {
+}
+
+/* Save / Cancel row */
+.actions {
+}
+
+/* Save and Cancel */
+.button {
+}

@@ -1,0 +1,26 @@
+/* Global styles: theme tokens and the few rules every page shares.
+   Component styles live in each component's .module.css */
+
+:root {
+  /* Colours */
+  /* Spacing */
+  /* Type */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Form controls don't inherit the page font by default */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}

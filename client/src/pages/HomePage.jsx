@@ -4,6 +4,8 @@ import ErrorMessage from '../components/shared/ErrorMessage'
 import CustomerSearch from '../components/home/CustomerSearch'
 import NewCustomerButton from '../components/home/NewCustomerButton'
 import CustomerResults from '../components/home/CustomerResults'
+import pageStyles from './Page.module.css'
+import styles from './HomePage.module.css'
 
 function HomePage() {
   const [customers, setCustomers] = useState([])
@@ -27,7 +29,7 @@ function HomePage() {
   },[])
 
   if(loading) {
-    return <p>Loading...</p>
+    return <p className={pageStyles.message}>Loading...</p>
   }
 
   if(errors) {
@@ -40,12 +42,16 @@ function HomePage() {
   })
   
   return (
-    <>
-      <h1>Customers</h1>
-      <CustomerSearch search={search} onSearchChange={setSearch}/>
-      <NewCustomerButton />
+    <div className={pageStyles.page}>
+      <div className={styles.header}>
+        <h1 className={pageStyles.title}>Customers</h1>
+        <NewCustomerButton />
+      </div>
+      <div className={styles.toolbar}>
+        <CustomerSearch search={search} onSearchChange={setSearch}/>
+      </div>
       <CustomerResults customers={visible}/>
-    </>
+    </div>
   )
 }
 

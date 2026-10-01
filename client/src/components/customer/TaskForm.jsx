@@ -1,6 +1,7 @@
 import { useAuth } from "../../context/AuthContext"
 import { useApiForm } from "../../hooks/useApiForm"
 import ErrorMessage from "../shared/ErrorMessage"
+import styles from "./ItemForm.module.css"
 
 function TaskForm({ customerId, users, onAddTask }) {
   const { user } = useAuth()
@@ -21,24 +22,34 @@ function TaskForm({ customerId, users, onAddTask }) {
   })
   
   return (
-    <form onSubmit={handleSubmit} noValidate>
-      <label htmlFor="task-title">Title</label>
-      <input type="text" id="task-title" name="title" value={formData.title} onChange={handleChange} />
+    <form className={styles.form} onSubmit={handleSubmit} noValidate>
+      <div className={styles.field}>
+        <label className={styles.label} htmlFor="task-title">Title</label>
+        <input className={styles.input} type="text" id="task-title" name="title" value={formData.title} onChange={handleChange} />
+      </div>
 
-      <label htmlFor="task-assignee">Assign to</label>
-      <select name="employee_id" id="task-assignee" value={formData.employee_id} onChange={handleChange} >
-        {users.map(u => (
-          <option key={u.id} value={u.id}>{u.username}</option>
-        ))}
-      </select>
+      <div className={styles.field}>
+        <label className={styles.label} htmlFor="task-assignee">Assign to</label>
+        <select className={styles.input} name="employee_id" id="task-assignee" value={formData.employee_id} onChange={handleChange} >
+          {users.map(u => (
+            <option key={u.id} value={u.id}>{u.username}</option>
+          ))}
+        </select>
+      </div>
 
-      <label htmlFor="task-due-date">Due date</label>
-      <input type="date" id="task-due-date" name="due_date" value={formData.due_date} onChange={handleChange} />
+      <div className={styles.field}>
+        <label className={styles.label} htmlFor="task-due-date">Due date</label>
+        <input className={styles.input} type="date" id="task-due-date" name="due_date" value={formData.due_date} onChange={handleChange} />
+      </div>
 
-      <label htmlFor="task-notes">Task notes</label>
-      <textarea name="notes" id="task-notes" value={formData.notes} onChange={handleChange} ></textarea>
+      <div className={styles.field}>
+        <label className={styles.label} htmlFor="task-notes">Task notes</label>
+        <textarea className={styles.input} name="notes" id="task-notes" value={formData.notes} onChange={handleChange} ></textarea>
+      </div>
 
-      <button type="submit">Add Task</button>
+      <div className={styles.actions}>
+        <button className={styles.submit} type="submit">Add Task</button>
+      </div>
       <ErrorMessage errors={errors} />
     </form>
   )

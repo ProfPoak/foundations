@@ -1,0 +1,29 @@
+/* Shared by EventForm, NoteForm, TaskForm and the NoteItem / TaskItem edit forms */
+
+/* <form> */
+.form {
+}
+
+/* one label + input pair */
+.field {
+}
+
+/* <label> */
+.label {
+}
+
+/* <input> / <select> / <textarea> */
+.input {
+}
+
+/* button row */
+.actions {
+}
+
+/* Log Event / Add Note / Add Task / Save */
+.submit {
+}
+
+/* Cancel */
+.cancel {
+}

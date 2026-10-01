@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { CUSTOMER_STATUSES } from "../../constants"
+import styles from "./CustomerForm.module.css"
 
 const INITIAL = {
   'first_name': '',
@@ -26,71 +27,91 @@ function CustomerForm({ onSubmit }) {
   }
   
   return (
-    <form onSubmit={e => handleSubmit(e)} noValidate>
-      <label htmlFor="first_name">First name</label>
-      <input 
-        id="first_name"
-        type="text"
-        name="first_name"
-        value={formData.first_name}
-        onChange={e => handleChange(e)}
-      />
+    <form className={styles.form} onSubmit={e => handleSubmit(e)} noValidate>
+      <div className={styles.field}>
+        <label className={styles.label} htmlFor="first_name">First name</label>
+        <input 
+          id="first_name"
+          type="text"
+          name="first_name"
+          value={formData.first_name}
+          onChange={e => handleChange(e)}
+          className={styles.input}
+        />
+      </div>
       
-      <label htmlFor="last_name">Last name</label>
-      <input 
-        id="last_name"
-        type="text"
-        name="last_name"
-        value={formData.last_name}
-        onChange={e => handleChange(e)}
-      />
+      <div className={styles.field}>
+        <label className={styles.label} htmlFor="last_name">Last name</label>
+        <input 
+          id="last_name"
+          type="text"
+          name="last_name"
+          value={formData.last_name}
+          onChange={e => handleChange(e)}
+          className={styles.input}
+        />
+      </div>
      
-      <label htmlFor="birthday">Birthday</label>
-      <input 
-        id="birthday"
-        type="date"
-        name="birthday"
-        min="1900-01-01"
-        max={new Date().toISOString().slice(0, 10)}
-        value={formData.birthday}
-        onChange={e => handleChange(e)}
-      />
+      <div className={styles.field}>
+        <label className={styles.label} htmlFor="birthday">Birthday</label>
+        <input 
+          id="birthday"
+          type="date"
+          name="birthday"
+          min="1900-01-01"
+          max={new Date().toISOString().slice(0, 10)}
+          value={formData.birthday}
+          onChange={e => handleChange(e)}
+          className={styles.input}
+        />
+      </div>
       
-      <label htmlFor="phone">Phone</label>
-      <input 
-        id="phone"
-        type="tel"
-        name="phone"
-        value={formData.phone}
-        onChange={e => handleChange(e)}
-      />
+      <div className={styles.field}>
+        <label className={styles.label} htmlFor="phone">Phone</label>
+        <input 
+          id="phone"
+          type="tel"
+          name="phone"
+          value={formData.phone}
+          onChange={e => handleChange(e)}
+          className={styles.input}
+        />
+      </div>
       
-      <label htmlFor="email">Email</label>
-      <input 
-        id="email"
-        type="email"
-        name="email"
-        value={formData.email}
-        onChange={e => handleChange(e)}
-      />
+      <div className={styles.field}>
+        <label className={styles.label} htmlFor="email">Email</label>
+        <input 
+          id="email"
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={e => handleChange(e)}
+          className={styles.input}
+        />
+      </div>
 
-      <label htmlFor="address">Address</label>
-      <input 
-        id="address"
-        type="text"
-        name="address"
-        value={formData.address}
-        onChange={e => handleChange(e)}
-      />
+      <div className={styles.field}>
+        <label className={styles.label} htmlFor="address">Address</label>
+        <input 
+          id="address"
+          type="text"
+          name="address"
+          value={formData.address}
+          onChange={e => handleChange(e)}
+          className={styles.input}
+        />
+      </div>
       
-      <label htmlFor="status">Status</label>
-      <select name="status" id="status" value={formData.status} onChange={e => handleChange(e)}>
-        {CUSTOMER_STATUSES.map(status => (
-          <option key={status} value={status}>{status}</option>
-        ))}
-      </select>
+      <div className={styles.field}>
+        <label className={styles.label} htmlFor="status">Status</label>
+        <select className={styles.input} name="status" id="status" value={formData.status} onChange={e => handleChange(e)}>
+          {CUSTOMER_STATUSES.map(status => (
+            <option key={status} value={status}>{status}</option>
+          ))}
+        </select>
+      </div>
 
-      <button type="submit">Create Customer</button>
+      <button className={styles.submit} type="submit">Create Customer</button>
     </form>
   )
 }

@@ -1,6 +1,7 @@
 import { Navigate } from 'react-router'
 import { useAuth } from '../context/AuthContext'
 import LoginForm from '../components/auth/LoginForm'
+import pageStyles from './Page.module.css'
 
 function LoginPage() {
   const { user } = useAuth()
@@ -10,10 +11,10 @@ function LoginPage() {
   }
 
   return (
-    <>
-      <h1>Login</h1>
+    <div className={pageStyles.page}>
+      <h1 className={pageStyles.title}>Login</h1>
       <LoginForm />
-    </>
+    </div>
   )
 }
 

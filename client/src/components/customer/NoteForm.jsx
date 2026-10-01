@@ -1,5 +1,6 @@
 import { useApiForm } from "../../hooks/useApiForm"
 import ErrorMessage from "../shared/ErrorMessage"
+import styles from "./ItemForm.module.css"
 
 const INITIAL = {
   'content': ''
@@ -16,10 +17,14 @@ function NoteForm({ customerId, onAddNote }) {
   
   return (
     <section>
-      <form onSubmit={handleSubmit} noValidate>
-        <label htmlFor="new-note">New note</label>
-        <textarea name="content" id="new-note" value={formData.content} onChange={handleChange}></textarea>
-        <button type="submit">Add Note</button>
+      <form className={styles.form} onSubmit={handleSubmit} noValidate>
+        <div className={styles.field}>
+          <label className={styles.label} htmlFor="new-note">New note</label>
+          <textarea className={styles.input} name="content" id="new-note" value={formData.content} onChange={handleChange}></textarea>
+        </div>
+        <div className={styles.actions}>
+          <button className={styles.submit} type="submit">Add Note</button>
+        </div>
         <ErrorMessage errors={errors}/>
       </form>
     </section>

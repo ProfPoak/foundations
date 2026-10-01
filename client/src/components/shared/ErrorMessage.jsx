@@ -1,3 +1,5 @@
+import styles from './ErrorMessage.module.css'
+
 // Props: errors (API error body: {error}, {errors: [...]}, or {errors: {field: [...]}})
 function toMessages(errors) {
   if(errors.error) {
@@ -31,8 +33,8 @@ function ErrorMessage({ errors }) {
   const messages = toMessages(errors)
 
   return(
-    <ul>
-      {messages.map(msg => <li key={msg}>{msg}</li>)}
+    <ul className={styles.errors}>
+      {messages.map(msg => <li className={styles.error} key={msg}>{msg}</li>)}
     </ul>
   )
 }

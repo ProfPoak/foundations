@@ -1,0 +1,13 @@
+/* Shared by every page: the page wrapper and its <h1> */
+
+/* outer wrapper of each page */
+.page {
+}
+
+/* the page <h1> */
+.title {
+}
+
+/* single-line states: Loading, "Customer not found", etc. */
+.message {
+}

@@ -1,0 +1,29 @@
+/* Top navigation bar */
+
+/* <nav>: the whole bar */
+.nav {
+}
+
+/* left group: Home, Admin Portal */
+.links {
+}
+
+/* right group: "Logged in as", Logout / Login, Signup */
+.account {
+}
+
+/* every NavLink */
+.link {
+}
+
+/* added to the NavLink for the current page */
+.active {
+}
+
+/* "Logged in as <username>" */
+.user {
+}
+
+/* Logout button */
+.logout {
+}

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router'
 import { apiFetch } from '../api.js'
 import CustomerForm from '../components/newCustomer/CustomerForm'
 import ErrorMessage from '../components/shared/ErrorMessage.jsx'
+import pageStyles from './Page.module.css'
 
 function NewCustomerPage() {
   const navigate = useNavigate()
@@ -24,11 +25,11 @@ function NewCustomerPage() {
   }
 
   return (
-    <>
-      <h1>New Customer</h1>
+    <div className={pageStyles.page}>
+      <h1 className={pageStyles.title}>New Customer</h1>
       <CustomerForm onSubmit={handleSubmit}/>
       <ErrorMessage errors={errors} />
-    </>
+    </div>
   )
 }
 

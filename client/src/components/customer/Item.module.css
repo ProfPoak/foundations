@@ -1,0 +1,29 @@
+/* Shared by EventItem, NoteItem and TaskItem */
+
+/* <li> */
+.item {
+}
+
+/* main line: interaction / task title */
+.title {
+}
+
+/* small grey line: who, when, due date, status */
+.meta {
+}
+
+/* free text: event notes, note content, task notes */
+.body {
+}
+
+/* Edit / Delete row */
+.actions {
+}
+
+/* Edit button */
+.edit {
+}
+
+/* Delete button */
+.delete {
+}

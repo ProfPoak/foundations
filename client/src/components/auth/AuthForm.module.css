@@ -1,0 +1,29 @@
+/* Shared by LoginForm and SignupForm */
+
+/* <section> around the form */
+.card {
+}
+
+/* <form> */
+.form {
+}
+
+/* one label + input pair */
+.field {
+}
+
+/* <label> */
+.label {
+}
+
+/* <input> */
+.input {
+}
+
+/* Log in / Signup button */
+.submit {
+}
+
+/* link to the other form (Sign Up / Login) */
+.switch {
+}
