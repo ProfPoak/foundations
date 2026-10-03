@@ -4,7 +4,8 @@ Foundations is a customer relationship manager for small teams. Employees sign i
 
 The app isn't tied to one industry. Customer statuses (`potential`, `client`, `inactive`) and interaction types (call, email, text, meeting, service, follow-up, other) are generic enough for any business that tracks relationships with its customers.
 
-**Live demo:** [flatfoundations.netlify.app](https://flatfoundations.netlify.app)
+**Live demo:** [flatfoundations.netlify.app](https://flatfoundations.netlify.app)\
+The demo resets to seed data when the server sleeps.
 
 ## Technologies used
 
