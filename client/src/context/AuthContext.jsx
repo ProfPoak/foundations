@@ -67,4 +67,6 @@ function useAuth() {
   return useContext(AuthContext)
 }
 
+//The provider and its hook are kept together on purpose. Exporting a hook here only stops Vite hot-reloading this file in dev
+// oxlint-disable-next-line react/only-export-components
 export { AuthProvider, useAuth }
