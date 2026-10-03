@@ -1,64 +1,118 @@
 /* One user in the Admin Portal list */
 
-/* <li> */
+/* <li>: four columns (username | id | badge | delete), lined up from row to row.
+   Each piece is pinned to its column, so a missing badge or Delete leaves a gap
+   instead of shifting the rest */
 .row {
-  /* display: flex; */
-  /* flex-wrap: wrap; */
-  /* align-items: ; */
-  /* gap: ; */
-  /* padding: ; */
-  /* border-bottom: ; */
-  /* background: ; */
-  /* border-radius: ; */
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) 80px 80px;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row:hover {
+  background: var(--color-surface-alt);
+}
+
+/* the error list (from ErrorMessage) goes on its own line under the row */
+.row > ul {
+  grid-column: 1 / -1;
 }
 
 /* "Username: …" */
 .username {
-  /* font-size: ; */
-  /* font-weight: ; */
-  /* color: ; */
-  /* line-height: ; */
-  /* margin: ; */
+  grid-column: 1;
+  font-weight: 600;
+  overflow-wrap: anywhere;
 }
 
 /* "Id: …" */
 .id {
-  /* font-size: ; */
-  /* font-weight: ; */
-  /* color: ; */
-  /* line-height: ; */
-  /* margin: ; */
+  grid-column: 2;
+  font-size: var(--font-size-sm);
+  color: var(--color-muted);
 }
 
-/* "Admin" badge */
+/* "Admin" badge: a small green pill */
 .badge {
-  /* display: inline-block; */
-  /* padding: ; */
-  /* border-radius: ; */
-  /* background: ; */
-  /* color: ; */
-  /* font-size: ; */
-  /* font-weight: ; */
+  grid-column: 3;
+  justify-self: start;
+  padding: 2px var(--space-sm);
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: var(--color-primary-text);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
 }
 
-/* Delete button */
+/* Delete button: small and red, at the right edge */
 .delete {
-  /* padding: ; */
-  /* border: ; */
-  /* border-radius: ; */
-  /* background: ; */
-  /* color: ; */
-  /* font-weight: ; */
-  /* cursor: pointer; */
+  grid-column: 4;
+  justify-self: end;
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: var(--color-danger);
+  color: var(--color-primary-text);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
 }
 
 .delete:hover {
-  /* background: ; */
-  /* color: ; */
-  /* text-decoration: ; */
+  background: var(--color-danger-hover);
 }
 
 .delete:focus-visible {
-  /* outline: ; */
-  /* border-color: ; */
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+/* Small screens: each user becomes its own card.
+   Username and id on the left, badge and Delete on the right */
+@media (max-width: 600px) {
+  .row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-xs) var(--space-md);
+    padding: var(--space-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  /* every card keeps its border (overrides the desktop "no line under the last row") */
+  .row:last-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .row:hover {
+    background: var(--color-surface);
+  }
+
+  .username {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .id {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .badge {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  .delete {
+    grid-column: 2;
+    grid-row: 2;
+  }
 }
