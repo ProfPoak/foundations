@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useCustomerList } from '../../hooks/useCustomerList'
-import { apiFetch } from '../../api'
+import { apiFetch } from '../../services/api'
 import ErrorMessage from '../shared/ErrorMessage'
 import ListStatus from '../shared/ListStatus'
 import styles from '../../styles/customer/Section.module.css'

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
-import { apiFetch } from '../api.js'
+import { apiFetch } from '../services/api.js'
 import CustomerForm from '../components/newCustomer/CustomerForm'
 import ErrorMessage from '../components/shared/ErrorMessage.jsx'
 import pageStyles from '../styles/pages/Page.module.css'

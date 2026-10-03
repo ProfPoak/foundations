@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { apiFetch, setUnauthorizedHandler } from '../src/api.js'
+import { apiFetch, setUnauthorizedHandler } from '../src/services/api.js'
 
 //Day 1, Step 3: apiFetch
 //Change this if you pick a different localStorage key for the token

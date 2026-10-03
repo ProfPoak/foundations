@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, within, act } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
-import { apiFetch } from '../src/api.js'
+import { apiFetch } from '../src/services/api.js'
 import HomePage from '../src/pages/HomePage.jsx'
 
 //Day 2, Steps 1 and 3: HomePage loads the customers once and filters them by full_name
-vi.mock('../src/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 //CustomerResults is Block B, so a marker lists the names it receives, in order
 vi.mock('../src/components/home/CustomerResults.jsx', () => ({
   default: ({ customers }) => (

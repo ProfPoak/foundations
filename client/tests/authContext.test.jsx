@@ -2,11 +2,11 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, waitFor, act } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
 import { AuthProvider, useAuth } from '../src/context/AuthContext.jsx'
-import { apiFetch, setUnauthorizedHandler } from '../src/api.js'
+import { apiFetch, setUnauthorizedHandler } from '../src/services/api.js'
 
 //Day 1, Block C (Steps 6-11): AuthContext
 //apiFetch is mocked, so these tests check what the context asks the API for and what it does with the answer
-vi.mock('../src/api.js', () => ({ apiFetch: vi.fn(), setUnauthorizedHandler: vi.fn() }))
+vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn(), setUnauthorizedHandler: vi.fn() }))
 
 //Change this if you pick a different localStorage key for the token
 const TOKEN_KEY = 'token'

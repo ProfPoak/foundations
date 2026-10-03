@@ -1,13 +1,13 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, fireEvent, act, within } from '@testing-library/react'
-import { apiFetch } from '../src/api.js'
+import { apiFetch } from '../src/services/api.js'
 import { useAuth } from '../src/context/AuthContext.jsx'
 import TaskForm from '../src/components/customer/TaskForm.jsx'
 
 //Day 5, Steps 5–6: TaskForm POSTs a new task itself, assigned to the logged-in user unless
 //another user is picked, hands the created task up, and clears itself for the next one.
 //The server requires a due date (Step 4); notes are optional
-vi.mock('../src/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 vi.mock('../src/context/AuthContext.jsx', () => ({ useAuth: vi.fn() }))
 
 //The logged-in user is deliberately not the first in the list, so starting on

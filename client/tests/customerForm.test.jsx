@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, within } from '@testing-library/react'
-import { apiFetch } from '../src/api.js'
-import { CUSTOMER_STATUSES } from '../src/constants.js'
+import { apiFetch } from '../src/services/api.js'
+import { CUSTOMER_STATUSES } from '../src/utils/constants.js'
 import CustomerForm from '../src/components/newCustomer/CustomerForm.jsx'
 
 //Day 2, Steps 6-8: one controlled formData object; the form hands it to onSubmit and never fetches
-vi.mock('../src/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 
 const TEXT_FIELDS = ['First name', 'Last name', 'Birthday', 'Phone', 'Email', 'Address']
 

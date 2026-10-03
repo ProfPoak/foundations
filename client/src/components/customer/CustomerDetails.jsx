@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { CUSTOMER_STATUSES } from '../../constants'
+import { CUSTOMER_STATUSES } from '../../utils/constants'
 import { useApiForm } from '../../hooks/useApiForm'
 import ErrorMessage from "../shared/ErrorMessage"
 import styles from "../../styles/customer/CustomerDetails.module.css"

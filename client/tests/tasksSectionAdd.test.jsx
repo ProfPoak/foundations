@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import { useState } from 'react'
-import { apiFetch } from '../src/api.js'
+import { apiFetch } from '../src/services/api.js'
 import TasksSection from '../src/components/customer/TasksSection.jsx'
 
 //Day 5, Step 7: TasksSection passes customerId, users and onAddTask to TaskForm,
 //and puts each created task at the top of the list without refetching
-vi.mock('../src/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 //The marker remembers the task id it was first created with. If the list uses the array
 //index as the key, React reuses the old item for the new task, and the two ids disagree
 vi.mock('../src/components/customer/TaskItem.jsx', () => ({

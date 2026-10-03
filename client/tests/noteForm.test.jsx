@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, fireEvent, act } from '@testing-library/react'
-import { apiFetch } from '../src/api.js'
+import { apiFetch } from '../src/services/api.js'
 import NoteForm from '../src/components/customer/NoteForm.jsx'
 
 //Day 4, Step 9: NoteForm POSTs a new note itself, hands the created note up, and clears the box
-vi.mock('../src/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 
 //What the server sends back: it adds id, datetime, employee_id and employee
 const CREATED = {

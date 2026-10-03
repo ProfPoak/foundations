@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
-import { apiFetch } from '../src/api.js'
+import { apiFetch } from '../src/services/api.js'
 import { useApiForm } from '../src/hooks/useApiForm.js'
 
 //Shared by every form that sends its own request (EventForm, CustomerDetails, NoteForm,
 //NoteItem's edit, TaskForm): formData, handleChange, and a submit that handles ok / errors
-vi.mock('../src/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 
 const INITIAL = { interaction: 'call', notes: '' }
 const CREATED = { id: 50, interaction: 'meeting', notes: 'Hi' }

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { apiFetch } from "../../api"
+import { apiFetch } from "../../services/api"
 import { useAuth } from '../../context/AuthContext'
 import { useApiForm } from "../../hooks/useApiForm"
 import ErrorMessage from "../shared/ErrorMessage"

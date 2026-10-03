@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, act } from '@testing-library/react'
-import { apiFetch } from '../src/api.js'
+import { apiFetch } from '../src/services/api.js'
 import { useAuth } from '../src/context/AuthContext.jsx'
 import UserRow from '../src/components/admin/UserRow.jsx'
 
 //Day 5, Step 14: UserRow shows one user with an Admin badge for admins, and a Delete button on
 //every row but your own. It sends DELETE /users/:id itself and hands the id up when it works
-vi.mock('../src/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 vi.mock('../src/context/AuthContext.jsx', () => ({ useAuth: vi.fn() }))
 
 //The logged-in admin. Only admins can reach this page

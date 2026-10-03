@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, act } from '@testing-library/react'
-import { apiFetch } from '../src/api.js'
+import { apiFetch } from '../src/services/api.js'
 import TasksSection from '../src/components/customer/TasksSection.jsx'
 
 //Day 5, Steps 8–11: TasksSection hands each TaskItem the users, onUpdateTask and onDeleteTask,
 //and keeps the list in sync without refetching
-vi.mock('../src/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 //The marker shows the usernames it got, and its buttons act like a successful change or delete
 vi.mock('../src/components/customer/TaskItem.jsx', () => ({
   default: ({ task, users, onUpdateTask, onDeleteTask }) => (

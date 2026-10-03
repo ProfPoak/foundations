@@ -143,6 +143,8 @@ foundations/
 │   │   ├── pages/          one component per route
 │   │   ├── hooks/          shared form and list logic
 │   │   ├── context/        auth state
+│   │   ├── services/       apiFetch: the one place requests go to the API
+│   │   ├── utils/          shared constants (statuses, interaction types)
 │   │   └── styles/         CSS modules, mirroring components/
 │   ├── tests/              Vitest suite
 │   └── netlify.toml        build settings and the /api proxy

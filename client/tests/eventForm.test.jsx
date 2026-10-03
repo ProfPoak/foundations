@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, fireEvent, act } from '@testing-library/react'
-import { apiFetch } from '../src/api.js'
-import { INTERACTIONS } from '../src/constants.js'
+import { apiFetch } from '../src/services/api.js'
+import { INTERACTIONS } from '../src/utils/constants.js'
 import EventForm from '../src/components/customer/EventForm.jsx'
 
 //Day 4, Steps 4–6: EventForm POSTs a new event itself, hands the created event up, and resets
-vi.mock('../src/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 
 //What the server sends back: it adds id, datetime, employee_id and employee
 const CREATED = {

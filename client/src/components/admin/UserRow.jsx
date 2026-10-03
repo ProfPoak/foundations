@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext.jsx'
-import { apiFetch } from '../../api.js'
+import { apiFetch } from '../../services/api.js'
 import ErrorMessage from '../shared/ErrorMessage.jsx'
 import styles from '../../styles/admin/UserRow.module.css'
 
