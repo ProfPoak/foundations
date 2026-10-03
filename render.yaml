@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: crm-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && cd server && flask db upgrade && python seed.py
+    startCommand: cd server && gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: FLASK_APP
+        value: app.py
+      - key: SECRET_KEY
+        generateValue: true
+      - key: JWT_SECRET_KEY
+        generateValue: true

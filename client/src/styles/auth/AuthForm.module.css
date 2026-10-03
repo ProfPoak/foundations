@@ -1,0 +1,85 @@
+/* Shared by LoginForm and SignupForm */
+
+/* <section> around the form: a white card */
+.card {
+  width: 100%;
+  max-width: 400px;
+  padding: var(--space-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* <form>: fields stacked with even spacing */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* one label + input pair: label above its input */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+/* <label> */
+.label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+/* <input> */
+.input {
+  width: 100%;
+  padding: var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.input:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -1px;
+  border-color: var(--color-primary);
+}
+
+/* Log in / Signup button: full-width green */
+.submit {
+  width: 100%;
+  padding: var(--space-sm);
+  border: none;
+  border-radius: var(--radius);
+  background: var(--color-primary);
+  color: var(--color-primary-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submit:hover {
+  background: var(--color-primary-hover);
+}
+
+.submit:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+/* link to the other form (Sign Up / Login): plain text, so the green submit
+   button is the only button-looking thing in the card */
+.switch {
+  align-self: center;
+  padding: 0;
+  background: none;
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  text-decoration: underline;
+}
+
+.switch:hover {
+  background: none;
+  color: var(--color-primary);
+}

@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router"
 import { useAuth } from "../../context/AuthContext"
 import ErrorMessage from "../shared/ErrorMessage"
+import styles from "../../styles/auth/AuthForm.module.css"
 
 function LoginForm() {
   const { login } = useAuth()
@@ -24,25 +25,31 @@ function LoginForm() {
   }
   
   return (
-    <section>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username</label>
-        <input 
-          id="username" 
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)} 
-        />
-        <label htmlFor="password">Password</label>
-        <input 
-          id="password" 
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)} 
-        />
-        <button type="submit">Log in</button>
+    <section className={styles.card}>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <div className={styles.field}>
+          <label className={styles.label} htmlFor="username">Username</label>
+          <input 
+            id="username" 
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)} 
+            className={styles.input}
+          />
+        </div>
+        <div className={styles.field}>
+          <label className={styles.label} htmlFor="password">Password</label>
+          <input 
+            id="password" 
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)} 
+            className={styles.input}
+          />
+        </div>
+        <button className={styles.submit} type="submit">Log in</button>
         <ErrorMessage errors={errors} />
-        <Link to="/signup">Sign Up</Link>
+        <Link className={styles.switch} to="/signup">Sign Up</Link>
       </form>
     </section>
   )

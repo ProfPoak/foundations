@@ -1,0 +1,155 @@
+/* Customer details card (view and edit mode) */
+
+/* <section> wrapper: a white card */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* row holding the name and the edit button: name left, pencil right */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+/* customer name <h1>. Size comes from the global h1 rule */
+.title {
+  margin: 0;
+}
+
+/* pencil "Edit customer" button: small grey square */
+.editButton {
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface-alt);
+  cursor: pointer;
+}
+
+.editButton:hover {
+  border-color: var(--color-muted);
+}
+
+.editButton:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+/* <dl> of fields: two columns, label above value */
+.details {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-md);
+  margin: 0;
+}
+
+/* <div> holding one <dt> + <dd>: label stacked on its value */
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+/* Address is always the last field: give it the full width */
+.row:last-child {
+  grid-column: 1 / -1;
+}
+
+/* <dt>: field name, small grey caps */
+.term {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* <dd>: field value (browsers indent <dd> by default) */
+.value {
+  margin: 0;
+  overflow-wrap: anywhere;   /* long emails don't overflow the column */
+}
+
+/* edit-mode <form>: fields, then the button row */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* edit-mode inputs, select, textarea */
+.input {
+  width: 100%;
+  padding: var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+textarea.input {
+  resize: vertical;
+}
+
+.input:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -1px;
+  border-color: var(--color-primary);
+}
+
+/* Save / Cancel row */
+.actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+/* Save: green */
+.button {
+  padding: var(--space-sm) var(--space-lg);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: var(--color-primary);
+  color: var(--color-primary-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: var(--color-primary-hover);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+/* Cancel (the type="button" one): grey */
+.button[type="button"] {
+  background: var(--color-surface-alt);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.button[type="button"]:hover {
+  border-color: var(--color-muted);
+}
+
+/* Small screens: one field per row */
+@media (max-width: 600px) {
+  .card {
+    padding: var(--space-md);
+  }
+
+  .details {
+    grid-template-columns: 1fr;
+  }
+}

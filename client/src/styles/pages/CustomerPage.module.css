@@ -1,0 +1,26 @@
+/* Customer hub: details on top, Events and Notes side by side, Tasks full width below */
+
+/* wrapper around the Events, Notes and Tasks sections: two equal columns */
+.sections {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;   /* each card keeps its own height */
+  gap: var(--space-md);
+}
+
+/* Tasks (the last section) spans both columns */
+.sections > :last-child {
+  grid-column: 1 / -1;
+}
+
+/* "Back" link on the not-found screen. Colours come from the global `a` rule */
+.back {
+  align-self: flex-start;   /* keep the link its own size inside the page column */
+}
+
+/* Small screens: one column, sections stacked */
+@media (max-width: 800px) {
+  .sections {
+    grid-template-columns: 1fr;
+  }
+}

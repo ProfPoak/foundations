@@ -2,6 +2,8 @@ import { useState, useEffect } from "react"
 import { apiFetch } from "../api"
 import ListStatus from '../components/shared/ListStatus'
 import UserRow from "../components/admin/UserRow"
+import pageStyles from '../styles/pages/Page.module.css'
+import styles from '../styles/pages/AdminPage.module.css'
 
 function AdminPage() {
   const [users, setUsers] = useState([])
@@ -28,16 +30,16 @@ function AdminPage() {
   }
 
   return (
-    <>
-      <h1>Admin Portal</h1>
+    <div className={pageStyles.page}>
+      <h1 className={pageStyles.title}>Admin Portal</h1>
       <ListStatus loading={loading} errors={errors} isEmpty={users.length === 0} emptyMessage={'No users'} >
-        <ul>
+        <ul className={styles.list}>
           {users.map(user => (
             <UserRow key={user.id} user={user} onDeleteUser={handleDeleteUser}/>
           ))}
         </ul>
       </ListStatus>
-    </>
+    </div>
   )
 }
 

@@ -1,0 +1,9 @@
+/* "New Customer" link, styled as a button.
+   Green, white text and hover come from the global `a` rule in index.css */
+
+/* the <Link>: a bit bigger than other links, since it's the page's main action */
+.button {
+  padding: var(--space-sm) var(--space-md);
+  font-weight: 600;
+  white-space: nowrap;
+}

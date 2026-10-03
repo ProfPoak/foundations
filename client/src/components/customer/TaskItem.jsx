@@ -4,6 +4,8 @@ import { useApiForm } from '../../hooks/useApiForm'
 import { apiFetch } from "../../api"
 import ErrorMessage from "../shared/ErrorMessage"
 import { TASK_STATUSES } from "../../constants"
+import styles from "../../styles/customer/Item.module.css"
+import formStyles from "../../styles/customer/ItemForm.module.css"
 
 function TaskItem({ task, users, onUpdateTask, onDeleteTask }) {
   const { user } = useAuth()
@@ -51,53 +53,65 @@ function TaskItem({ task, users, onUpdateTask, onDeleteTask }) {
 
   function renderForm() {
     return(
-      <form onSubmit={handleSubmit} noValidate>
-      <label htmlFor={`edit-task-title-${task.id}`}>Title</label>
-      <input type="text" id={`edit-task-title-${task.id}`} name="title" value={formData.title} onChange={handleChange} />
+      <form className={formStyles.form} onSubmit={handleSubmit} noValidate>
+      <div className={formStyles.field}>
+        <label className={formStyles.label} htmlFor={`edit-task-title-${task.id}`}>Title</label>
+        <input className={formStyles.input} type="text" id={`edit-task-title-${task.id}`} name="title" value={formData.title} onChange={handleChange} />
+      </div>
 
-      <label htmlFor={`edit-task-assignee-${task.id}`}>Assignee</label>
-      <select name="employee_id" id={`edit-task-assignee-${task.id}`} value={formData.employee_id} onChange={handleChange} >
-        {users.map(u => (
-          <option key={u.id} value={u.id}>{u.username}</option>
-        ))}
-      </select>
+      <div className={formStyles.field}>
+        <label className={formStyles.label} htmlFor={`edit-task-assignee-${task.id}`}>Assignee</label>
+        <select className={formStyles.input} name="employee_id" id={`edit-task-assignee-${task.id}`} value={formData.employee_id} onChange={handleChange} >
+          {users.map(u => (
+            <option key={u.id} value={u.id}>{u.username}</option>
+          ))}
+        </select>
+      </div>
 
-      <label htmlFor={`edit-task-due-date-${task.id}`}>Due date</label>
-      <input type="date" id={`edit-task-due-date-${task.id}`} name="due_date" value={formData.due_date} onChange={handleChange} />
+      <div className={formStyles.field}>
+        <label className={formStyles.label} htmlFor={`edit-task-due-date-${task.id}`}>Due date</label>
+        <input className={formStyles.input} type="date" id={`edit-task-due-date-${task.id}`} name="due_date" value={formData.due_date} onChange={handleChange} />
+      </div>
 
-      <label htmlFor={`edit-task-status-${task.id}`}>Status</label>
-      <select name="status" id={`edit-task-status-${task.id}`} value={formData.status} onChange={handleChange}>
-        {TASK_STATUSES.map(status =>
-          <option key={status} value={status}>{status}</option>
-        )}
-      </select>
+      <div className={formStyles.field}>
+        <label className={formStyles.label} htmlFor={`edit-task-status-${task.id}`}>Status</label>
+        <select className={formStyles.input} name="status" id={`edit-task-status-${task.id}`} value={formData.status} onChange={handleChange}>
+          {TASK_STATUSES.map(status =>
+            <option key={status} value={status}>{status}</option>
+          )}
+        </select>
+      </div>
       
-      <label htmlFor={`edit-task-notes-${task.id}`}>Task notes</label>
-      <textarea name="notes" id={`edit-task-notes-${task.id}`} value={formData.notes} onChange={handleChange} ></textarea>
+      <div className={formStyles.field}>
+        <label className={formStyles.label} htmlFor={`edit-task-notes-${task.id}`}>Task notes</label>
+        <textarea className={formStyles.input} name="notes" id={`edit-task-notes-${task.id}`} value={formData.notes} onChange={handleChange} ></textarea>
+      </div>
 
-      <button type="submit">Save</button>
-      <button type="button" onClick={handleCancel}>Cancel</button>
+      <div className={formStyles.actions}>
+        <button className={formStyles.submit} type="submit">Save</button>
+        <button className={formStyles.cancel} type="button" onClick={handleCancel}>Cancel</button>
+      </div>
     </form>
     )
   }
 
 
   return (
-    <li>
+    <li className={styles.item}>
       {isEditing ? renderForm() : 
       <>
-        <h3>{task.title}</h3>
-        <p>{task.employee.username}</p>
-        {task.due_date && <p>Due {task.due_date}</p>}
-        <p>{task.status}</p>
-        {task.notes && <p>{task.notes}</p>}
+        <h3 className={styles.title}>{task.title}</h3>
+        <p className={styles.meta}>{task.employee.username}</p>
+        {task.due_date && <p className={styles.meta}>Due {task.due_date}</p>}
+        <p className={styles.meta}>{task.status}</p>
+        {task.notes && <p className={styles.body}>{task.notes}</p>}
       </>
       }
       {canModify && !isEditing && (
-        <>
-          <button type="button" onClick={startEditing}>Edit</button>
-          <button type="button" onClick={handleDelete}>Delete</button>
-        </>
+        <div className={styles.actions}>
+          <button className={styles.edit} type="button" onClick={startEditing}>Edit</button>
+          <button className={styles.delete} type="button" onClick={handleDelete}>Delete</button>
+        </div>
       )}
       <ErrorMessage errors={errors} />
     </li>

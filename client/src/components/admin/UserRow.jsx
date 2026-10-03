@@ -1,7 +1,8 @@
-import { isValidElement, useState, useSyncExternalStore } from 'react'
+import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { apiFetch } from '../../api.js'
 import ErrorMessage from '../shared/ErrorMessage.jsx'
+import styles from '../../styles/admin/UserRow.module.css'
 
 function UserRow({ user, onDeleteUser }) {
   const { user: currentUser } = useAuth()
@@ -20,11 +21,11 @@ function UserRow({ user, onDeleteUser }) {
   }
 
   return (
-  <li>
-    <span>Username: {user.username}</span>
-    <span>Id: {user.id}</span>
-    {user.is_admin && <span>Admin</span>}
-    {!isSelf && <button type='button' onClick={handleDelete}>Delete</button>}
+  <li className={styles.row}>
+    <span className={styles.username}>Username: {user.username}</span>
+    <span className={styles.id}>Id: {user.id}</span>
+    {user.is_admin && <span className={styles.badge}>Admin</span>}
+    {!isSelf && <button className={styles.delete} type='button' onClick={handleDelete}>Delete</button>}
     <ErrorMessage errors={errors} />
   </li>
   )

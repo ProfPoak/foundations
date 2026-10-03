@@ -1,16 +1,17 @@
 import ErrorMessage from './ErrorMessage'
+import styles from '../../styles/shared/ListStatus.module.css'
 
 // Props: loading, errors, isEmpty, emptyMessage, children (the list itself)
 //Shows exactly one of: Loading, the errors, the empty message, or the list
 function ListStatus({ loading, errors, isEmpty, emptyMessage, children }) {
   if(loading) {
-    return <p>Loading...</p>
+    return <p className={styles.status}>Loading...</p>
   }
   if(errors) {
     return <ErrorMessage errors={errors}/>
   }
   if(isEmpty) {
-    return <p>{emptyMessage}</p>
+    return <p className={styles.status}>{emptyMessage}</p>
   }
   return children
 }

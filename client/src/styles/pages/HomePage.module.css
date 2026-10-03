@@ -1,0 +1,25 @@
+/* Home: heading row, search and results */
+
+/* row holding the <h1> and the New Customer button: title left, button right */
+.header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+/* row holding the search box */
+.toolbar {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Small screens: same side margins as the customer cards, so the search box
+   lines up with them */
+@media (max-width: 600px) {
+  .toolbar {
+    padding: 0 var(--space-lg);
+  }
+}

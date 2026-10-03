@@ -54,18 +54,19 @@ function navText() {
 describe('NavBar logged out', () => {
   beforeEach(() => setUser(null))
 
-  it('shows Home, Login and Signup links to the right paths', () => {
-    renderNav()
-    expect(links.home()).toHaveAttribute('href', '/')
-    expect(links.login()).toHaveAttribute('href', '/login')
-    expect(links.signup()).toHaveAttribute('href', '/signup')
+  //Only Login and Signup are reachable logged out, and their cards link to each other
+  it('renders no nav at all', () => {
+    renderNav('/login')
+    expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
   })
 
-  it('hides Admin Portal, Logout and the "Logged in as" text', () => {
-    renderNav()
+  it('shows no links and no Logout', () => {
+    renderNav('/login')
+    expect(links.home()).not.toBeInTheDocument()
+    expect(links.login()).not.toBeInTheDocument()
+    expect(links.signup()).not.toBeInTheDocument()
     expect(links.admin()).not.toBeInTheDocument()
     expect(logoutButton()).not.toBeInTheDocument()
-    expect(navText()).not.toMatch(/logged in as/i)
   })
 })
 

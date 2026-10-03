@@ -1,0 +1,104 @@
+/* Top navigation bar. Only shown when someone is logged in */
+
+/* <nav>: the whole bar. Full width, white, stays at the top while you scroll.
+   The side padding lines its contents up with the 960px content column below */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-sm) max(var(--space-lg), calc((100% - 960px) / 2 + var(--space-lg)));
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* left group: Home, Admin Portal */
+.links {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* right group: "Logged in as" and Logout */
+.account {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* every NavLink. The green button look comes from the global `a` rule in index.css */
+.link {
+  font-weight: 500;
+}
+
+/* added to the NavLink for the current page: darker green, bold */
+.active {
+  background: var(--color-primary-hover);
+  font-weight: 700;
+}
+
+/* "Logged in as <username>" */
+.user {
+  font-size: var(--font-size-sm);
+  color: var(--color-muted);
+}
+
+/* Logout button: outlined, so it doesn't compete with the green links */
+.logout {
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.logout:hover {
+  background: var(--color-surface-alt);
+}
+
+.logout:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+/* Small screens (phones): smaller text and padding, and the two groups may wrap
+   onto two rows instead of squeezing. Labels never break mid-word */
+.link,
+.logout,
+.user {
+  white-space: nowrap;
+}
+
+.nav {
+  flex-wrap: wrap;
+  row-gap: var(--space-xs);
+}
+
+@media (max-width: 600px) {
+  .nav {
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-sm);
+  }
+
+  .links,
+  .account {
+    gap: var(--space-xs);
+  }
+
+  .link,
+  .logout {
+    padding: 2px 6px;
+    font-size: var(--font-size-sm);
+  }
+
+  .user {
+    font-size: 0.75rem;
+  }
+}

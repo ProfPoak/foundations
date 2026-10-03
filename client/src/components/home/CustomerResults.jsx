@@ -1,12 +1,13 @@
 import CustomerRow from "./CustomerRow"
+import styles from "../../styles/home/CustomerResults.module.css"
 
 function CustomerResults({ customers }) {
   if(customers.length === 0) {
-    return <p>No customers found</p>
+    return <p className={styles.empty}>No customers found</p>
   }
   
   return (
-    <ul>
+    <ul className={styles.list}>
       {customers.map(customer => (
         <CustomerRow 
         key={customer.id}

@@ -1,0 +1,79 @@
+/* Shared by EventItem, NoteItem and TaskItem */
+
+/* <li>: a bordered box, lines stacked */
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+/* main line: interaction / task title */
+.title {
+  margin: 0;
+  font-weight: 600;
+}
+
+/* small grey line: who, when, due date, status */
+.meta {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-muted);
+}
+
+/* free text: event notes, note content, task notes */
+.body {
+  margin: 0;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+/* Edit / Delete row */
+.actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+}
+
+/* Edit button: small and grey */
+.edit {
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.edit:hover {
+  border-color: var(--color-muted);
+}
+
+.edit:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+/* Delete button: small and red */
+.delete {
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: var(--color-danger);
+  color: var(--color-primary-text);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.delete:hover {
+  background: var(--color-danger-hover);
+}
+
+.delete:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}

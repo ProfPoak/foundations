@@ -1,0 +1,100 @@
+/* Global styles: theme tokens and the few rules every page shares.
+   Component styles live in each component's .module.css.
+   Define a token here once, then use it anywhere: color: var(--color-text); */
+
+:root {
+  /* Colours: neutral greys, green for buttons, red for errors */
+  --color-text: #1a1a1a;              /* near-black body text */
+  --color-muted: #6b6b6b;             /* meta lines, labels, placeholders */
+  --color-background: #f4f4f4;        /* page behind the cards */
+  --color-surface: #ffffff;           /* cards, sections, inputs */
+  --color-surface-alt: #ebebeb;       /* nav bar, hover rows, secondary buttons */
+  --color-border: #d0d0d0;            /* card, input and row borders */
+
+  --color-primary: #2e7d32;           /* buttons */
+  --color-primary-hover: #1b5e20;     /* buttons on hover */
+  --color-primary-text: #ffffff;      /* text on green buttons */
+
+  --color-danger: #c62828;            /* error text, Delete */
+  --color-danger-hover: #8e1c1c;      /* Delete on hover */
+  --color-danger-background: #fdecea; /* behind error messages */
+
+  /* Spacing: padding, margins and gaps */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+
+  /* Shape */
+  --radius: 6px;                              /* cards, inputs, buttons, links */
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);    /* faint lift under cards */
+
+  /* Type: the operating system's own UI font, so it looks native everywhere */
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-size-sm: 0.875rem;   /* 14px: meta lines, badges */
+  --font-size-base: 1rem;     /* 16px: body text */
+  --font-size-lg: 1.25rem;    /* 20px: h2 */
+  --font-size-xl: 1.75rem;    /* 28px: h1 */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  color: var(--color-text);
+  background: var(--color-background);
+}
+
+/* Form controls don't inherit the page font by default */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+/* Headings: default sizes for every page */
+h1 {
+  font-size: var(--font-size-xl);
+  line-height: 1.2;
+  margin: 0 0 var(--space-md);
+}
+
+h2 {
+  font-size: var(--font-size-lg);
+  line-height: 1.3;
+  margin: 0 0 var(--space-sm);
+}
+
+h3 {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  margin: 0 0 var(--space-xs);
+}
+
+/* Links: white text on green, like the buttons.
+   A module class can override any of this for one kind of link */
+a {
+  display: inline-block;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius);
+  background: var(--color-primary);
+  color: var(--color-primary-text);
+  text-decoration: none;
+}
+
+a:hover {
+  background: var(--color-primary-hover);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}

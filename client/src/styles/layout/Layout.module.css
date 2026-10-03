@@ -1,0 +1,15 @@
+/* Page frame: the <main> area under the nav */
+
+/* <main>: centred content column */
+.main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--space-lg);
+}
+
+/* Small screens: less padding, so content gets the width */
+@media (max-width: 600px) {
+  .main {
+    padding: var(--space-md) var(--space-sm);
+  }
+}

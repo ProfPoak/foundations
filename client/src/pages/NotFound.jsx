@@ -1,6 +1,10 @@
+import pageStyles from '../styles/pages/Page.module.css'
+
 function NotFound() {
   return (
-    <h1>Page not found</h1>
+    <div className={pageStyles.page}>
+      <h1 className={pageStyles.title}>Page not found</h1>
+    </div>
   )
 }
 

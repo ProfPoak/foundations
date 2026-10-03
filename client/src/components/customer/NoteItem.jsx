@@ -3,6 +3,8 @@ import { apiFetch } from "../../api"
 import { useAuth } from '../../context/AuthContext'
 import { useApiForm } from "../../hooks/useApiForm"
 import ErrorMessage from "../shared/ErrorMessage"
+import styles from "../../styles/customer/Item.module.css"
+import formStyles from "../../styles/customer/ItemForm.module.css"
 
 function NoteItem({ note, onUpdateNote, onDeleteNote }) {
   const { user } = useAuth()
@@ -44,25 +46,29 @@ function NoteItem({ note, onUpdateNote, onDeleteNote }) {
 
   function renderForm() {
       return(
-          <form onSubmit={handleSubmit} noValidate>
-            <label htmlFor={`edit-note-${note.id}`}>Edit note</label>
-            <textarea name="content" id={`edit-note-${note.id}`} value={formData.content} onChange={handleChange}></textarea>
-            <button type="submit">Save</button>
-            <button type="button" onClick={handleCancel}>Cancel</button>
+          <form className={formStyles.form} onSubmit={handleSubmit} noValidate>
+            <div className={formStyles.field}>
+              <label className={formStyles.label} htmlFor={`edit-note-${note.id}`}>Edit note</label>
+              <textarea className={formStyles.input} name="content" id={`edit-note-${note.id}`} value={formData.content} onChange={handleChange}></textarea>
+            </div>
+            <div className={formStyles.actions}>
+              <button className={formStyles.submit} type="submit">Save</button>
+              <button className={formStyles.cancel} type="button" onClick={handleCancel}>Cancel</button>
+            </div>
           </form>
     )
   }
 
   return (
-    <li>
-      {isEditing ? renderForm() : <p style={{ whiteSpace: 'pre-line' }}>{note.content}</p>}
-      <p>{note.employee.username}</p>
-      <p>{new Date(note.datetime).toLocaleString()}</p>
+    <li className={styles.item}>
+      {isEditing ? renderForm() : <p className={styles.body} style={{ whiteSpace: 'pre-line' }}>{note.content}</p>}
+      <p className={styles.meta}>{note.employee.username}</p>
+      <p className={styles.meta}>{new Date(note.datetime).toLocaleString()}</p>
       {canModify && !isEditing && (
-        <>
-          <button type="button" onClick={startEditing}>Edit</button>
-          <button type="button" onClick={handleDelete}>Delete</button>
-        </>
+        <div className={styles.actions}>
+          <button className={styles.edit} type="button" onClick={startEditing}>Edit</button>
+          <button className={styles.delete} type="button" onClick={handleDelete}>Delete</button>
+        </div>
       )}
       <ErrorMessage errors={errors} />
     </li>

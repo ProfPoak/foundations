@@ -2,6 +2,7 @@ import { useState } from "react"
 import { CUSTOMER_STATUSES } from '../../constants'
 import { useApiForm } from '../../hooks/useApiForm'
 import ErrorMessage from "../shared/ErrorMessage"
+import styles from "../../styles/customer/CustomerDetails.module.css"
 
 const fields = [
   {
@@ -70,17 +71,18 @@ function CustomerDetails({ customer, onUpdate }) {
 
   function inputFor(field){
     if(field.name === 'status') {
-      return <select name="status" id="status" value={formData.status} onChange={handleChange} >
+      return <select className={styles.input} name="status" id="status" value={formData.status} onChange={handleChange} >
         {CUSTOMER_STATUSES.map(status => (
           <option key={status} value={status}>{status}</option>
         ))}
       </select>
     }
     if(field.name === 'address') {
-      return <textarea name="address" id="address" value={formData.address} onChange={handleChange}></textarea>
+      return <textarea className={styles.input} name="address" id="address" value={formData.address} onChange={handleChange}></textarea>
     }
     else{
       return <input
+        className={styles.input}
         id={field.name} 
         name={field.name} 
         type={field.type} 
@@ -97,23 +99,27 @@ function CustomerDetails({ customer, onUpdate }) {
 
   if(isEditing) {
     return(
-      <section>
-        <h1>{customer.full_name}</h1>
-        <form onSubmit={handleSave} noValidate>
-          <dl>
+      <section className={styles.card}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>{customer.full_name}</h1>
+        </div>
+        <form className={styles.form} onSubmit={handleSave} noValidate>
+          <dl className={styles.details}>
             {fields.map(field => (
-              <div key={field.name}>
-                <dt>
+              <div className={styles.row} key={field.name}>
+                <dt className={styles.term}>
                   <label htmlFor={field.name}>{field.label}</label>
                 </dt>
-                <dd>
+                <dd className={styles.value}>
                   {inputFor(field)}
                 </dd>
               </div>
             ))}
           </dl>
-          <button type="submit">Save</button>
-          <button type="button" onClick={handleCancel}>Cancel</button>
+          <div className={styles.actions}>
+            <button className={styles.button} type="submit">Save</button>
+            <button className={styles.button} type="button" onClick={handleCancel}>Cancel</button>
+          </div>
         </form>
         <ErrorMessage errors={errors} />
       </section>
@@ -121,14 +127,16 @@ function CustomerDetails({ customer, onUpdate }) {
   }
 
   return (
-    <section>
-      <h1>{customer.full_name}</h1>
-      <button aria-label="Edit customer" onClick={startEditing}>✏️</button>
-      <dl>
+    <section className={styles.card}>
+      <div className={styles.header}>
+        <h1 className={styles.title}>{customer.full_name}</h1>
+        <button className={styles.editButton} aria-label="Edit customer" onClick={startEditing}>✏️</button>
+      </div>
+      <dl className={styles.details}>
         {view_fields.map(field =>
-          <div key={field.name}>
-            <dt>{field.label}</dt>
-            <dd style={{ whiteSpace: 'pre-line' }}>{customer[field.name] ?? '—'}</dd>
+          <div className={styles.row} key={field.name}>
+            <dt className={styles.term}>{field.label}</dt>
+            <dd className={styles.value} style={{ whiteSpace: 'pre-line' }}>{customer[field.name] ?? '—'}</dd>
           </div>
         )}
       </dl>

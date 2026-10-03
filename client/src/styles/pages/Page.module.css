@@ -1,0 +1,25 @@
+/* Shared by every page: the page wrapper and its <h1> */
+
+/* outer wrapper of each page: even spacing between its blocks */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* the page <h1>. Size comes from the global h1 rule; the wrapper's gap does the spacing */
+.title {
+  margin: 0;
+}
+
+/* single-line states: Loading, "Customer not found", etc. */
+.message {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+/* add with .page to centre everything on the page (Login, Signup) */
+.centered {
+  align-items: center;
+  padding-top: var(--space-lg);
+}
