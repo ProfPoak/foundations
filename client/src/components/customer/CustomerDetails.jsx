@@ -136,7 +136,7 @@ function CustomerDetails({ customer, onUpdate }) {
         {view_fields.map(field =>
           <div className={styles.row} key={field.name}>
             <dt className={styles.term}>{field.label}</dt>
-            <dd className={styles.value} style={{ whiteSpace: 'pre-line' }}>{customer[field.name] ?? '—'}</dd>
+            <dd className={styles.value}>{customer[field.name] ?? '—'}</dd>
           </div>
         )}
       </dl>

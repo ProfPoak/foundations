@@ -61,7 +61,7 @@ function NoteItem({ note, onUpdateNote, onDeleteNote }) {
 
   return (
     <li className={styles.item}>
-      {isEditing ? renderForm() : <p className={styles.body} style={{ whiteSpace: 'pre-line' }}>{note.content}</p>}
+      {isEditing ? renderForm() : <p className={styles.body}>{note.content}</p>}
       <p className={styles.meta}>{note.employee.username}</p>
       <p className={styles.meta}>{new Date(note.datetime).toLocaleString()}</p>
       {canModify && !isEditing && (
