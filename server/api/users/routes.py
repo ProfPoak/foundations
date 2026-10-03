@@ -21,7 +21,7 @@ class UserDetail(ProtectedResource):
         if user.id == current_user().id:
             return {"error": "Cannot delete your own admin account"}, 400
         if user.events or user.notes or user.tasks:
-            return {"error": "User's with a history cannot be deleted"}, 409
+            return {"error": "Users with a history cannot be deleted"}, 409
         db.session.delete(user)
         db.session.commit()
         return "", 204
