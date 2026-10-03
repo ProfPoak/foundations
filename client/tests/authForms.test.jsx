@@ -136,13 +136,13 @@ describe.each([
       expect(submitButton()).toBeInTheDocument()
     })
 
-    it('on failure: shows every message in an {errors: [...]} body', async () => {
-      auth[fn].mockResolvedValue({ ok: false, status: 400, data: { errors: ['Username already taken', 'Password must be at least 8 characters'] } })
+    it('on failure: shows the message from a 409 {error} body', async () => {
+      auth[fn].mockResolvedValue({ ok: false, status: 409, data: { error: 'Username already taken' } })
       renderForm(Form, path)
-      fill('admin', 'short')
+      fill('admin', 'password')
       fireEvent.click(submitButton())
       expect(await screen.findByText('Username already taken')).toBeInTheDocument()
-      expect(screen.getByText('Password must be at least 8 characters')).toBeInTheDocument()
+      expect(screen.queryByText('Home marker')).not.toBeInTheDocument()
     })
 
     it('on a 500 with no JSON body (data: null): still shows "Something went wrong"', async () => {

@@ -23,10 +23,10 @@ class Signup(Resource):
         except IntegrityError:
             #Raw IntegrityError text includes the SQL statement, so don't echo it back
             db.session.rollback()
-            return {'errors': ['Username already taken']}, 409
+            return {'error': 'Username already taken'}, 409
         except (KeyError, ValueError) as e:
             db.session.rollback()
-            return {'errors': [str(e)]}, 422
+            return {'error': str(e)}, 422
 
         access_token = create_access_token(identity=str(user.id))
         return make_response(

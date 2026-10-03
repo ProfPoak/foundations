@@ -193,7 +193,7 @@ describe.each([
 
   it('on failure: does not store a token or set a user', async () => {
     const { result } = await renderSettled()
-    apiFetch.mockResolvedValue({ ok: false, status: 400, data: { errors: ['Username already taken'] } })
+    apiFetch.mockResolvedValue({ ok: false, status: 400, data: { error: 'Username already taken' } })
     await act(() => result.current[fn]('admin', 'password'))
     expect(localStorage.getItem(TOKEN_KEY)).toBeNull()
     expect(result.current.user).toBeNull()

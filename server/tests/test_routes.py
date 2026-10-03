@@ -94,15 +94,19 @@ class TestSignup:
     def test_duplicate_username(self, client, employee):
         resp = client.post("/signup", json={"username": "EMPLOYEE", "password": PASSWORD})
         assert resp.status_code == 409
+        assert resp.get_json() == {"error": "Username already taken"}
 
     def test_short_password(self, client):
         resp = client.post("/signup", json={"username": "newuser", "password": "short"})
         assert resp.status_code == 422
         assert User.query.count() == 0
+        #Same {"error": "message"} shape as login, so ErrorMessage can show it
+        assert isinstance(resp.get_json()["error"], str)
 
     def test_missing_password(self, client):
         resp = client.post("/signup", json={"username": "newuser"})
         assert resp.status_code == 422
+        assert isinstance(resp.get_json()["error"], str)
 
 
 class TestLogin:
