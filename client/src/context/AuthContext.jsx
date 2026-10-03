@@ -1,7 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { apiFetch } from  '../api.js'
 
-//Value shape: { user, token, login(username, password), signup(username, password), logout() }
 const AuthContext = createContext(null)
 
 function AuthProvider({ children }) {
