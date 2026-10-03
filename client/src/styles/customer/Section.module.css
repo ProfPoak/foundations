@@ -1,37 +1,35 @@
 /* Shared by EventsSection, NotesSection and TasksSection */
 
-/* <section> card */
+/* <section> card: heading, add form, then the list */
 .section {
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* align-items: ; */
-  /* justify-content: ; */
-  /* gap: ; */
-  /* padding: ; */
-  /* margin: ; */
-  /* background: ; */
-  /* border: ; */
-  /* border-radius: ; */
-  /* box-shadow: ; */
-  /* max-width: ; */
-  /* width: ; */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-width: 0;   /* lets the card shrink inside its grid column */
+  padding: var(--space-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
 
-/* <h2> */
+/* <h2>. Size comes from the global h2 rule; the card's gap does the spacing */
 .heading {
-  /* font-size: ; */
-  /* font-weight: ; */
-  /* color: ; */
-  /* line-height: ; */
-  /* margin: ; */
+  margin: 0;
 }
 
 /* <ul> of items */
 .list {
-  /* list-style: none; */
-  /* padding: 0; */
-  /* margin: 0; */
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* gap: ; */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding: var(--space-md);
+  }
 }

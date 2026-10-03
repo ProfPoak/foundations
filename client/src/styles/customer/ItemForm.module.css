@@ -1,108 +1,86 @@
 /* Shared by EventForm, NoteForm, TaskForm and the NoteItem / TaskItem edit forms */
 
-/* <form> */
+/* <form>: fields stacked, buttons at the bottom */
 .form {
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* align-items: ; */
-  /* justify-content: ; */
-  /* gap: ; */
-  /* padding: ; */
-  /* margin: ; */
-  /* background: ; */
-  /* border: ; */
-  /* border-radius: ; */
-  /* box-shadow: ; */
-  /* max-width: ; */
-  /* width: ; */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
 }
 
-/* one label + input pair */
+/* one label + input pair: label above its input */
 .field {
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* align-items: ; */
-  /* justify-content: ; */
-  /* gap: ; */
-  /* padding: ; */
-  /* margin: ; */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
 }
 
 /* <label> */
 .label {
-  /* font-size: ; */
-  /* font-weight: ; */
-  /* color: ; */
-  /* line-height: ; */
-  /* margin: ; */
+  font-size: var(--font-size-sm);
+  font-weight: 600;
 }
 
 /* <input> / <select> / <textarea> */
 .input {
-  /* width: 100%; */
-  /* padding: ; */
-  /* border: ; */
-  /* border-radius: ; */
-  /* background: ; */
-  /* color: ; */
+  width: 100%;
+  padding: var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+textarea.input {
+  resize: vertical;
 }
 
 .input:focus {
-  /* outline: ; */
-  /* border-color: ; */
+  outline: 2px solid var(--color-primary);
+  outline-offset: -1px;
+  border-color: var(--color-primary);
 }
 
 /* button row */
 .actions {
-  /* display: flex; */
-  /* flex-direction: row; */
-  /* align-items: ; */
-  /* justify-content: ; */
-  /* gap: ; */
-  /* padding: ; */
-  /* margin: ; */
+  display: flex;
+  gap: var(--space-sm);
 }
 
-/* Log Event / Add Note / Add Task / Save */
+/* Log Event / Add Note / Add Task / Save: green */
 .submit {
-  /* padding: ; */
-  /* border: ; */
-  /* border-radius: ; */
-  /* background: ; */
-  /* color: ; */
-  /* font-weight: ; */
-  /* cursor: pointer; */
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: var(--color-primary);
+  color: var(--color-primary-text);
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .submit:hover {
-  /* background: ; */
-  /* color: ; */
-  /* text-decoration: ; */
+  background: var(--color-primary-hover);
 }
 
 .submit:focus-visible {
-  /* outline: ; */
-  /* border-color: ; */
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
 }
 
-/* Cancel */
+/* Cancel: grey */
 .cancel {
-  /* padding: ; */
-  /* border: ; */
-  /* border-radius: ; */
-  /* background: ; */
-  /* color: ; */
-  /* font-weight: ; */
-  /* cursor: pointer; */
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  cursor: pointer;
 }
 
 .cancel:hover {
-  /* background: ; */
-  /* color: ; */
-  /* text-decoration: ; */
+  border-color: var(--color-muted);
 }
 
 .cancel:focus-visible {
-  /* outline: ; */
-  /* border-color: ; */
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
 }

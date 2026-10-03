@@ -1,96 +1,79 @@
 /* Shared by EventItem, NoteItem and TaskItem */
 
-/* <li> */
+/* <li>: a bordered box, lines stacked */
 .item {
-  /* display: flex; */
-  /* flex-wrap: wrap; */
-  /* align-items: ; */
-  /* gap: ; */
-  /* padding: ; */
-  /* border-bottom: ; */
-  /* background: ; */
-  /* border-radius: ; */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
 }
 
 /* main line: interaction / task title */
 .title {
-  /* font-size: ; */
-  /* font-weight: ; */
-  /* color: ; */
-  /* line-height: ; */
-  /* margin: ; */
+  margin: 0;
+  font-weight: 600;
 }
 
 /* small grey line: who, when, due date, status */
 .meta {
-  /* font-size: ; */
-  /* font-weight: ; */
-  /* color: ; */
-  /* line-height: ; */
-  /* margin: ; */
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-muted);
 }
 
 /* free text: event notes, note content, task notes */
 .body {
-  /* font-size: ; */
-  /* font-weight: ; */
-  /* color: ; */
-  /* line-height: ; */
-  /* margin: ; */
-  /* white-space: pre-line; */
+  margin: 0;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
 }
 
 /* Edit / Delete row */
 .actions {
-  /* display: flex; */
-  /* flex-direction: row; */
-  /* align-items: ; */
-  /* justify-content: ; */
-  /* gap: ; */
-  /* padding: ; */
-  /* margin: ; */
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
 }
 
-/* Edit button */
+/* Edit button: small and grey */
 .edit {
-  /* padding: ; */
-  /* border: ; */
-  /* border-radius: ; */
-  /* background: ; */
-  /* color: ; */
-  /* font-weight: ; */
-  /* cursor: pointer; */
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
 }
 
 .edit:hover {
-  /* background: ; */
-  /* color: ; */
-  /* text-decoration: ; */
+  border-color: var(--color-muted);
 }
 
 .edit:focus-visible {
-  /* outline: ; */
-  /* border-color: ; */
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
 }
 
-/* Delete button */
+/* Delete button: small and red */
 .delete {
-  /* padding: ; */
-  /* border: ; */
-  /* border-radius: ; */
-  /* background: ; */
-  /* color: ; */
-  /* font-weight: ; */
-  /* cursor: pointer; */
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: var(--color-danger);
+  color: var(--color-primary-text);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
 }
 
 .delete:hover {
-  /* background: ; */
-  /* color: ; */
-  /* text-decoration: ; */
+  background: var(--color-danger-hover);
 }
 
 .delete:focus-visible {
-  /* outline: ; */
-  /* border-color: ; */
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
 }
