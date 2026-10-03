@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { apiFetch } from  '../api.js'
+import { apiFetch, setUnauthorizedHandler } from  '../api.js'
 
 const AuthContext = createContext(null)
 
@@ -58,6 +58,11 @@ function AuthProvider({ children }) {
     localStorage.removeItem('token')
     setUser(null)
   }
+
+  useEffect(() => {
+    setUnauthorizedHandler(logout)
+    return () => setUnauthorizedHandler(null)
+  }, [])
 
   return <AuthContext.Provider value={ {user, checkingSession, login, signup, logout} }>{children}</AuthContext.Provider>
 }

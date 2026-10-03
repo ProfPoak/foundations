@@ -2,11 +2,11 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, waitFor, act } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
 import { AuthProvider, useAuth } from '../src/context/AuthContext.jsx'
-import { apiFetch } from '../src/api.js'
+import { apiFetch, setUnauthorizedHandler } from '../src/api.js'
 
 //Day 1, Block C (Steps 6-11): AuthContext
 //apiFetch is mocked, so these tests check what the context asks the API for and what it does with the answer
-vi.mock('../src/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../src/api.js', () => ({ apiFetch: vi.fn(), setUnauthorizedHandler: vi.fn() }))
 
 //Change this if you pick a different localStorage key for the token
 const TOKEN_KEY = 'token'
@@ -18,6 +18,7 @@ beforeEach(() => {
   localStorage.clear()
   apiFetch.mockReset()
   apiFetch.mockResolvedValue({ ok: false, status: 500, data: null })
+  setUnauthorizedHandler.mockReset()
 })
 
 //MemoryRouter is there in case AuthProvider uses router hooks like useNavigate
@@ -129,8 +130,8 @@ describe('session restore on load (Step 7)', () => {
   })
 
   it.each([
-    ['401 (the fixed backend)', { ok: false, status: 401, data: { msg: 'Token has expired' } }],
-    ['500 with JSON (the current backend bug)', { ok: false, status: 500, data: { message: 'Internal Server Error' } }],
+    ['401 (expired or invalid token)', { ok: false, status: 401, data: { error: 'Session expired. Please log in again.' } }],
+    ['500 with JSON (any server crash)', { ok: false, status: 500, data: { message: 'Internal Server Error' } }],
     ['500 with no JSON body', { ok: false, status: 500, data: null }],
   ])('%s: removes the token, leaves user null and finishes checking', async (_label, response) => {
     localStorage.setItem(TOKEN_KEY, 'junk')
@@ -235,5 +236,36 @@ describe('logout (Step 10)', () => {
     act(() => result.current.logout())
     expect(result.current.user).toBeNull()
     expect(localStorage.getItem(TOKEN_KEY)).toBeNull()
+  })
+})
+
+//apiFetch calls the registered handler on a 401 to a logged-in request (expired or invalid token)
+describe('expired session handler', () => {
+  //The function the provider most recently handed to setUnauthorizedHandler
+  function registeredHandler() {
+    return setUnauthorizedHandler.mock.calls.at(-1)?.[0]
+  }
+
+  it('registers a handler with apiFetch on mount', async () => {
+    await renderSettled()
+    expect(registeredHandler()).toEqual(expect.any(Function))
+  })
+
+  it('the handler logs the user out: clears the user and the token', async () => {
+    localStorage.setItem(TOKEN_KEY, 'good.token')
+    apiFetch.mockResolvedValue({ ok: true, status: 200, data: ADMIN })
+    const { result } = await renderSettled()
+    expect(result.current.user).toEqual(ADMIN)
+
+    act(() => registeredHandler()())
+
+    expect(result.current.user).toBeNull()
+    expect(localStorage.getItem(TOKEN_KEY)).toBeNull()
+  })
+
+  it('unregisters the handler (sets it to null) on unmount', async () => {
+    const { unmount } = await renderSettled()
+    unmount()
+    expect(setUnauthorizedHandler).toHaveBeenLastCalledWith(null)
   })
 })

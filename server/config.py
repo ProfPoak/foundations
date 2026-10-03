@@ -1,12 +1,13 @@
 import os
 
-from flask import Flask
+from flask import Flask, jsonify
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from flask_jwt_extended import JWTManager
+from datetime import timedelta
 
 app = Flask(__name__)
 #Production sets these as env vars; the fallbacks are for local dev only
@@ -15,6 +16,8 @@ app.secret_key = os.environ.get('SECRET_KEY', '5a8fa62544c4912f1ad02547b49d1d5c7
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///app.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY", "771f1762607943b00d7111a488c20e2f15002f5fc054b071d6c2d6474d706205")
+app.config["PROPAGATE_EXCEPTIONS"] = True
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=8)
 app.json.compact = False
 
 metadata = MetaData(naming_convention={
@@ -31,3 +34,15 @@ bcrypt = Bcrypt(app)
 api = Api(app)
 
 jwt = JWTManager(app)
+
+@jwt.expired_token_loader
+def expired_token(jwt_header, jwt_payload):
+    return jsonify(error="Session expired. Please log in again."), 401
+
+@jwt.invalid_token_loader
+def invalid_token(reason):
+    return jsonify(error="Invalid session. Please log in again."), 401
+
+@jwt.unauthorized_loader
+def missing_token(reason):
+    return jsonify(error="Please log in."), 401
