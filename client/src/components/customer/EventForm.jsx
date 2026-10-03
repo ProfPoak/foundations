@@ -1,5 +1,5 @@
 import { useApiForm } from '../../hooks/useApiForm'
-import { INTERACTIONS } from '../../constants'
+import { INTERACTIONS } from '../../utils/constants'
 import ErrorMessage from '../shared/ErrorMessage'
 import styles from '../../styles/customer/ItemForm.module.css'
 

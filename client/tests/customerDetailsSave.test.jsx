@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import { useState } from 'react'
-import { apiFetch } from '../src/api.js'
+import { apiFetch } from '../src/services/api.js'
 import CustomerDetails from '../src/components/customer/CustomerDetails.jsx'
 
 //Day 3, Step 9: Save PATCHes the seven editable fields, hands the server's customer to onUpdate,
 //and on failure shows the error while edit mode stays open
-vi.mock('../src/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 
 const ANA = {
   id: 7, first_name: 'Ana', last_name: 'Diaz', full_name: 'Ana Diaz',

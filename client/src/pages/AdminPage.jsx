@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { apiFetch } from "../api"
+import { apiFetch } from "../services/api"
 import ListStatus from '../components/shared/ListStatus'
 import UserRow from "../components/admin/UserRow"
 import pageStyles from '../styles/pages/Page.module.css'

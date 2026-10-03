@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { apiFetch } from '../api'
+import { apiFetch } from '../services/api'
 import ErrorMessage from '../components/shared/ErrorMessage'
 import CustomerSearch from '../components/home/CustomerSearch'
 import NewCustomerButton from '../components/home/NewCustomerButton'

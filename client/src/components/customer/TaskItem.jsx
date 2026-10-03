@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { useAuth } from "../../context/AuthContext"
 import { useApiForm } from '../../hooks/useApiForm'
-import { apiFetch } from "../../api"
+import { apiFetch } from "../../services/api"
 import ErrorMessage from "../shared/ErrorMessage"
-import { TASK_STATUSES } from "../../constants"
+import { TASK_STATUSES } from "../../utils/constants"
 import styles from "../../styles/customer/Item.module.css"
 import formStyles from "../../styles/customer/ItemForm.module.css"
 

@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import { MemoryRouter, Routes, Route, Link } from 'react-router'
-import { apiFetch } from '../src/api.js'
+import { apiFetch } from '../src/services/api.js'
 import CustomerPage from '../src/pages/CustomerPage.jsx'
 
 //Day 3, Steps 1 and 2: CustomerPage loads one customer by :id and handles loading, 404 and other errors
-vi.mock('../src/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 //CustomerDetails is Blocks B–D. The marker shows the customer it receives, and its button
 //hands an edited copy back through onUpdate, like a successful Save will
 vi.mock('../src/components/customer/CustomerDetails.jsx', () => ({

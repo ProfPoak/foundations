@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import { useState } from 'react'
-import { apiFetch } from '../src/api.js'
+import { apiFetch } from '../src/services/api.js'
 import EventsSection from '../src/components/customer/EventsSection.jsx'
 
 //Day 4, Step 7: EventsSection passes customerId and onAddEvent to EventForm,
 //and puts each created event at the top of the list without refetching
-vi.mock('../src/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 //The marker remembers the event id it was first created with. If the list uses the array
 //index as the key, React reuses the old item for the new event, and the two ids disagree
 vi.mock('../src/components/customer/EventItem.jsx', () => ({

@@ -1,13 +1,9 @@
 import styles from '../../styles/shared/ErrorMessage.module.css'
 
-// Props: errors (API error body: {error}, {errors: [...]}, or {errors: {field: [...]}})
+// Props: errors (API error body: {error} or {errors: {field: [...]}})
 function toMessages(errors) {
   if(errors.error) {
     return [errors.error]
-  }
-
-  if (Array.isArray(errors.errors)) {
-    return errors.errors
   }
 
   if (typeof errors.errors === 'object' && errors.errors !== null) {

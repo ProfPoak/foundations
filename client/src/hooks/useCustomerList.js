@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { apiFetch } from '../api'
+import { apiFetch } from '../services/api'
 
 //Loads one of a customer's lists (e.g. 'events', 'notes') and keeps it in sync after
 //POST / PATCH / DELETE without refetching. The server sends lists newest first

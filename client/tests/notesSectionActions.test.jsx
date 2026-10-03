@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, act } from '@testing-library/react'
-import { apiFetch } from '../src/api.js'
+import { apiFetch } from '../src/services/api.js'
 import NotesSection from '../src/components/customer/NotesSection.jsx'
 
 //Day 4, Steps 12 and 13: NotesSection hands each NoteItem onUpdateNote and onDeleteNote,
 //and keeps the list in sync without refetching
-vi.mock('../src/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 //The marker's buttons act like a successful save or delete inside NoteItem
 vi.mock('../src/components/customer/NoteItem.jsx', () => ({
   default: ({ note, onUpdateNote, onDeleteNote }) => (

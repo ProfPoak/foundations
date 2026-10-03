@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { apiFetch } from '../src/api.js'
+import { apiFetch, setUnauthorizedHandler } from '../src/services/api.js'
 
 //Day 1, Step 3: apiFetch
 //Change this if you pick a different localStorage key for the token
@@ -16,6 +16,7 @@ let fetchMock
 
 beforeEach(() => {
   localStorage.clear()
+  setUnauthorizedHandler(null)
   fetchMock = vi.fn(async () => jsonResponse({}))
   vi.stubGlobal('fetch', fetchMock)
 })
@@ -122,9 +123,58 @@ describe('apiFetch response', () => {
   })
 
   it('returns the JSON body of a 500 when there is one', async () => {
-    //Flask currently answers bad/expired tokens this way (known backend issue)
+    //Any unexpected server error from Flask-RESTful looks like this
     fetchMock.mockResolvedValueOnce(jsonResponse({ message: 'Internal Server Error' }, 500))
     const result = await apiFetch('/check_session')
     expect(result).toEqual({ ok: false, status: 500, data: { message: 'Internal Server Error' } })
+  })
+})
+
+//A 401 on a request that carried a token means the session ended (expired or invalid token)
+describe('apiFetch unauthorized handler', () => {
+  const expired = { error: 'Session expired. Please log in again.' }
+
+  it('calls the handler on a 401 when a token was sent', async () => {
+    const handler = vi.fn()
+    setUnauthorizedHandler(handler)
+    localStorage.setItem(TOKEN_KEY, 'old.token')
+    fetchMock.mockResolvedValueOnce(jsonResponse(expired, 401))
+    await apiFetch('/customers')
+    expect(handler).toHaveBeenCalledTimes(1)
+  })
+
+  it('still returns the 401 result to the caller', async () => {
+    setUnauthorizedHandler(vi.fn())
+    localStorage.setItem(TOKEN_KEY, 'old.token')
+    fetchMock.mockResolvedValueOnce(jsonResponse(expired, 401))
+    const result = await apiFetch('/customers')
+    expect(result).toEqual({ ok: false, status: 401, data: expired })
+  })
+
+  it('does not call the handler on a 401 with no token (a wrong-password login)', async () => {
+    const handler = vi.fn()
+    setUnauthorizedHandler(handler)
+    fetchMock.mockResolvedValueOnce(jsonResponse({ error: 'Login failed. Please check Username and Password' }, 401))
+    await apiFetch('/login', { method: 'POST', body: '{}' })
+    expect(handler).not.toHaveBeenCalled()
+  })
+
+  it.each([
+    ['200', 200],
+    ['403 (logged in, but not allowed)', 403],
+    ['404', 404],
+  ])('does not call the handler on a %s', async (_label, status) => {
+    const handler = vi.fn()
+    setUnauthorizedHandler(handler)
+    localStorage.setItem(TOKEN_KEY, 'good.token')
+    fetchMock.mockResolvedValueOnce(jsonResponse({}, status))
+    await apiFetch('/customers')
+    expect(handler).not.toHaveBeenCalled()
+  })
+
+  it('does not throw on a 401 when no handler is registered', async () => {
+    localStorage.setItem(TOKEN_KEY, 'old.token')
+    fetchMock.mockResolvedValueOnce(jsonResponse(expired, 401))
+    await expect(apiFetch('/customers')).resolves.toEqual({ ok: false, status: 401, data: expired })
   })
 })

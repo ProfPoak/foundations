@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { apiFetch } from '../src/api.js'
+import { apiFetch } from '../src/services/api.js'
 import { useAuth } from '../src/context/AuthContext.jsx'
 import NoteItem from '../src/components/customer/NoteItem.jsx'
 
 //Day 4, Step 10: NoteItem shows one note: its content, author and local date and time.
 //Editing and deleting (Block D) are tested in noteItemActions.test.jsx
-vi.mock('../src/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 //NoteItem will read the logged-in user in Block D. Here that user is neither the author nor
 //an admin, so these display tests keep passing once the Edit/Delete buttons exist
 vi.mock('../src/context/AuthContext.jsx', () => ({ useAuth: vi.fn() }))

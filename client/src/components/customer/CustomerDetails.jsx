@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { CUSTOMER_STATUSES } from '../../constants'
+import { CUSTOMER_STATUSES } from '../../utils/constants'
 import { useApiForm } from '../../hooks/useApiForm'
 import ErrorMessage from "../shared/ErrorMessage"
 import styles from "../../styles/customer/CustomerDetails.module.css"
@@ -136,7 +136,7 @@ function CustomerDetails({ customer, onUpdate }) {
         {view_fields.map(field =>
           <div className={styles.row} key={field.name}>
             <dt className={styles.term}>{field.label}</dt>
-            <dd className={styles.value} style={{ whiteSpace: 'pre-line' }}>{customer[field.name] ?? '—'}</dd>
+            <dd className={styles.value}>{customer[field.name] ?? '—'}</dd>
           </div>
         )}
       </dl>

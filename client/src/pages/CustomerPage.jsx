@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router'
-import { apiFetch } from '../api'
+import { apiFetch } from '../services/api'
 import ErrorMessage from '../components/shared/ErrorMessage'
 import CustomerDetails from '../components/customer/CustomerDetails'
 import EventsSection from '../components/customer/EventsSection'

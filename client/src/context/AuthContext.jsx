@@ -1,19 +1,17 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { apiFetch } from  '../api.js'
+import { apiFetch, setUnauthorizedHandler } from  '../services/api.js'
 
-//Value shape: { user, token, login(username, password), signup(username, password), logout() }
 const AuthContext = createContext(null)
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
-  const [checkingSession, setCheckingSession] = useState(true)
+  const [checkingSession, setCheckingSession] = useState(() => localStorage.getItem('token') !== null)
 
   //Session token check
   useEffect(() => {
     const token = localStorage.getItem('token')
 
     if(!token) {
-      setCheckingSession(false)
       return
     }
 
@@ -61,6 +59,11 @@ function AuthProvider({ children }) {
     setUser(null)
   }
 
+  useEffect(() => {
+    setUnauthorizedHandler(logout)
+    return () => setUnauthorizedHandler(null)
+  }, [])
+
   return <AuthContext.Provider value={ {user, checkingSession, login, signup, logout} }>{children}</AuthContext.Provider>
 }
 
@@ -68,4 +71,6 @@ function useAuth() {
   return useContext(AuthContext)
 }
 
+//The provider and its hook are kept together on purpose. Exporting a hook here only stops Vite hot-reloading this file in dev
+// oxlint-disable-next-line react/only-export-components
 export { AuthProvider, useAuth }

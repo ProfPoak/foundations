@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { CUSTOMER_STATUSES } from "../../constants"
+import { CUSTOMER_STATUSES } from "../../utils/constants"
 import styles from "../../styles/newCustomer/CustomerForm.module.css"
 
 const INITIAL = {

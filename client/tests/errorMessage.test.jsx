@@ -26,12 +26,6 @@ describe('ErrorMessage shapes', () => {
     expect(screen.getByText('Login failed. Please check Username and Password')).toBeInTheDocument()
   })
 
-  it('{errors: [...]} shows each string separately', () => {
-    render(<ErrorMessage errors={{ errors: ['Username already taken', 'Password must be at least 8 characters'] }} />)
-    expect(screen.getByText('Username already taken')).toBeInTheDocument()
-    expect(screen.getByText('Password must be at least 8 characters')).toBeInTheDocument()
-  })
-
   it('{errors: {field: [...]}} shows "field: msg" for every message', () => {
     render(
       <ErrorMessage
@@ -52,6 +46,12 @@ describe('ErrorMessage shapes', () => {
 describe('ErrorMessage fallback', () => {
   it('{message: "Internal Server Error"} shows "Something went wrong"', () => {
     render(<ErrorMessage errors={{ message: 'Internal Server Error' }} />)
+    expect(screen.getByText(/something went wrong/i)).toBeInTheDocument()
+  })
+
+  it('{errors: "msg"} (a string, not a field object) shows "Something went wrong"', () => {
+    //The API uses {error: "msg"} for single messages; a string under "errors" is not a known shape
+    render(<ErrorMessage errors={{ errors: 'Username already taken' }} />)
     expect(screen.getByText(/something went wrong/i)).toBeInTheDocument()
   })
 

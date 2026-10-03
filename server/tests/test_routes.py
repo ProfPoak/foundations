@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 
 import pytest
 from flask_jwt_extended import create_access_token
@@ -94,15 +94,19 @@ class TestSignup:
     def test_duplicate_username(self, client, employee):
         resp = client.post("/signup", json={"username": "EMPLOYEE", "password": PASSWORD})
         assert resp.status_code == 409
+        assert resp.get_json() == {"error": "Username already taken"}
 
     def test_short_password(self, client):
         resp = client.post("/signup", json={"username": "newuser", "password": "short"})
         assert resp.status_code == 422
         assert User.query.count() == 0
+        #Same {"error": "message"} shape as login, so ErrorMessage can show it
+        assert isinstance(resp.get_json()["error"], str)
 
     def test_missing_password(self, client):
         resp = client.post("/signup", json={"username": "newuser"})
         assert resp.status_code == 422
+        assert isinstance(resp.get_json()["error"], str)
 
 
 class TestLogin:
@@ -139,6 +143,37 @@ class TestCheckSession:
         resp = client.get("/check_session", headers=auth(employee))
         assert resp.status_code == 200
         assert resp.get_json()["username"] == "employee"
+
+
+class TestTokenErrors:
+    """Bad tokens get a 401 with the same {"error": "..."} shape as every other error,
+    so the client can treat any 401 on a logged-in request as "log in again"."""
+
+    def test_expired_token(self, client, employee):
+        token = create_access_token(identity=str(employee.id), expires_delta=timedelta(seconds=-1))
+        resp = client.get("/customers", headers={"Authorization": f"Bearer {token}"})
+        assert resp.status_code == 401
+        assert resp.get_json() == {"error": "Session expired. Please log in again."}
+
+    def test_malformed_token(self, client):
+        resp = client.get("/customers", headers={"Authorization": "Bearer not-a-real-token"})
+        assert resp.status_code == 401
+        assert resp.get_json() == {"error": "Invalid session. Please log in again."}
+
+    def test_missing_token(self, client):
+        resp = client.get("/customers")
+        assert resp.status_code == 401
+        assert resp.get_json() == {"error": "Please log in."}
+
+    def test_expired_token_on_check_session(self, client, employee):
+        #check_session uses @jwt_required directly instead of ProtectedResource, so check it too
+        token = create_access_token(identity=str(employee.id), expires_delta=timedelta(seconds=-1))
+        resp = client.get("/check_session", headers={"Authorization": f"Bearer {token}"})
+        assert resp.status_code == 401
+        assert resp.get_json() == {"error": "Session expired. Please log in again."}
+
+    def test_tokens_last_eight_hours(self):
+        assert app.config["JWT_ACCESS_TOKEN_EXPIRES"] == timedelta(hours=8)
 
 
 # ============================================

@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, fireEvent, within, act } from '@testing-library/react'
 import { useState } from 'react'
-import { apiFetch } from '../src/api.js'
+import { apiFetch } from '../src/services/api.js'
 import NotesSection from '../src/components/customer/NotesSection.jsx'
 
 //Day 4, Steps 8 and 9: NotesSection loads the customer's notes once, lists them newest first,
 //and puts each note NoteForm creates at the top without refetching
-vi.mock('../src/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 //The marker remembers the note id it was first created with. If the list uses the array
 //index as the key, React reuses the old item for the new note, and the two ids disagree
 vi.mock('../src/components/customer/NoteItem.jsx', () => ({
