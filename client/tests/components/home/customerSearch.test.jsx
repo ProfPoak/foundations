@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
-import CustomerSearch from '../src/components/home/CustomerSearch.jsx'
+import CustomerSearch from '../../../src/components/home/CustomerSearch.jsx'
 
 //Day 2, Step 2: a controlled input that HomePage owns
 describe('CustomerSearch', () => {

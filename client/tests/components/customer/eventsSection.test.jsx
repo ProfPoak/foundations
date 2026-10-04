@@ -1,16 +1,16 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, within, act } from '@testing-library/react'
-import { apiFetch } from '../src/services/api.js'
-import EventsSection from '../src/components/customer/EventsSection.jsx'
+import { apiFetch } from '../../../src/services/api.js'
+import EventsSection from '../../../src/components/customer/EventsSection.jsx'
 
 //Day 4, Steps 1 and 2: EventsSection loads the customer's events once and lists them newest first
-vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../../../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 //EventItem is tested on its own. The marker shows which event it received
-vi.mock('../src/components/customer/EventItem.jsx', () => ({
+vi.mock('../../../src/components/customer/EventItem.jsx', () => ({
   default: ({ event }) => <li>Event {event.id}</li>,
 }))
 //EventForm is Block B. The marker only shows where it renders
-vi.mock('../src/components/customer/EventForm.jsx', () => ({
+vi.mock('../../../src/components/customer/EventForm.jsx', () => ({
   default: () => <p>EventForm marker</p>,
 }))
 

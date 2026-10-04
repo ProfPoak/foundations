@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { apiFetch } from '../src/services/api.js'
-import EventItem from '../src/components/customer/EventItem.jsx'
+import { apiFetch } from '../../../src/services/api.js'
+import EventItem from '../../../src/components/customer/EventItem.jsx'
 
 //Day 4, Step 3: EventItem shows one event: its type, local date and time, who logged it, and any notes
-vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../../../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 
 const EVENT = {
   id: 3, datetime: '2026-08-07T23:08:18.481436+00:00', interaction: 'meeting',

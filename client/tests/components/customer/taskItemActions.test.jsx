@@ -1,15 +1,15 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, fireEvent, within, act } from '@testing-library/react'
 import { useState } from 'react'
-import { apiFetch } from '../src/services/api.js'
-import { useAuth } from '../src/context/AuthContext.jsx'
-import TaskItem from '../src/components/customer/TaskItem.jsx'
+import { apiFetch } from '../../../src/services/api.js'
+import { useAuth } from '../../../src/context/AuthContext.jsx'
+import TaskItem from '../../../src/components/customer/TaskItem.jsx'
 
 //Day 5, Steps 8–10: TaskItem shows Edit/Delete only to the assignee or an admin, edits the
 //task in place (PATCH /tasks/:id with exactly title, employee_id, due_date, status and notes),
 //and deletes (DELETE /tasks/:id). The same flow as NoteItem
-vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
-vi.mock('../src/context/AuthContext.jsx', () => ({ useAuth: vi.fn() }))
+vi.mock('../../../src/services/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../../../src/context/AuthContext.jsx', () => ({ useAuth: vi.fn() }))
 
 const ASSIGNEE = { id: 6, username: 'tasha44', is_admin: false }
 const ADMIN = { id: 1, username: 'admin', is_admin: true }

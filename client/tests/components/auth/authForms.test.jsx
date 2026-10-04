@@ -1,15 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { MemoryRouter, Routes, Route } from 'react-router'
-import { useAuth } from '../src/context/AuthContext.jsx'
-import LoginForm from '../src/components/auth/LoginForm.jsx'
-import SignupForm from '../src/components/auth/SignupForm.jsx'
+import { useAuth } from '../../../src/context/AuthContext.jsx'
+import LoginForm from '../../../src/components/auth/LoginForm.jsx'
+import SignupForm from '../../../src/components/auth/SignupForm.jsx'
 
 //Day 1, Steps 13 and 14: LoginForm and SignupForm
 //useAuth is mocked, so these tests check what the form does with login/signup's result.
 //The real ErrorMessage renders the errors, so Step 12 needs to pass first.
 //Inputs are found by their <label>, so give each input a label ("Username", "Password").
-vi.mock('../src/context/AuthContext.jsx', () => ({ useAuth: vi.fn() }))
+vi.mock('../../../src/context/AuthContext.jsx', () => ({ useAuth: vi.fn() }))
 
 const ADMIN = { id: 1, username: 'admin', is_admin: true }
 let auth

@@ -1,17 +1,17 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, within, act } from '@testing-library/react'
-import { apiFetch } from '../src/services/api.js'
-import TasksSection from '../src/components/customer/TasksSection.jsx'
+import { apiFetch } from '../../../src/services/api.js'
+import TasksSection from '../../../src/components/customer/TasksSection.jsx'
 
 //Day 5, Steps 1–3: TasksSection loads the customer's tasks and the user list once each,
 //and lists the tasks in the order the server sent them
-vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../../../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 //TaskItem is tested on its own. The marker shows which task it received
-vi.mock('../src/components/customer/TaskItem.jsx', () => ({
+vi.mock('../../../src/components/customer/TaskItem.jsx', () => ({
   default: ({ task }) => <li>Task {task.id}</li>,
 }))
 //TaskForm is Block B. The marker only shows where it renders
-vi.mock('../src/components/customer/TaskForm.jsx', () => ({
+vi.mock('../../../src/components/customer/TaskForm.jsx', () => ({
   default: () => <p>TaskForm marker</p>,
 }))
 

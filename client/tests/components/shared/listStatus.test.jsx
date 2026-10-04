@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import ListStatus from '../src/components/shared/ListStatus.jsx'
+import ListStatus from '../../../src/components/shared/ListStatus.jsx'
 
 //Shows exactly one of: Loading, the errors, the empty message, or the list (its children)
 function renderStatus(props) {

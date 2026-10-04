@@ -1,11 +1,11 @@
 // @vitest-environment node
 import { readFileSync } from 'node:fs'
 import { describe, it, expect } from 'vitest'
-import { CUSTOMER_STATUSES, TASK_STATUSES, INTERACTIONS } from '../src/utils/constants.js'
+import { CUSTOMER_STATUSES, TASK_STATUSES, INTERACTIONS } from '../../src/utils/constants.js'
 
 //Day 1, Step 2: constants.js
 //Reads the tuples straight from models.py so these tests also catch the two drifting apart later
-const models = readFileSync(new URL('../../server/models.py', import.meta.url), 'utf-8')
+const models = readFileSync(new URL('../../../server/models.py', import.meta.url), 'utf-8')
 
 function backendTuple(className, attr) {
   const classBody = models.split(`class ${className}(`)[1].split('\nclass ')[0]

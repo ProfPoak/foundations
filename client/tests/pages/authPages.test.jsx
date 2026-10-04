@@ -1,15 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Routes, Route, useNavigationType } from 'react-router'
-import { useAuth } from '../src/context/AuthContext.jsx'
-import LoginPage from '../src/pages/LoginPage.jsx'
-import SignupPage from '../src/pages/SignupPage.jsx'
+import { useAuth } from '../../src/context/AuthContext.jsx'
+import LoginPage from '../../src/pages/LoginPage.jsx'
+import SignupPage from '../../src/pages/SignupPage.jsx'
 
 //Day 1, Step 15: logged-in users are redirected away from /login and /signup
-vi.mock('../src/context/AuthContext.jsx', () => ({ useAuth: vi.fn() }))
+vi.mock('../../src/context/AuthContext.jsx', () => ({ useAuth: vi.fn() }))
 //The forms are replaced with markers so these tests only check the page's redirect
-vi.mock('../src/components/auth/LoginForm.jsx', () => ({ default: () => <p>LoginForm marker</p> }))
-vi.mock('../src/components/auth/SignupForm.jsx', () => ({ default: () => <p>SignupForm marker</p> }))
+vi.mock('../../src/components/auth/LoginForm.jsx', () => ({ default: () => <p>LoginForm marker</p> }))
+vi.mock('../../src/components/auth/SignupForm.jsx', () => ({ default: () => <p>SignupForm marker</p> }))
 
 const ADMIN = { id: 1, username: 'admin', is_admin: true }
 

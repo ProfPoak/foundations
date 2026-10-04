@@ -1,14 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import { MemoryRouter, Routes, Route, useParams } from 'react-router'
-import { apiFetch } from '../src/services/api.js'
-import NewCustomerPage from '../src/pages/NewCustomerPage.jsx'
+import { apiFetch } from '../../src/services/api.js'
+import NewCustomerPage from '../../src/pages/NewCustomerPage.jsx'
 
 //Day 2, Steps 9 and 10: the page POSTs what the form hands it, then navigates or shows the errors
-vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 //CustomerForm is tested on its own (Block C). The marker submits fixed data, and its
 //uncontrolled "draft" input reveals whether the page threw the form away and rebuilt it
-vi.mock('../src/components/newCustomer/CustomerForm.jsx', () => ({
+vi.mock('../../src/components/newCustomer/CustomerForm.jsx', () => ({
   default: ({ onSubmit }) => (
     <div>
       <label htmlFor="draft">Draft</label>

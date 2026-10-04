@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { apiFetch } from '../src/services/api.js'
-import CustomerDetails from '../src/components/customer/CustomerDetails.jsx'
+import { apiFetch } from '../../../src/services/api.js'
+import CustomerDetails from '../../../src/components/customer/CustomerDetails.jsx'
 
 //Day 3, Steps 3–5: CustomerDetails in view mode shows the name as a heading and the other fields as a <dl>
-vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../../../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 
 const ANA = {
   id: 7, first_name: 'Ana', last_name: 'Diaz', full_name: 'Ana Diaz',

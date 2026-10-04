@@ -1,15 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { apiFetch } from '../src/services/api.js'
-import { useAuth } from '../src/context/AuthContext.jsx'
-import TaskItem from '../src/components/customer/TaskItem.jsx'
+import { apiFetch } from '../../../src/services/api.js'
+import { useAuth } from '../../../src/context/AuthContext.jsx'
+import TaskItem from '../../../src/components/customer/TaskItem.jsx'
 
 //Day 5, Step 3: TaskItem shows one task: title, assignee, due date, status and notes.
 //The dropdowns and Delete (Block C) are tested in taskItemActions.test.jsx
-vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../../../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 //TaskItem will read the logged-in user in Block C. Here that user is neither the assignee nor
 //an admin, so these display tests keep passing once the dropdowns and Delete exist
-vi.mock('../src/context/AuthContext.jsx', () => ({ useAuth: vi.fn() }))
+vi.mock('../../../src/context/AuthContext.jsx', () => ({ useAuth: vi.fn() }))
 
 const TASK = {
   id: 4, title: 'Follow up call', status: 'in_progress', due_date: '2026-10-05',

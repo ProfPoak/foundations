@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Routes, Route, useNavigationType } from 'react-router'
-import { useAuth } from '../src/context/AuthContext.jsx'
-import ProtectedRoute from '../src/components/layout/ProtectedRoute.jsx'
-import AdminRoute from '../src/components/layout/AdminRoute.jsx'
+import { useAuth } from '../../../src/context/AuthContext.jsx'
+import ProtectedRoute from '../../../src/components/layout/ProtectedRoute.jsx'
+import AdminRoute from '../../../src/components/layout/AdminRoute.jsx'
 
 //Day 1, Steps 16 and 17: ProtectedRoute and AdminRoute
-vi.mock('../src/context/AuthContext.jsx', () => ({ useAuth: vi.fn() }))
+vi.mock('../../../src/context/AuthContext.jsx', () => ({ useAuth: vi.fn() }))
 
 const ADMIN = { id: 1, username: 'admin', is_admin: true }
 const MEMBER = { id: 7, username: 'testuser', is_admin: false }

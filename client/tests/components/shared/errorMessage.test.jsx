@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import ErrorMessage from '../src/components/shared/ErrorMessage.jsx'
+import ErrorMessage from '../../../src/components/shared/ErrorMessage.jsx'
 
 //Day 1, Step 12: ErrorMessage
 //Messages are found by their exact text, so each one has to be its own element (e.g. an <li>)

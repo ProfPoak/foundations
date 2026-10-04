@@ -1,15 +1,15 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, fireEvent, within, act } from '@testing-library/react'
 import { useState } from 'react'
-import { apiFetch } from '../src/services/api.js'
-import AdminPage from '../src/pages/AdminPage.jsx'
+import { apiFetch } from '../../src/services/api.js'
+import AdminPage from '../../src/pages/AdminPage.jsx'
 
 //Day 5, Steps 12–13: AdminPage loads every user once, lists them in the server's order,
 //and drops a row when UserRow reports a delete, without refetching
-vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 //UserRow is tested on its own. The marker remembers the user id it was first created with
 //(so key={index} shows up after a delete), and its button acts like a successful delete
-vi.mock('../src/components/admin/UserRow.jsx', () => ({
+vi.mock('../../src/components/admin/UserRow.jsx', () => ({
   default: function UserRowMarker({ user, onDeleteUser }) {
     const [firstId] = useState(user.id)
     return (

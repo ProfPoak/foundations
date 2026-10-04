@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { MemoryRouter, Routes, Route } from 'react-router'
-import { useAuth } from '../src/context/AuthContext.jsx'
-import NavBar from '../src/components/layout/NavBar.jsx'
+import { useAuth } from '../../../src/context/AuthContext.jsx'
+import NavBar from '../../../src/components/layout/NavBar.jsx'
 
 //Day 1, Step 18: NavBar
-vi.mock('../src/context/AuthContext.jsx', () => ({ useAuth: vi.fn() }))
+vi.mock('../../../src/context/AuthContext.jsx', () => ({ useAuth: vi.fn() }))
 
 const ADMIN = { id: 1, username: 'admin', is_admin: true }
 const MEMBER = { id: 7, username: 'testuser', is_admin: false }

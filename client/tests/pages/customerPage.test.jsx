@@ -1,14 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import { MemoryRouter, Routes, Route, Link } from 'react-router'
-import { apiFetch } from '../src/services/api.js'
-import CustomerPage from '../src/pages/CustomerPage.jsx'
+import { apiFetch } from '../../src/services/api.js'
+import CustomerPage from '../../src/pages/CustomerPage.jsx'
 
 //Day 3, Steps 1 and 2: CustomerPage loads one customer by :id and handles loading, 404 and other errors
-vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 //CustomerDetails is Blocks B–D. The marker shows the customer it receives, and its button
 //hands an edited copy back through onUpdate, like a successful Save will
-vi.mock('../src/components/customer/CustomerDetails.jsx', () => ({
+vi.mock('../../src/components/customer/CustomerDetails.jsx', () => ({
   default: ({ customer, onUpdate }) => (
     <div>
       <p>Details for {customer.full_name}</p>
@@ -19,13 +19,13 @@ vi.mock('../src/components/customer/CustomerDetails.jsx', () => ({
   ),
 }))
 //The sections are Days 4 and 5. Each marker shows the customerId it was given
-vi.mock('../src/components/customer/EventsSection.jsx', () => ({
+vi.mock('../../src/components/customer/EventsSection.jsx', () => ({
   default: ({ customerId }) => <p>Events for {customerId}</p>,
 }))
-vi.mock('../src/components/customer/NotesSection.jsx', () => ({
+vi.mock('../../src/components/customer/NotesSection.jsx', () => ({
   default: ({ customerId }) => <p>Notes for {customerId}</p>,
 }))
-vi.mock('../src/components/customer/TasksSection.jsx', () => ({
+vi.mock('../../src/components/customer/TasksSection.jsx', () => ({
   default: ({ customerId }) => <p>Tasks for {customerId}</p>,
 }))
 

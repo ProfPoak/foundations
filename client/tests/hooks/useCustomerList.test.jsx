@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, waitFor, act } from '@testing-library/react'
-import { apiFetch } from '../src/services/api.js'
-import { useCustomerList } from '../src/hooks/useCustomerList.js'
+import { apiFetch } from '../../src/services/api.js'
+import { useCustomerList } from '../../src/hooks/useCustomerList.js'
 
 //Shared by EventsSection, NotesSection (and TasksSection on Day 5): loads one of a customer's
 //lists and keeps it in sync after add / update / remove, without refetching
-vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 
 const ITEMS = [
   { id: 12, content: 'newest' },

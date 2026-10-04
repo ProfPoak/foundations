@@ -1,22 +1,22 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, fireEvent, within, act } from '@testing-library/react'
 import { useState } from 'react'
-import { apiFetch } from '../src/services/api.js'
-import NotesSection from '../src/components/customer/NotesSection.jsx'
+import { apiFetch } from '../../../src/services/api.js'
+import NotesSection from '../../../src/components/customer/NotesSection.jsx'
 
 //Day 4, Steps 8 and 9: NotesSection loads the customer's notes once, lists them newest first,
 //and puts each note NoteForm creates at the top without refetching
-vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../../../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 //The marker remembers the note id it was first created with. If the list uses the array
 //index as the key, React reuses the old item for the new note, and the two ids disagree
-vi.mock('../src/components/customer/NoteItem.jsx', () => ({
+vi.mock('../../../src/components/customer/NoteItem.jsx', () => ({
   default: function NoteItemMarker({ note }) {
     const [firstId] = useState(note.id)
     return <li>Note {note.id} (created for {firstId})</li>
   },
 }))
 //The marker shows the customerId it got, and its buttons hand a new note to onAddNote
-vi.mock('../src/components/customer/NoteForm.jsx', () => ({
+vi.mock('../../../src/components/customer/NoteForm.jsx', () => ({
   default: ({ customerId, onAddNote }) => (
     <div>
       <p>NoteForm for {customerId}</p>

@@ -1,13 +1,13 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, fireEvent, within, act } from '@testing-library/react'
-import { apiFetch } from '../src/services/api.js'
-import { useAuth } from '../src/context/AuthContext.jsx'
-import NoteItem from '../src/components/customer/NoteItem.jsx'
+import { apiFetch } from '../../../src/services/api.js'
+import { useAuth } from '../../../src/context/AuthContext.jsx'
+import NoteItem from '../../../src/components/customer/NoteItem.jsx'
 
 //Day 4, Steps 11–13: NoteItem shows Edit/Delete only to the author or an admin, edits the
 //content in place (PATCH /notes/:id with only {content}), and deletes (DELETE /notes/:id)
-vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
-vi.mock('../src/context/AuthContext.jsx', () => ({ useAuth: vi.fn() }))
+vi.mock('../../../src/services/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../../../src/context/AuthContext.jsx', () => ({ useAuth: vi.fn() }))
 
 const AUTHOR = { id: 2, username: 'douglasmoore', is_admin: false }
 const ADMIN = { id: 1, username: 'admin', is_admin: true }

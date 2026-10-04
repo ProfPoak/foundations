@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
-import { apiFetch } from '../src/services/api.js'
-import { CUSTOMER_STATUSES } from '../src/utils/constants.js'
-import CustomerDetails from '../src/components/customer/CustomerDetails.jsx'
+import { apiFetch } from '../../../src/services/api.js'
+import { CUSTOMER_STATUSES } from '../../../src/utils/constants.js'
+import CustomerDetails from '../../../src/components/customer/CustomerDetails.jsx'
 
 //Day 3, Steps 6–8: the edit icon turns the fields into inputs in place, and Cancel throws the edits away
-vi.mock('../src/services/api.js', () => ({ apiFetch: vi.fn() }))
+vi.mock('../../../src/services/api.js', () => ({ apiFetch: vi.fn() }))
 
 const ANA = {
   id: 7, first_name: 'Ana', last_name: 'Diaz', full_name: 'Ana Diaz',

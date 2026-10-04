@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, within, fireEvent } from '@testing-library/react'
 import { MemoryRouter, Routes, Route, useParams } from 'react-router'
-import CustomerResults from '../src/components/home/CustomerResults.jsx'
-import CustomerRow from '../src/components/home/CustomerRow.jsx'
+import CustomerResults from '../../../src/components/home/CustomerResults.jsx'
+import CustomerRow from '../../../src/components/home/CustomerRow.jsx'
 
 //Day 2, Steps 4 and 5: the results list and one row per customer
 
