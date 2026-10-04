@@ -58,7 +58,7 @@ describe('TaskItem: display', () => {
 
   it('shows the status', () => {
     renderItem()
-    expect(screen.getByRole('listitem')).toHaveTextContent('in_progress')
+    expect(screen.getByRole('listitem')).toHaveTextContent('in progress')
   })
 
   it('shows the notes when there are some', () => {

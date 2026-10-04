@@ -142,7 +142,7 @@ describe('TaskItem: who sees Edit and Delete (Step 8)', () => {
     const li = screen.getByRole('listitem')
     expect(li).toHaveTextContent('Follow up call')
     expect(li).toHaveTextContent('tasha44')
-    expect(li).toHaveTextContent('in_progress')
+    expect(li).toHaveTextContent('in progress')
     expect(li).toHaveTextContent('2026-10-05')
     expect(screen.queryByRole('combobox')).not.toBeInTheDocument()
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument()

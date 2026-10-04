@@ -103,7 +103,7 @@ function TaskItem({ task, users, onUpdateTask, onDeleteTask }) {
         <h3 className={styles.title}>{task.title}</h3>
         <p className={styles.meta}>{task.employee.username}</p>
         {task.due_date && <p className={styles.meta}>Due {task.due_date}</p>}
-        <p className={styles.meta}>{task.status}</p>
+        <p className={styles.meta}>{task.status.replace('_', ' ')}</p>
         {task.notes && <p className={styles.body}>{task.notes}</p>}
       </>
       }
