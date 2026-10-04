@@ -77,7 +77,7 @@ function TaskItem({ task, users, onUpdateTask, onDeleteTask }) {
         <label className={formStyles.label} htmlFor={`edit-task-status-${task.id}`}>Status</label>
         <select className={formStyles.input} name="status" id={`edit-task-status-${task.id}`} value={formData.status} onChange={handleChange}>
           {TASK_STATUSES.map(status =>
-            <option key={status} value={status}>{status}</option>
+            <option key={status} value={status}>{status.replace('_', ' ')}</option>
           )}
         </select>
       </div>

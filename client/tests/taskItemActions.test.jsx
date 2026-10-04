@@ -224,6 +224,14 @@ describe('TaskItem: starting an edit (Step 9)', () => {
     expect(options.map(o => o.value)).toEqual(['open', 'in_progress', 'complete'])
   })
 
+  //The value is what the server stores; the visible text swaps the underscore for a space
+  it('shows each status option with spaces instead of underscores', () => {
+    renderItem()
+    click('Edit')
+    const options = within(field.status()).getAllByRole('option')
+    expect(options.map(o => o.textContent)).toEqual(['open', 'in progress', 'complete'])
+  })
+
   it('has Save (submit) and Cancel (plain button) inside a noValidate form', () => {
     renderItem()
     click('Edit')
